@@ -51,20 +51,20 @@ const situacionLabels = d.situaciones
     <div class="max-w-4xl mx-auto px-5 sm:px-8 py-10 sm:py-14">
 
       <!-- Breadcrumb -->
-      <nav class="flex items-center gap-2 text-sm mb-8 overflow-x-auto" style="color: var(--color-on-surface-variant); -webkit-overflow-scrolling: touch;">
-        <a href="/" class="hover:underline transition-colors" style="color: var(--color-on-surface-variant);">Inicio</a>
-        <span style="opacity: 0.4;">/</span>
-        <a href="/explorador" class="hover:underline" style="color: var(--color-on-surface-variant);">Explorador</a>
+      <nav class="flex items-center gap-1.5 text-sm mb-8" style="color: var(--color-on-surface-variant);">
+        <a href="/" class="flex-shrink-0 hover:underline" style="color: var(--color-on-surface-variant);">Inicio</a>
+        <span class="flex-shrink-0" style="opacity: 0.4;">›</span>
+        <a href="/explorador" class="flex-shrink-0 hover:underline" style="color: var(--color-on-surface-variant);">Explorador</a>
         {d.tipo === "autonomica" && (
           <>
-            <span style="opacity: 0.4;">/</span>
-            <a href={`/explorador?ccaa=${d.codigo_ccaa}`} class="hover:underline" style="color: var(--color-on-surface-variant);">
+            <span class="flex-shrink-0" style="opacity: 0.4;">›</span>
+            <a href={`/explorador?ccaa=${d.codigo_ccaa}`} class="flex-shrink-0 hover:underline" style="color: var(--color-on-surface-variant);">
               {d.comunidad}
             </a>
           </>
         )}
-        <span style="opacity: 0.4;">/</span>
-        <span class="leading-snug truncate" style="color: var(--color-on-surface);">{cleanName(d.nombre_corto)}</span>
+        <span class="flex-shrink-0" style="opacity: 0.4;">›</span>
+        <span class="truncate min-w-0" style="color: var(--color-on-surface);">{cleanName(d.nombre_corto)}</span>
       </nav>
 
       <!-- Header -->

@@ -61,14 +61,15 @@ const guiaSiguiente = guiaIndex < guias.length - 1 ? guias[guiaIndex + 1] : null
     <div class="max-w-[1200px] mx-auto px-4 sm:px-6">>
       <!-- Breadcrumb -->
       <nav
-        style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 2rem; font-size: 0.875rem; color: var(--color-on-surface-variant); overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch;"
+        class="flex items-center gap-1.5 text-sm mb-8"
+        style="color: var(--color-on-surface-variant);"
         aria-label="Ruta de navegación"
       >
-        <a href="/" style="color: var(--color-primary); text-decoration: none;">Inicio</a>
-        <span style="opacity: 0.4;">›</span>
-        <a href="/guia" style="color: var(--color-primary); text-decoration: none;">Guía IRPF</a>
-        <span style="opacity: 0.4;">›</span>
-        <span>{guia.titulo}</span>
+        <a href="/" class="flex-shrink-0 hover:underline" style="color: var(--color-primary); text-decoration: none;">Inicio</a>
+        <span class="flex-shrink-0" style="opacity: 0.4;">›</span>
+        <a href="/guia" class="flex-shrink-0 hover:underline" style="color: var(--color-primary); text-decoration: none;">Guía IRPF</a>
+        <span class="flex-shrink-0" style="opacity: 0.4;">›</span>
+        <span class="truncate min-w-0">{guia.titulo}</span>
       </nav>
 
       <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem;">
