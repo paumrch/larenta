@@ -95,19 +95,19 @@ const currentPath = Astro.url.pathname;
           </span>
         </a>
 
-        <!-- Links de navegación -->
-        <div class="flex items-center gap-0.5 sm:gap-1">
+        <!-- Desktop nav links -->
+        <div class="hidden sm:flex items-center gap-1">
           <a
             href="/guia"
-            class:list={["px-2.5 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-xl transition-colors", 
+            class:list={["px-4 py-2 text-sm font-medium rounded-xl transition-colors", 
               currentPath.startsWith('/guia') ? "text-[var(--color-primary)] bg-[var(--color-surface-high)]" : "text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] hover:bg-[var(--color-surface-high)]"
             ]}
           >
-            Guía
+            Guía IRPF
           </a>
           <a
             href="/asistente"
-            class:list={["px-2.5 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-xl transition-colors",
+            class:list={["px-4 py-2 text-sm font-medium rounded-xl transition-colors",
               currentPath === '/asistente' ? "text-[var(--color-primary)] bg-[var(--color-surface-high)]" : "text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] hover:bg-[var(--color-surface-high)]"
             ]}
           >
@@ -115,7 +115,7 @@ const currentPath = Astro.url.pathname;
           </a>
           <a
             href="/explorador"
-            class:list={["px-2.5 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-xl transition-colors",
+            class:list={["px-4 py-2 text-sm font-medium rounded-xl transition-colors",
               currentPath === '/explorador' ? "text-[var(--color-primary)] bg-[var(--color-surface-high)]" : "text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] hover:bg-[var(--color-surface-high)]"
             ]}
           >
@@ -123,13 +123,98 @@ const currentPath = Astro.url.pathname;
           </a>
           <a
             href="/asistente"
-            class="btn-primary ml-2 !py-2 !px-4 !text-sm hidden sm:inline-flex"
+            class="btn-primary ml-2 !py-2 !px-4 !text-sm"
           >
             Calcular mi renta
           </a>
         </div>
+
+        <!-- Mobile hamburger button -->
+        <button
+          id="mobile-menu-btn"
+          class="sm:hidden flex items-center justify-center w-10 h-10 rounded-xl transition-colors"
+          style="background: transparent; border: none; cursor: pointer; color: var(--color-on-surface);"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+        >
+          <svg id="menu-icon-open" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="menu-icon-close" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </nav>
+
+      <!-- Mobile menu panel -->
+      <div
+        id="mobile-menu"
+        class="sm:hidden hidden"
+        style="background: var(--color-surface-lowest); border-top: 1px solid var(--color-outline-variant); box-shadow: 0 8px 24px rgba(0,0,0,0.08);"
+      >
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-1">
+          <a
+            href="/guia"
+            class:list={["flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-colors",
+              currentPath.startsWith('/guia') ? "text-[var(--color-primary)] bg-[var(--color-surface-high)]" : "text-[var(--color-on-surface)] hover:bg-[var(--color-surface-high)]"
+            ]}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color: var(--color-primary);">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+            Guía IRPF 2025
+          </a>
+          <a
+            href="/asistente"
+            class:list={["flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-colors",
+              currentPath === '/asistente' ? "text-[var(--color-primary)] bg-[var(--color-surface-high)]" : "text-[var(--color-on-surface)] hover:bg-[var(--color-surface-high)]"
+            ]}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color: var(--color-primary);">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+            Asistente interactivo
+          </a>
+          <a
+            href="/explorador"
+            class:list={["flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-colors",
+              currentPath === '/explorador' ? "text-[var(--color-primary)] bg-[var(--color-surface-high)]" : "text-[var(--color-on-surface)] hover:bg-[var(--color-surface-high)]"
+            ]}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color: var(--color-primary);">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+            </svg>
+            Explorador de deducciones
+          </a>
+          <div class="pt-2 pb-1">
+            <a
+              href="/asistente"
+              class="btn-primary w-full justify-center !text-sm"
+            >
+              Calcular mis deducciones →
+            </a>
+          </div>
+        </div>
+      </div>
     </header>
+
+    <script is:inline>
+      (function() {
+        var btn = document.getElementById('mobile-menu-btn');
+        var menu = document.getElementById('mobile-menu');
+        var iconOpen = document.getElementById('menu-icon-open');
+        var iconClose = document.getElementById('menu-icon-close');
+        if (!btn || !menu || !iconOpen || !iconClose) return;
+
+        btn.addEventListener('click', function() {
+          var open = !menu.classList.contains('hidden');
+          menu.classList.toggle('hidden');
+          iconOpen.classList.toggle('hidden');
+          iconClose.classList.toggle('hidden');
+          btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+        });
+      })();
+    </script>
 
     <main class="flex-1">
       <slot />
