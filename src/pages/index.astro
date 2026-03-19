@@ -95,13 +95,13 @@ const stats = getStats();
               <div class="text-xs mt-1" style="color: var(--color-on-surface-variant);">CC.AA.</div>
             </div>
             <div class="card-inset text-center">
-              <div class="text-2xl font-extrabold" style="color: var(--color-secondary-container); -webkit-text-stroke: 1px var(--color-on-secondary-container);">
+              <div class="text-2xl font-extrabold" style="color: var(--color-primary);">
                 {stats.novedades_2025}
               </div>
               <div class="text-xs mt-1" style="color: var(--color-on-surface-variant);">Novedades 2025</div>
             </div>
             <div class="card-inset text-center">
-              <div class="text-2xl font-extrabold" style="color: var(--color-success);">{stats.total_alta_relevancia}</div>
+              <div class="text-2xl font-extrabold" style="color: var(--color-primary);">{stats.total_alta_relevancia}</div>
               <div class="text-xs mt-1" style="color: var(--color-on-surface-variant);">Alta relevancia</div>
             </div>
           </div>
@@ -132,8 +132,8 @@ const stats = getStats();
   ═══════════════════════════════════════════════ -->
   <section style="background: var(--color-surface-high); padding: 5.5rem 0;">
     <div class="max-w-6xl mx-auto px-5 sm:px-8">
-      <!-- Título asimétrico (no centrado) -->
-      <div class="ml-0 lg:ml-10 mb-14">
+      <!-- Título -->
+      <div class="mb-14">
         <p class="text-sm font-semibold uppercase tracking-widest mb-2" style="color: var(--color-primary);">
           Herramientas
         </p>
@@ -257,7 +257,7 @@ const stats = getStats();
   ═══════════════════════════════════════════════ -->
   <section style="background: var(--color-surface-high); padding: 5.5rem 0;">
     <div class="max-w-6xl mx-auto px-5 sm:px-8">
-      <div class="mb-12 ml-0 lg:ml-10">
+      <div class="mb-12">
         <p class="text-sm font-semibold uppercase tracking-widest mb-2" style="color: var(--color-primary);">
           Categorías
         </p>
@@ -266,26 +266,21 @@ const stats = getStats();
         </h2>
       </div>
 
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
         {Object.entries(stats.categorias).map(([cat, count]) => (
           <a
             href={`/explorador?categoria=${cat}`}
             class="card group transition-all hover:-translate-y-1"
-            style="padding: 1.5rem; box-shadow: none;"
+            style="padding: 1.25rem; box-shadow: none;"
           >
             <div class="flex items-start justify-between">
               <span class={`badge ${CATEGORIA_COLORS[cat] || "badge-otros"}`}>
                 {CATEGORIA_LABELS[cat] || cat}
               </span>
-              <span class="text-3xl font-extrabold" style="color: var(--color-primary); letter-spacing: -0.03ch;">
+              <span class="text-2xl font-extrabold" style="color: var(--color-primary); letter-spacing: -0.03ch;">
                 {count}
               </span>
             </div>
-            <div class="mt-3 text-xs" style="color: var(--color-on-surface-variant);">
-              deducciones disponibles
-            </div>
-            <!-- Accent bar at bottom -->
-            <div class="mt-3 h-1.5 rounded-full" style="background: var(--color-surface-high);"></div>
           </a>
         ))}
       </div>
@@ -325,31 +320,32 @@ const stats = getStats();
   </section>
 
   <!-- ═══════════════════════════════════════════════
-       CTA FINAL — Dark surface con gold accent
+       CTA FINAL
   ═══════════════════════════════════════════════ -->
-  <section style="background: var(--color-on-surface); padding: 5.5rem 0;">
-    <div class="max-w-4xl mx-auto px-5 sm:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-        <div>
-          <h2 class="text-3xl sm:text-4xl font-extrabold" style="color: #ffffff; letter-spacing: -0.02ch;">
-            No dejes dinero<br />sobre la mesa
-          </h2>
-          <p class="mt-4 text-base sm:text-lg leading-relaxed" style="color: rgba(246,250,255,0.6);">
-            Cientos de contribuyentes no aplican deducciones que les corresponden.
-            Descubre las tuyas en menos de 2 minutos.
-          </p>
-        </div>
-        <div class="flex flex-col gap-4">
-          <a href="/asistente" class="btn-primary text-base justify-center">
+  <section style="background: var(--color-surface); padding: 5rem 0;">
+    <div class="max-w-3xl mx-auto px-5 sm:px-8">
+      <div class="card text-center" style="padding: 3rem 2rem; box-shadow: var(--shadow-float); border: 1px solid var(--color-outline-variant);">
+        <p class="text-sm font-semibold uppercase tracking-widest mb-3" style="color: var(--color-primary);">
+          ¿Listo para empezar?
+        </p>
+        <h2 class="text-3xl sm:text-4xl font-extrabold" style="color: var(--color-on-surface); letter-spacing: -0.02ch;">
+          No dejes dinero<br />sobre la mesa
+        </h2>
+        <p class="mt-4 text-base sm:text-lg leading-relaxed mx-auto" style="color: var(--color-on-surface-variant); max-width: 48ch;">
+          Cientos de contribuyentes no aplican deducciones que les corresponden.
+          Descubre las tuyas en menos de 2 minutos.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+          <a href="/asistente" class="btn-primary text-base">
             Calcular mis deducciones →
           </a>
-          <a href="/guia" class="btn-gold text-base justify-center">
+          <a href="/guia" class="btn-gold text-base">
             Leer la guía completa
           </a>
-          <p class="text-center text-xs" style="color: rgba(246,250,255,0.38);">
-            Gratis · Sin registro · Datos oficiales AEAT 2025
-          </p>
         </div>
+        <p class="mt-5 text-xs" style="color: var(--color-on-surface-variant);">
+          Gratis · Sin registro · Datos oficiales AEAT 2025
+        </p>
       </div>
     </div>
   </section>
