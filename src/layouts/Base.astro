@@ -87,27 +87,27 @@ const currentPath = Astro.url.pathname;
 
     <!-- Nav glassmorphic -->
     <header class="sticky top-0 z-50 glass" style="box-shadow: 0 1px 0 var(--color-outline-variant);">
-      <nav class="max-w-6xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+      <nav class="max-w-6xl mx-auto px-4 sm:px-8 h-14 sm:h-16 flex items-center justify-between">
         <!-- Logo -->
-        <a href="/" class="group" aria-label="larenta.es - Inicio">
-          <span class="text-xl font-extrabold tracking-tight" style="color: var(--color-primary); letter-spacing: -0.04ch;">
+        <a href="/" class="group flex-shrink-0" aria-label="larenta.es - Inicio">
+          <span class="text-lg sm:text-xl font-extrabold tracking-tight" style="color: var(--color-primary); letter-spacing: -0.04ch;">
             LARENTA<span style="color: var(--color-secondary); font-weight: 800;">.ES</span>
           </span>
         </a>
 
         <!-- Links de navegación -->
-        <div class="flex items-center gap-1">
+        <div class="flex items-center gap-0.5 sm:gap-1">
           <a
             href="/guia"
-            class:list={["px-3 sm:px-4 py-2 text-sm font-medium rounded-xl transition-colors", 
+            class:list={["px-2.5 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-xl transition-colors", 
               currentPath.startsWith('/guia') ? "text-[var(--color-primary)] bg-[var(--color-surface-high)]" : "text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] hover:bg-[var(--color-surface-high)]"
             ]}
           >
-            Guía IRPF
+            Guía
           </a>
           <a
             href="/asistente"
-            class:list={["px-3 sm:px-4 py-2 text-sm font-medium rounded-xl transition-colors",
+            class:list={["px-2.5 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-xl transition-colors",
               currentPath === '/asistente' ? "text-[var(--color-primary)] bg-[var(--color-surface-high)]" : "text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] hover:bg-[var(--color-surface-high)]"
             ]}
           >
@@ -115,7 +115,7 @@ const currentPath = Astro.url.pathname;
           </a>
           <a
             href="/explorador"
-            class:list={["px-3 sm:px-4 py-2 text-sm font-medium rounded-xl transition-colors",
+            class:list={["px-2.5 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-xl transition-colors",
               currentPath === '/explorador' ? "text-[var(--color-primary)] bg-[var(--color-surface-high)]" : "text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] hover:bg-[var(--color-surface-high)]"
             ]}
           >

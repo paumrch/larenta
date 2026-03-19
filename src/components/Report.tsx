@@ -438,7 +438,7 @@ export default function Report({ deducciones, ccaa, laboral, situaciones, datosE
               Recíbelo por email o descarga el PDF.
             </p>
           </div>
-          <div className="flex gap-2 flex-shrink-0">
+          <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0">
             {sent ? (
               <div className="flex items-center gap-2 py-2.5 px-4" style={{ background: "var(--color-success-surface)", borderRadius: "var(--radius-xl)", color: "var(--color-success)" }}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -453,7 +453,7 @@ export default function Report({ deducciones, ccaa, laboral, situaciones, datosE
                   placeholder="tu@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-44 sm:w-48 px-3.5 py-2.5 text-sm"
+                  className="min-w-0 flex-1 sm:w-48 px-3.5 py-2.5 text-sm"
                   style={{
                     background: "var(--color-surface-high)",
                     borderRadius: "var(--radius-pill)",

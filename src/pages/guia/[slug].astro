@@ -57,11 +57,11 @@ const guiaSiguiente = guiaIndex < guias.length - 1 ? guias[guiaIndex + 1] : null
     })} />
   </Fragment>
   <!-- Hero de la guía -->
-  <section style="background: var(--color-surface); padding: 3rem 0 2rem;">
-    <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem;">
+  <section style="background: var(--color-surface);" class="py-8 sm:py-12">
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6">>
       <!-- Breadcrumb -->
       <nav
-        style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 2rem; font-size: 0.875rem; color: var(--color-on-surface-variant);"
+        style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 2rem; font-size: 0.875rem; color: var(--color-on-surface-variant); overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch;"
         aria-label="Ruta de navegación"
       >
         <a href="/" style="color: var(--color-primary); text-decoration: none;">Inicio</a>
@@ -71,9 +71,10 @@ const guiaSiguiente = guiaIndex < guias.length - 1 ? guias[guiaIndex + 1] : null
         <span>{guia.titulo}</span>
       </nav>
 
-      <div style="display: flex; align-items: flex-start; gap: 1.5rem; margin-bottom: 1.5rem;">
+      <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem;">
         <div
-          style="font-size: 3rem; width: 5rem; height: 5rem; background: var(--color-surface-high); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; flex-shrink: 0;"
+          class="hidden sm:flex"
+          style="font-size: 3rem; width: 5rem; height: 5rem; background: var(--color-surface-high); border-radius: var(--radius-lg); align-items: center; justify-content: center; flex-shrink: 0;"
           aria-hidden="true"
         >
           {guia.icono}
@@ -112,12 +113,13 @@ const guiaSiguiente = guiaIndex < guias.length - 1 ? guias[guiaIndex + 1] : null
   <!-- Contenido principal + sidebar -->
   <section style="background: var(--color-surface-high); padding: 3rem 0;">
     <div
-      style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; display: grid; grid-template-columns: 1fr 320px; gap: 2rem; align-items: start;"
+      class="grid grid-cols-1 lg:grid-cols-[1fr_320px] items-start"
+      style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; gap: 2rem;"
     >
       <!-- Artículo principal -->
       <div>
-        <article class="card" style="padding: 0;">
-          <div class="prose-civic" set:html={contentHtml} style="padding: 2rem;" />
+        <article class="card" style="padding: 0; overflow: hidden;">
+          <div class="prose-civic p-4 sm:p-8" set:html={contentHtml} style="overflow-wrap: break-word; word-break: break-word;" />
         </article>
 
         <!-- Enlace a fuente oficial -->
@@ -148,7 +150,7 @@ const guiaSiguiente = guiaIndex < guias.length - 1 ? guias[guiaIndex + 1] : null
       </div>
 
       <!-- Sidebar con puntos clave y navegación -->
-      <aside style="position: sticky; top: 5.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
+      <aside class="lg:sticky lg:top-22" style="display: flex; flex-direction: column; gap: 1.25rem;">
         <!-- Puntos clave -->
         <div class="card" style="padding: 1.5rem;">
           <h2
@@ -226,7 +228,7 @@ const guiaSiguiente = guiaIndex < guias.length - 1 ? guias[guiaIndex + 1] : null
           Deducciones del IRPF 2025 vinculadas a este capítulo de la guía.
         </p>
         <div
-          style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;"
+          style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 1rem;"
         >
           {relacionadas.map((d: any) => (
             <a
@@ -280,7 +282,8 @@ const guiaSiguiente = guiaIndex < guias.length - 1 ? guias[guiaIndex + 1] : null
   <!-- Navegación entre guías -->
   <section style="background: var(--color-surface-high); padding: 2rem 0;">
     <div
-      style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;"
+      class="grid grid-cols-1 sm:grid-cols-2"
+      style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; gap: 1rem;"
     >
       {guiaAnterior ? (
         <a

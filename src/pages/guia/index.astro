@@ -25,7 +25,7 @@ import guias from "../../../data/guias.json";
         <span>Guía IRPF</span>
       </nav>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+      <div class="grid grid-cols-1 lg:grid-cols-2 items-center" style="gap: 2rem;">
         <div>
           <div
             style="display: inline-block; background: var(--color-secondary-fixed); color: var(--color-on-secondary-container); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.9rem; border-radius: 9999px; margin-bottom: 1.25rem;"
@@ -56,7 +56,7 @@ import guias from "../../../data/guias.json";
 
         <!-- Stat cards -->
         <div
-          style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;"
+          class=\"grid grid-cols-2 gap-4\"
         >
           <div class="card" style="padding: 1.5rem; text-align: center;">
             <div style="font-size: 2rem; font-weight: 800; color: var(--color-primary);">8</div>
@@ -94,7 +94,7 @@ import guias from "../../../data/guias.json";
       </p>
 
       <div
-        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.25rem;"
+        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 1.25rem;"
       >
         {guias.map((guia) => (
           <a

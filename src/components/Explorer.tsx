@@ -135,12 +135,13 @@ export default function Explorer({
     color: active ? "var(--color-on-primary)" : "var(--color-on-surface)",
     borderRadius: "var(--radius-pill)",
     padding: "0.5rem 1rem",
-    fontSize: "0.875rem",
+    fontSize: "0.8125rem",
     fontWeight: 500,
     border: "none",
     cursor: "pointer" as const,
     transition: "background 0.15s ease",
     appearance: "none" as const,
+    maxWidth: "100%",
   });
 
   function DeduccionRow({ d }: { d: DeduccionIndex }) {
@@ -157,15 +158,15 @@ export default function Explorer({
         onMouseEnter={(e) => { e.currentTarget.style.background = "var(--color-surface-highest)"; }}
         onMouseLeave={(e) => { e.currentTarget.style.background = "var(--color-surface-high)"; }}
       >
-        <div className="flex items-center gap-2 min-w-0">
+        <div className="flex items-center gap-2 min-w-0 overflow-hidden">
           <span className={`text-[10px] font-semibold flex-shrink-0 ${d.relevancia === 3 ? "relevancia-alta" : d.relevancia === 2 ? "relevancia-media" : "relevancia-baja"}`} title={`Relevancia ${relevanciaLabel(d.relevancia)}`}>
             {relevanciaText(d.relevancia)}
           </span>
-          <span className="text-sm leading-snug" style={{ color: "var(--color-on-surface)" }}>
+          <span className="text-sm leading-snug truncate" style={{ color: "var(--color-on-surface)" }}>
             {cleanName(d.nombre_corto)}
           </span>
           {d.tipo === "autonomica" && (
-            <span className="text-[10px] flex-shrink-0" style={{ color: "var(--color-on-surface-variant)" }}>
+            <span className="text-[10px] flex-shrink-0 hidden sm:inline" style={{ color: "var(--color-on-surface-variant)" }}>
               {d.comunidad}
             </span>
           )}
@@ -250,7 +251,7 @@ export default function Explorer({
             color: showNovedades ? "var(--color-on-secondary-container)" : "var(--color-on-surface)",
             borderRadius: "var(--radius-pill)",
             padding: "0.5rem 1rem",
-            fontSize: "0.875rem",
+            fontSize: "0.8125rem",
             fontWeight: 500,
             border: "none",
             cursor: "pointer",
@@ -268,7 +269,7 @@ export default function Explorer({
               color: "var(--color-on-surface-variant)",
               borderRadius: "var(--radius-pill)",
               padding: "0.5rem 1rem",
-              fontSize: "0.875rem",
+              fontSize: "0.8125rem",
               fontWeight: 500,
               border: "none",
               cursor: "pointer",
