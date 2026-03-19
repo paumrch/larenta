@@ -8,6 +8,15 @@ const stats = getStats();
 
 <Base title="larenta.es" ogImage="/api/og?title=Descubre+todas+las+deducciones+del+IRPF&subtitle=375+deducciones+estatales+y+auton%C3%B3micas+explicadas+de+forma+clara">
 
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "larenta.es",
+    "url": "https://www.larenta.es",
+    "description": `Descubre todas las deducciones del IRPF 2025. ${stats.total_deducciones} deducciones estatales y autonómicas explicadas de forma clara.`,
+    "inLanguage": "es"
+  })} />
+
   <!-- ═══════════════════════════════════════════════
        HERO — Diseño editorial asimétrico
        Fondo: surface (#f6faff) + orbe azul sutil

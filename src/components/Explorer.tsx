@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import type { DeduccionIndex } from "../lib/types";
 import {
   CCAA_MAP,
@@ -9,6 +9,15 @@ import {
   relevanciaText,
   relevanciaLabel,
 } from "../lib/types";
+
+declare global {
+  interface Window { dataLayer: Record<string, unknown>[]; }
+}
+
+function pushEvent(event: string, params?: Record<string, unknown>) {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event, ...params });
+}
 
 interface ExplorerProps {
   deducciones: DeduccionIndex[];
@@ -30,6 +39,21 @@ export default function Explorer({
   const [tipo, setTipo] = useState("");
   const [showNovedades, setShowNovedades] = useState(false);
   const [expandedCats, setExpandedCats] = useState<Set<string>>(new Set(CATEGORY_ORDER));
+
+  // Debounced search tracking
+  const searchTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const trackSearch = useCallback((term: string) => {
+    clearTimeout(searchTimerRef.current);
+    searchTimerRef.current = setTimeout(() => {
+      if (term.trim().length >= 2) {
+        pushEvent("explorer_search", { search_term: term.trim() });
+      }
+    }, 800);
+  }, []);
+
+  function trackFilter(filter_type: string, filter_value: string) {
+    pushEvent("explorer_filter", { filter_type, filter_value: filter_value || "(all)" });
+  }
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -123,6 +147,7 @@ export default function Explorer({
     return (
       <a
         href={fichaUrl(d.id)}
+        onClick={() => pushEvent("explorer_deduction_click", { deduction_id: d.id, deduction_name: cleanName(d.nombre_corto) })}
         className="flex items-center justify-between py-2.5 px-3 transition-colors"
         style={{
           background: "var(--color-surface-high)",
@@ -176,7 +201,7 @@ export default function Explorer({
           type="search"
           placeholder="Buscar deducción por nombre, comunidad…"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => { setSearch(e.target.value); trackSearch(e.target.value); }}
           className="w-full pl-10 pr-5 py-3.5 text-sm focus:outline-none transition-colors"
           style={{
             background: "var(--color-surface-high)",
@@ -191,28 +216,28 @@ export default function Explorer({
 
       {/* Filters */}
       <div className="flex flex-wrap gap-2 mb-6">
-        <select value={ccaa} onChange={(e) => setCcaa(e.target.value)} style={selStyle(!!ccaa)}>
+        <select value={ccaa} onChange={(e) => { setCcaa(e.target.value); trackFilter("ccaa", e.target.value); }} style={selStyle(!!ccaa)}>
           <option value="">Todas las CCAA</option>
           {CCAA_OPTIONS.map(([code, name]) => (
             <option key={code} value={code}>{name}</option>
           ))}
         </select>
 
-        <select value={categoria} onChange={(e) => setCategoria(e.target.value)} style={selStyle(!!categoria)}>
+        <select value={categoria} onChange={(e) => { setCategoria(e.target.value); trackFilter("categoria", e.target.value); }} style={selStyle(!!categoria)}>
           <option value="">Todas las categorías</option>
           {CATEGORIAS.map(([key, label]) => (
             <option key={key} value={key}>{label}</option>
           ))}
         </select>
 
-        <select value={relevancia} onChange={(e) => setRelevancia(e.target.value)} style={selStyle(!!relevancia)}>
+        <select value={relevancia} onChange={(e) => { setRelevancia(e.target.value); trackFilter("relevancia", e.target.value); }} style={selStyle(!!relevancia)}>
           <option value="">Todas las relevancias</option>
           <option value="3">Alta relevancia</option>
           <option value="2">Media relevancia</option>
           <option value="1">Baja relevancia</option>
         </select>
 
-        <select value={tipo} onChange={(e) => setTipo(e.target.value)} style={selStyle(!!tipo)}>
+        <select value={tipo} onChange={(e) => { setTipo(e.target.value); trackFilter("tipo", e.target.value); }} style={selStyle(!!tipo)}>
           <option value="">Estatales y autonómicas</option>
           <option value="estatal">Solo estatales</option>
           <option value="autonomica">Solo autonómicas</option>

@@ -5,6 +5,46 @@ export const prerender = false;
 
 const resend = new Resend(import.meta.env.RESEND_API_KEY);
 
+// ── Rate Limiting (in-memory, per serverless instance) ──────────────
+// Limits: 100 requests/hour, 1000 requests/day (global, not per-IP)
+// Note: in-memory counters reset on cold starts. This is a best-effort
+// guard, not a hard guarantee — Resend's own limits are the final gate.
+const HOUR_LIMIT = 100;
+const DAY_LIMIT = 1000;
+
+interface RateWindow {
+  count: number;
+  resetAt: number;
+}
+
+const hourWindow: RateWindow = { count: 0, resetAt: Date.now() + 3_600_000 };
+const dayWindow: RateWindow = { count: 0, resetAt: Date.now() + 86_400_000 };
+
+function checkRateLimit(): { allowed: boolean; retryAfter?: number } {
+  const now = Date.now();
+
+  if (now >= hourWindow.resetAt) {
+    hourWindow.count = 0;
+    hourWindow.resetAt = now + 3_600_000;
+  }
+  if (now >= dayWindow.resetAt) {
+    dayWindow.count = 0;
+    dayWindow.resetAt = now + 86_400_000;
+  }
+
+  if (dayWindow.count >= DAY_LIMIT) {
+    return { allowed: false, retryAfter: Math.ceil((dayWindow.resetAt - now) / 1000) };
+  }
+  if (hourWindow.count >= HOUR_LIMIT) {
+    return { allowed: false, retryAfter: Math.ceil((hourWindow.resetAt - now) / 1000) };
+  }
+
+  hourWindow.count++;
+  dayWindow.count++;
+  return { allowed: true };
+}
+// ── End Rate Limiting ───────────────────────────────────────────────
+
 /** Escape HTML entities to prevent XSS in emails */
 function escapeHtml(str: string): string {
   return str
@@ -121,6 +161,15 @@ function buildEmailHtml(data: ReportPayload): string {
 
 export const POST: APIRoute = async ({ request }) => {
   try {
+    // Rate limit check
+    const rate = checkRateLimit();
+    if (!rate.allowed) {
+      return new Response(
+        JSON.stringify({ error: "Demasiadas solicitudes. Inténtalo más tarde." }),
+        { status: 429, headers: { "Retry-After": String(rate.retryAfter) } },
+      );
+    }
+
     const body = (await request.json()) as ReportPayload;
 
     if (!body.email || !EMAIL_RE.test(body.email) || body.email.length > 254) {

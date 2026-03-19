@@ -36,6 +36,17 @@ const situacionLabels = d.situaciones
   description={`${resumen} — Deducción ${d.tipo === "estatal" ? "estatal" : "autonómica de " + d.comunidad} del IRPF 2025.`}
   ogImage={`/api/og?title=${encodeURIComponent(nombre)}&badge=${encodeURIComponent(d.tipo === "estatal" ? "Estatal" : d.comunidad)}`}
 >
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://www.larenta.es" },
+      { "@type": "ListItem", "position": 2, "name": "Explorador", "item": "https://www.larenta.es/explorador" },
+      ...(d.tipo === "autonomica" ? [{ "@type": "ListItem", "position": 3, "name": d.comunidad, "item": `https://www.larenta.es/explorador?ccaa=${d.codigo_ccaa}` }] : []),
+      { "@type": "ListItem", "position": d.tipo === "autonomica" ? 4 : 3, "name": nombre }
+    ]
+  })} />
+
   <div style="background: var(--color-surface); min-height: 100vh;">
     <div class="max-w-4xl mx-auto px-5 sm:px-8 py-10 sm:py-14">
 

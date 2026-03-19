@@ -10,6 +10,15 @@ import {
   relevanciaLabel,
 } from "../lib/types";
 
+declare global {
+  interface Window { dataLayer: Record<string, unknown>[]; }
+}
+
+function pushEvent(event: string, params?: Record<string, unknown>) {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event, ...params });
+}
+
 interface ReportProps {
   deducciones: DeduccionIndex[];
   ccaa: string;
@@ -209,6 +218,12 @@ export default function Report({ deducciones, ccaa, laboral, situaciones, datosE
 
       if (res.ok) {
         setSent(true);
+        pushEvent("report_email_sent", {
+          ccaa,
+          ccaa_name: CCAA_MAP[ccaa] || ccaa,
+          total_deducciones: filteredDeducciones.length,
+          total_estimado: totalEstimado,
+        });
       } else {
         setSendError("No se pudo enviar. Inténtalo de nuevo.");
       }
@@ -310,6 +325,12 @@ export default function Report({ deducciones, ccaa, laboral, situaciones, datosE
       doc.text("Información orientativa. No constituye asesoramiento fiscal.", margin, y);
 
       doc.save(`informe-renta-2025-${ccaa.toLowerCase()}.pdf`);
+      pushEvent("report_pdf_downloaded", {
+        ccaa,
+        ccaa_name: CCAA_MAP[ccaa] || ccaa,
+        total_deducciones: filteredDeducciones.length,
+        total_estimado: totalEstimado,
+      });
     } catch (err) {
       console.error("Error generating PDF:", err);
     } finally {

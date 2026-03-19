@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /api/
 
-Sitemap: https://larenta.es/sitemap-index.xml
+Sitemap: https://www.larenta.es/sitemap-index.xml

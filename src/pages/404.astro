@@ -1,0 +1,33 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base
+  title="Página no encontrada"
+  description="La página que buscas no existe. Explora las deducciones del IRPF 2025 o usa el asistente interactivo."
+>
+  <section class="flex-1 flex items-center justify-center" style="background: var(--color-surface); padding: 4rem 0;">
+    <div class="max-w-lg mx-auto px-5 sm:px-8 text-center">
+      <div class="text-8xl font-extrabold mb-4" style="color: var(--color-primary); letter-spacing: -0.04ch; opacity: 0.25;">
+        404
+      </div>
+      <h1 class="text-3xl font-extrabold mb-4" style="color: var(--color-on-surface); letter-spacing: -0.02ch;">
+        Página no encontrada
+      </h1>
+      <p class="text-base leading-relaxed mb-8" style="color: var(--color-on-surface-variant); max-width: 42ch; margin: 0 auto;">
+        La página que buscas no existe o ha sido movida. Prueba con alguna de estas opciones:
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="/" class="btn-primary text-sm">
+          Ir al inicio
+        </a>
+        <a href="/asistente" class="btn-gold text-sm">
+          Asistente de deducciones
+        </a>
+        <a href="/explorador" class="btn-text text-sm">
+          Explorador →
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

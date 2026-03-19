@@ -31,6 +31,31 @@ const guiaSiguiente = guiaIndex < guias.length - 1 ? guias[guiaIndex + 1] : null
   description={`${guia.resumen} ${guia.subtitulo}. Manual Práctico IRPF 2025 de la Agencia Tributaria.`}
   ogImage={`/api/og?title=${encodeURIComponent(guia.titulo)}&badge=Gu%C3%ADa+IRPF`}
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://www.larenta.es" },
+        { "@type": "ListItem", "position": 2, "name": "Guía IRPF", "item": "https://www.larenta.es/guia" },
+        { "@type": "ListItem", "position": 3, "name": guia.titulo }
+      ]
+    })} />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": `${guia.titulo} — Guía IRPF 2025`,
+      "description": guia.resumen,
+      "url": `https://www.larenta.es/guia/${guia.slug}`,
+      "image": `https://www.larenta.es/api/og?title=${encodeURIComponent(guia.titulo)}&badge=Gu%C3%ADa+IRPF`,
+      "datePublished": "2025-04-02",
+      "dateModified": "2025-07-01",
+      "author": { "@type": "Organization", "name": "larenta.es", "url": "https://www.larenta.es" },
+      "publisher": { "@type": "Organization", "name": "larenta.es", "url": "https://www.larenta.es" },
+      "inLanguage": "es",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": `https://www.larenta.es/guia/${guia.slug}` }
+    })} />
+  </Fragment>
   <!-- Hero de la guía -->
   <section style="background: var(--color-surface); padding: 3rem 0 2rem;">
     <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem;">

@@ -29,6 +29,7 @@ const currentPath = Astro.url.pathname;
     <!-- SEO -->
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
     <link rel="canonical" href={pageUrl} />
 
     <!-- Open Graph -->
@@ -45,6 +46,9 @@ const currentPath = Astro.url.pathname;
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(ogImage, siteUrl).href} />
+
+    <!-- JSON-LD Structured Data -->
+    <slot name="head" />
 
     <!-- Fonts: Public Sans (The Civic Ledger) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -1,10 +1,19 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import type { DeduccionIndex } from "../lib/types";
 import {
   CCAA_MAP,
   SITUACION_LABELS,
 } from "../lib/types";
 import Report from "./Report";
+
+declare global {
+  interface Window { dataLayer: Record<string, unknown>[]; }
+}
+
+function pushEvent(event: string, params?: Record<string, unknown>) {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event, ...params });
+}
 
 interface WizardProps {
   deducciones: DeduccionIndex[];
@@ -78,6 +87,9 @@ export default function Wizard({ deducciones }: WizardProps) {
   });
   const [showResults, setShowResults] = useState(false);
 
+  // Track wizard start (once)
+  useEffect(() => { pushEvent("wizard_start"); }, []);
+
   const results = useMemo(() => {
     if (!showResults) return [];
 
@@ -128,6 +140,10 @@ export default function Wizard({ deducciones }: WizardProps) {
 
   function handleNext() {
     if (step < STEPS.length - 1) {
+      pushEvent("wizard_step_complete", {
+        step: step + 1,
+        step_name: STEPS[step].key,
+      });
       setStep(step + 1);
     } else {
       setShowResults(true);
@@ -159,6 +175,12 @@ export default function Wizard({ deducciones }: WizardProps) {
 
   // ── RESULTS ──────────────────────────────────────────────────────────
   if (showResults) {
+    pushEvent("wizard_complete", {
+      ccaa: answers.ccaa,
+      ccaa_name: CCAA_MAP[answers.ccaa] || answers.ccaa,
+      laboral: answers.laboral,
+      total_deducciones: results.length,
+    });
     return (
       <Report
         deducciones={results}
