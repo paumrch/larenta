@@ -1,5 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-  <rect width="32" height="32" rx="8" fill="#00478b"/>
-  <text x="3" y="22" font-family="system-ui, sans-serif" font-weight="800" font-size="15" fill="#ffffff">LR</text>
-  <text x="18.5" y="28" font-family="system-ui, sans-serif" font-weight="800" font-size="7" fill="#fcd400">.es</text>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_2" data-name="Capa 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 686.68 686.68">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #00478b;
+      }
+
+      .cls-2 {
+        fill: #fcd400;
+      }
+    </style>
+  </defs>
+  <g id="Capa_1-2" data-name="Capa 1">
+    <rect class="cls-2" width="686.68" height="686.68"/>
+    <g>
+      <path class="cls-1" d="M107.85,413.53v-140.38h20.01v120.36h70.19v20.01h-90.2Z"/>
+      <path class="cls-1" d="M213.07,413.53v-140.38h90.2v10.08h10.01v10.01h10.08v45.1h-10.08v10.08h-10.01v10.01h10.01v10.01h10.08v45.1h-20.08v-35.09h-10.01v-10.01h-10.01v-10.01h-50.17v55.11h-20.01ZM293.26,338.34v-10.01h10.01v-25.09h-10.01v-10.01h-60.18v45.1h60.18Z"/>
+      <path class="cls-1" d="M343.38,413.53v-20.01h20.01v20.01h-20.01Z"/>
+      <path class="cls-1" d="M403.42,413.53v-10.01h-10.01v-10.01h-10.01v-60.18h10.01v-10.01h10.01v-10.01h50.17v10.01h10.01v10.01h10.01v35.09h-70.19v15.08h10.01v10.01h30.09v-10.01h30.09v10.01h-10.01v10.01h-10.01v10.01h-50.17ZM453.6,353.42v-10.08h-10.08v-10.01h-30.09v10.01h-10.01v10.08h50.17Z"/>
+      <path class="cls-1" d="M508.65,413.53v-10.01h-10.01v-10.01h-10.01v-10.01h30.02v10.01h35.09v-20.08h-35.09v-10.01h-20.01v-10.01h-10.01v-20.08h10.01v-10.01h10.01v-10.01h50.17v10.01h10.01v10.01h10.01v10.01h-30.09v-10.01h-35.09v20.08h35.09v10.01h20.08v10.01h10.01v20.08h-10.01v10.01h-10.01v10.01h-50.17Z"/>
+    </g>
+  </g>
 </svg>
