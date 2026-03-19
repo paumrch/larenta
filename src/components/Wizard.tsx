@@ -1,0 +1,487 @@
+import { useState, useMemo } from "react";
+import type { DeduccionIndex } from "../lib/types";
+import {
+  CCAA_MAP,
+  SITUACION_LABELS,
+} from "../lib/types";
+import Report from "./Report";
+
+interface WizardProps {
+  deducciones: DeduccionIndex[];
+}
+
+interface Answers {
+  ccaa: string;
+  laboral: "asalariado" | "autonomo" | "ambos" | "";
+  situaciones: string[];
+  alquiler: "si" | "no" | "";
+  ganancias: "si" | "no" | "";
+  datosEconomicos: Record<string, string>;
+}
+
+const STEPS = [
+  { key: "ccaa",       title: "¿Dónde tributa tu IRPF?",             subtitle: "Selecciona tu Comunidad Autónoma" },
+  { key: "laboral",    title: "¿Cuál es tu situación laboral?",       subtitle: "Esto determina qué deducciones aplican" },
+  { key: "situaciones",title: "¿Qué situaciones te describen?",       subtitle: "Marca todas las que apliquen" },
+  { key: "alquiler",   title: "¿Alquilas algún inmueble?",            subtitle: "Vivienda, local u otro bien" },
+  { key: "ganancias",  title: "¿Has tenido ganancias patrimoniales?", subtitle: "Venta de inmuebles, fondos, acciones…" },
+  { key: "economicos", title: "Unos datos más para personalizar",     subtitle: "Opcional — para estimar mejor tu ahorro" },
+] as const;
+
+/** Financial questions based on user situaciones */
+interface FinancialQuestion {
+  key: string;
+  label: string;
+  placeholder: string;
+  suffix: string;
+  /** Show only if user selected one of these situaciones (empty = always show) */
+  showIf: string[];
+}
+
+/** Core income questions — always shown */
+const INCOME_QUESTIONS: FinancialQuestion[] = [
+  { key: "ingresos_brutos", label: "¿Cuáles son tus ingresos brutos anuales?", placeholder: "28.000", suffix: "€/año", showIf: [] },
+  { key: "ingresos_autonomo", label: "¿Cuáles son tus ingresos como autónomo?", placeholder: "20.000", suffix: "€/año", showIf: ["__autonomo"] },
+];
+
+/** Situational financial questions */
+const SITUATIONAL_QUESTIONS: FinancialQuestion[] = [
+  { key: "num_hijos", label: "¿Cuántos hijos tienes?", placeholder: "0", suffix: "", showIf: ["tiene_hijos", "familia_numerosa", "familia_monoparental"] },
+  { key: "alquiler_anual", label: "¿Cuánto pagas de alquiler al año?", placeholder: "9.600", suffix: "€/año", showIf: ["alquila_vivienda"] },
+  { key: "inversion_vivienda", label: "¿Cuánto has invertido en vivienda este año?", placeholder: "5.000", suffix: "€", showIf: ["tiene_vivienda_propia"] },
+  { key: "donativos", label: "¿Cuánto has donado este año?", placeholder: "500", suffix: "€", showIf: ["hace_donativos"] },
+  { key: "gastos_educacion", label: "¿Gastos en educación este año?", placeholder: "2.000", suffix: "€", showIf: ["estudia_o_tiene_estudiantes"] },
+  { key: "reforma_energia", label: "¿Cuánto has invertido en eficiencia energética?", placeholder: "3.000", suffix: "€", showIf: ["reforma_eficiencia"] },
+];
+
+const CCAA_OPTIONS = Object.entries(CCAA_MAP)
+  .filter(([k]) => k !== "EST")
+  .sort(([, a], [, b]) => a.localeCompare(b));
+
+const LABORAL_OPTIONS = [
+  { value: "asalariado", label: "Asalariado/a",  desc: "Trabajo por cuenta ajena",  icon: "💼" },
+  { value: "autonomo",   label: "Autónomo/a",    desc: "Trabajo por cuenta propia",  icon: "🧾" },
+  { value: "ambos",      label: "Ambos",         desc: "Combino empleo y actividad", icon: "⚖️" },
+] as const;
+
+const SITUACION_OPTIONS = Object.entries(SITUACION_LABELS);
+
+export default function Wizard({ deducciones }: WizardProps) {
+  const [step, setStep] = useState(0);
+  const [answers, setAnswers] = useState<Answers>({
+    ccaa: "",
+    laboral: "",
+    situaciones: [],
+    alquiler: "",
+    ganancias: "",
+    datosEconomicos: {},
+  });
+  const [showResults, setShowResults] = useState(false);
+
+  const results = useMemo(() => {
+    if (!showResults) return [];
+
+    return deducciones
+      .filter((d) => {
+        if (d.tipo === "autonomica" && d.codigo_ccaa !== answers.ccaa) return false;
+        if (answers.laboral === "asalariado" && !d.aplica_asalariados) return false;
+        if (answers.laboral === "autonomo" && !d.aplica_autonomos) return false;
+
+        if (answers.situaciones.length > 0 && d.situaciones.length > 0) {
+          const match = d.situaciones.some((s) => answers.situaciones.includes(s));
+          if (!match) return false;
+        }
+
+        return true;
+      })
+      .sort((a, b) => {
+        if (b.relevancia !== a.relevancia) return b.relevancia - a.relevancia;
+        if (a.tipo !== b.tipo) return a.tipo === "estatal" ? -1 : 1;
+        return 0;
+      });
+  }, [showResults, deducciones, answers]);
+
+  // Income questions: always show base income; show autonomo only if relevant
+  const incomeQuestions = useMemo(() =>
+    INCOME_QUESTIONS.filter((q) =>
+      q.showIf.length === 0 ||
+      (q.showIf.includes("__autonomo") && (answers.laboral === "autonomo" || answers.laboral === "ambos"))
+    ),
+    [answers.laboral]
+  );
+
+  // Situational financial questions relevant to this user
+  const relevantFinancialQuestions = useMemo(() =>
+    SITUATIONAL_QUESTIONS.filter((q) =>
+      q.showIf.length === 0 || q.showIf.some((s) => answers.situaciones.includes(s))
+    ),
+    [answers.situaciones]
+  );
+
+  const canAdvance =
+    (step === 0 && answers.ccaa !== "") ||
+    (step === 1 && answers.laboral !== "") ||
+    step === 2 ||
+    (step === 3 && answers.alquiler !== "") ||
+    (step === 4 && answers.ganancias !== "") ||
+    step === 5; // economic data is optional
+
+  function handleNext() {
+    if (step < STEPS.length - 1) {
+      setStep(step + 1);
+    } else {
+      setShowResults(true);
+    }
+  }
+
+  function handleBack() {
+    if (showResults) {
+      setShowResults(false);
+    } else if (step > 0) {
+      setStep(step - 1);
+    }
+  }
+
+  function handleReset() {
+    setStep(0);
+    setAnswers({ ccaa: "", laboral: "", situaciones: [], alquiler: "", ganancias: "", datosEconomicos: {} });
+    setShowResults(false);
+  }
+
+  function toggleSituacion(sit: string) {
+    setAnswers((prev) => ({
+      ...prev,
+      situaciones: prev.situaciones.includes(sit)
+        ? prev.situaciones.filter((s) => s !== sit)
+        : [...prev.situaciones, sit],
+    }));
+  }
+
+  // ── RESULTS ──────────────────────────────────────────────────────────
+  if (showResults) {
+    return (
+      <Report
+        deducciones={results}
+        ccaa={answers.ccaa}
+        laboral={answers.laboral}
+        situaciones={answers.situaciones}
+        datosEconomicos={answers.datosEconomicos}
+        onBack={handleBack}
+        onReset={handleReset}
+      />
+    );
+  }
+
+  // ── WIZARD STEPS ─────────────────────────────────────────────────────
+  const progressPct = ((step) / (STEPS.length - 1)) * 100;
+
+  return (
+    <div>
+      {/* Progress bar (8px, gradient gold — DESIGN.md) */}
+      <div className="mb-2">
+        <div className="flex justify-between text-xs mb-2" style={{ color: "var(--color-on-surface-variant)" }}>
+          <span>Paso {step + 1} de {STEPS.length}</span>
+          <span>{Math.round(progressPct)}%</span>
+        </div>
+        <div className="progress-track">
+          <div className="progress-fill" style={{ width: `${Math.max(progressPct, 5)}%` }}></div>
+        </div>
+      </div>
+
+      {/* Step dots */}
+      <div className="flex items-center gap-2 mb-8 mt-3">
+        {STEPS.map((_, i) => (
+          <div
+            key={i}
+            className="rounded-full transition-all"
+            style={{
+              width: i === step ? "24px" : "8px",
+              height: "8px",
+              background: i <= step
+                ? "var(--color-primary)"
+                : "var(--color-surface-high)",
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Step content */}
+      <div className="animate-fade-up" key={step}>
+        <h2 className="text-2xl sm:text-3xl font-extrabold mb-1"
+          style={{ color: "var(--color-on-surface)", letterSpacing: "-0.02ch" }}>
+          {STEPS[step].title}
+        </h2>
+        <p className="mb-6 text-base" style={{ color: "var(--color-on-surface-variant)" }}>
+          {STEPS[step].subtitle}
+        </p>
+
+        {/* Step 0: CCAA — grid de pills sin borde */}
+        {step === 0 && (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            {CCAA_OPTIONS.map(([code, name]) => {
+              const sel = answers.ccaa === code;
+              return (
+                <button
+                  key={code}
+                  onClick={() => setAnswers((p) => ({ ...p, ccaa: code }))}
+                  className="px-4 py-3 text-left text-sm font-medium transition-all"
+                  style={{
+                    background: sel ? "var(--color-primary)" : "var(--color-surface-high)",
+                    color: sel ? "var(--color-on-primary)" : "var(--color-on-surface)",
+                    borderRadius: "var(--radius-xl)",
+                    transform: sel ? "scale(1.02)" : "scale(1)",
+                  }}
+                >
+                  {name}
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Step 1: Laboral — 3 opciones grandes */}
+        {step === 1 && (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {LABORAL_OPTIONS.map((opt) => {
+              const sel = answers.laboral === opt.value;
+              return (
+                <button
+                  key={opt.value}
+                  onClick={() => setAnswers((p) => ({ ...p, laboral: opt.value as Answers["laboral"] }))}
+                  className="px-5 py-5 text-left transition-all"
+                  style={{
+                    background: sel ? "var(--color-primary)" : "var(--color-surface-lowest)",
+                    color: sel ? "white" : "var(--color-on-surface)",
+                    borderRadius: "var(--radius-xl)",
+                    boxShadow: sel ? "none" : "var(--shadow-float)",
+                    transform: sel ? "scale(1.02)" : "scale(1)",
+                  }}
+                >
+                  <span className="text-2xl block mb-3">{opt.icon}</span>
+                  <div className="font-semibold text-base">{opt.label}</div>
+                  <div className="text-sm mt-0.5" style={{ opacity: sel ? 0.8 : undefined, color: sel ? "inherit" : "var(--color-on-surface-variant)" }}>
+                    {opt.desc}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Step 2: Situaciones — checkbox pills */}
+        {step === 2 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {SITUACION_OPTIONS.map(([key, label]) => {
+              const sel = answers.situaciones.includes(key);
+              return (
+                <button
+                  key={key}
+                  onClick={() => toggleSituacion(key)}
+                  className="flex items-center gap-3 px-4 py-3 text-left text-sm font-medium transition-all"
+                  style={{
+                    background: sel ? "var(--color-secondary-container)" : "var(--color-surface-high)",
+                    color: sel ? "var(--color-on-secondary-container)" : "var(--color-on-surface)",
+                    borderRadius: "var(--radius-xl)",
+                  }}
+                >
+                  <span
+                    className="flex items-center justify-center w-5 h-5 rounded-md flex-shrink-0 text-xs font-bold transition-all"
+                    style={{
+                      background: sel ? "var(--color-on-secondary-container)" : "var(--color-surface-highest)",
+                      color: sel ? "var(--color-secondary-container)" : "transparent",
+                    }}
+                  >
+                    ✓
+                  </span>
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Step 3: Alquiler — Sí / No */}
+        {step === 3 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md">
+            {[
+              { value: "si", label: "Sí, alquilo un inmueble", icon: "🏠", desc: "Vivienda, local, garaje…" },
+              { value: "no", label: "No alquilo nada", icon: "✖️", desc: "No tengo ingresos por alquiler" },
+            ].map((opt) => {
+              const sel = answers.alquiler === opt.value;
+              return (
+                <button
+                  key={opt.value}
+                  onClick={() => setAnswers((p) => ({ ...p, alquiler: opt.value as Answers["alquiler"] }))}
+                  className="px-5 py-5 text-left transition-all"
+                  style={{
+                    background: sel ? "var(--color-primary)" : "var(--color-surface-lowest)",
+                    color: sel ? "white" : "var(--color-on-surface)",
+                    borderRadius: "var(--radius-xl)",
+                    boxShadow: sel ? "none" : "var(--shadow-float)",
+                    transform: sel ? "scale(1.02)" : "scale(1)",
+                  }}
+                >
+                  <span className="text-2xl block mb-3">{opt.icon}</span>
+                  <div className="font-semibold">{opt.label}</div>
+                  <div className="text-sm mt-0.5" style={{ opacity: 0.75, color: sel ? "inherit" : "var(--color-on-surface-variant)" }}>
+                    {opt.desc}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Step 4: Ganancias patrimoniales — Sí / No */}
+        {step === 4 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md">
+            {[
+              { value: "si", label: "Sí, he tenido ganancias", icon: "📈", desc: "Venta de acciones, fondos, inmuebles…" },
+              { value: "no", label: "No he tenido ganancias", icon: "📉", desc: "Sin operaciones de inversión este año" },
+            ].map((opt) => {
+              const sel = answers.ganancias === opt.value;
+              return (
+                <button
+                  key={opt.value}
+                  onClick={() => setAnswers((p) => ({ ...p, ganancias: opt.value as Answers["ganancias"] }))}
+                  className="px-5 py-5 text-left transition-all"
+                  style={{
+                    background: sel ? "var(--color-primary)" : "var(--color-surface-lowest)",
+                    color: sel ? "white" : "var(--color-on-surface)",
+                    borderRadius: "var(--radius-xl)",
+                    boxShadow: sel ? "none" : "var(--shadow-float)",
+                    transform: sel ? "scale(1.02)" : "scale(1)",
+                  }}
+                >
+                  <span className="text-2xl block mb-3">{opt.icon}</span>
+                  <div className="font-semibold">{opt.label}</div>
+                  <div className="text-sm mt-0.5" style={{ opacity: 0.75, color: sel ? "inherit" : "var(--color-on-surface-variant)" }}>
+                    {opt.desc}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Step 5: Datos económicos */}
+        {step === 5 && (
+          <div className="space-y-6 max-w-lg">
+            {/* Income — always shown */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--color-primary)" }}>
+                Tus ingresos
+              </p>
+              <div className="space-y-4">
+                {incomeQuestions.map((q) => (
+                  <div key={q.key}>
+                    <label className="text-sm font-medium block mb-1.5" style={{ color: "var(--color-on-surface)" }}>
+                      {q.label}
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        placeholder={q.placeholder}
+                        value={answers.datosEconomicos[q.key] || ""}
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/[^\d.,]/g, "");
+                          setAnswers((prev) => ({
+                            ...prev,
+                            datosEconomicos: { ...prev.datosEconomicos, [q.key]: val },
+                          }));
+                        }}
+                        className="flex-1 px-4 py-3 text-sm"
+                        style={{
+                          background: "var(--color-surface-high)",
+                          borderRadius: "var(--radius-xl)",
+                          border: "none",
+                          color: "var(--color-on-surface)",
+                        }}
+                      />
+                      {q.suffix && (
+                        <span className="text-sm font-medium flex-shrink-0" style={{ color: "var(--color-on-surface-variant)" }}>
+                          {q.suffix}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Situational — only if relevant */}
+            {relevantFinancialQuestions.length > 0 && (
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--color-primary)" }}>
+                  Según tu situación
+                </p>
+                <div className="space-y-4">
+                  {relevantFinancialQuestions.map((q) => (
+                    <div key={q.key}>
+                      <label className="text-sm font-medium block mb-1.5" style={{ color: "var(--color-on-surface)" }}>
+                        {q.label}
+                      </label>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          placeholder={q.placeholder}
+                          value={answers.datosEconomicos[q.key] || ""}
+                          onChange={(e) => {
+                            const val = e.target.value.replace(/[^\d.,]/g, "");
+                            setAnswers((prev) => ({
+                              ...prev,
+                              datosEconomicos: { ...prev.datosEconomicos, [q.key]: val },
+                            }));
+                          }}
+                          className="flex-1 px-4 py-3 text-sm"
+                          style={{
+                            background: "var(--color-surface-high)",
+                            borderRadius: "var(--radius-xl)",
+                            border: "none",
+                            color: "var(--color-on-surface)",
+                          }}
+                        />
+                        {q.suffix && (
+                          <span className="text-sm font-medium flex-shrink-0" style={{ color: "var(--color-on-surface-variant)" }}>
+                            {q.suffix}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <p className="text-xs" style={{ color: "var(--color-on-surface-variant)", opacity: 0.6 }}>
+              Estos datos no se almacenan. Solo se usan para estimar tu ahorro.
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Navigation */}
+      <div className="flex items-center justify-between mt-10 pt-6"
+        style={{ borderTop: `1px solid var(--color-outline-variant)` }}>
+        <button
+          onClick={handleBack}
+          className="btn-text"
+          style={{ visibility: step === 0 ? "hidden" : "visible" }}
+        >
+          ← Atrás
+        </button>
+
+        <button
+          onClick={handleNext}
+          disabled={!canAdvance}
+          className="btn-primary"
+          style={!canAdvance ? { opacity: 0.4, cursor: "not-allowed", pointerEvents: "none" } : {}}
+        >
+          {step === STEPS.length - 1 ? "Ver mis deducciones →" : "Siguiente →"}
+        </button>
+      </div>
+    </div>
+  );
+}

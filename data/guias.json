@@ -1,0 +1,170 @@
+[
+  {
+    "slug": "obligacion",
+    "titulo": "¿Quién está obligado a declarar?",
+    "subtitulo": "Límites de renta, excepciones y casos especiales en la campaña 2025",
+    "icono": "📋",
+    "color": "primary",
+    "resumen": "No todo el mundo tiene que hacer la declaración de la renta. La ley fija límites según el tipo y cuantía de tus ingresos: si no los superas, estás exento de declarar... salvo que quieras recuperar retenciones.",
+    "capitulo": "Capítulo 1",
+    "capitulo_slug": "c01-campana-declaracion-renta",
+    "url_oficial": "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/c01-campana-declaracion-renta/quienes-estan-obligados-presentar-declaracion-irpf/delimitacion-obligacion-declarar-irpf.html",
+    "url_capitulo": "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/c01-campana-declaracion-renta.html",
+    "categorias_deducciones": ["familia", "vivienda", "otros"],
+    "puntos_clave": [
+      "Límite general: 22.000 € de rendimientos del trabajo de un solo pagador",
+      "Límite reducido: 15.876 € si tienes dos o más pagadores (y el 2.º supera 1.500 €)",
+      "Autónomos: obligados a declarar siempre, sin límite de ingresos",
+      "Perceptores del Ingreso Mínimo Vital: siempre obligados",
+      "Puedes declarar aunque no estés obligado para recuperar retenciones"
+    ],
+    "contenido_md": "## ¿Estás obligado a presentar la declaración?\n\nEl IRPF funciona con una regla básica: si tus ingresos no superan ciertos límites, no tienes obligación legal de declarar. Pero eso no significa que no puedas hacerlo, ni que no te interese.\n\n> **Importante:** las rentas exentas no cuentan para determinar si estás obligado a declarar.\n\n## Cuándo SÍ estás obligado\n\n### Rendimientos del trabajo\n\nEstás obligado si tus ingresos del trabajo superan:\n\n- **22.000 € anuales** → con carácter general (un solo pagador)\n- **15.876 € anuales** → si concurre alguna de estas situaciones:\n  - Tienes **dos o más pagadores** y el segundo supera 1.500 € al año\n  - Recibes **pensiones compensatorias** del cónyuge o anualidades por alimentos no exentas\n  - Tu pagador **no está obligado a retener** (p. ej. extranjero sin establecimiento en España)\n  - Percibes rendimientos sujetos a **tipo fijo de retención**\n\n### Otros supuestos de obligación\n\n- **Rendimientos del capital mobiliario o ganancias patrimoniales** superiores a 1.600 € anuales\n- **Imputaciones de renta inmobiliaria, rendimientos de letras del Tesoro o subvenciones** superiores a 1.000 € anuales\n- Cualquier **rendimiento del capital inmobiliario o actividades económicas** superior a 1.000 € anuales\n- **Pérdidas patrimoniales** superiores a 500 €\n\n### Autónomos: siempre obligados\n\nDesde 2023, todos los trabajadores por cuenta propia dados de alta en el RETA o en el Régimen Especial del Mar **están obligados a declarar** con independencia de sus ingresos. También afecta a sus familiares colaboradores.\n\n### Perceptores del Ingreso Mínimo Vital\n\nLas personas titulares del IMV y todos los integrantes de la unidad de convivencia deben presentar declaración anual para mantener la prestación.\n\n## Cuándo NO estás obligado pero puede interesarte declarar\n\nSi no superas los límites, can declarar voluntariamente si:\n\n- Tienes **retenciones a devolver** (muy habitual)\n- Quieres aplicar deducciones por **maternidad, familia numerosa o discapacidad**\n- Quieres compensar **pérdidas de ejercicios anteriores**\n\n## Casos especiales\n\n| Situación | Límite |\n|-----------|--------|\n| Un pagador, rendimientos trabajo | 22.000 € |\n| Dos o más pagadores (2.º > 1.500 €) | 15.876 € |\n| Autónomo en RETA | Siempre obligado |\n| Perceptor IMV | Siempre obligado |\n| Herederos de fallecidos | Consultar asistente AEAT |"
+  },
+  {
+    "slug": "plazos",
+    "titulo": "Plazos y formas de presentar la renta 2025",
+    "subtitulo": "Fechas clave, borrador, pago fraccionado y dónde presentar",
+    "icono": "📅",
+    "color": "secondary",
+    "resumen": "La campaña de la Renta 2025 tiene fechas límite que no debes perder. Puedes presentarla por internet en Renta WEB, confirmar el borrador o pedir cita en una oficina. Si te sale a pagar, puedes fraccionar en dos plazos.",
+    "capitulo": "Capítulo 1",
+    "capitulo_slug": "c01-campana-declaracion-renta",
+    "url_oficial": "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/c01-campana-declaracion-renta/confirmacion-borrador-presentacion-declaraciones.html",
+    "url_capitulo": "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/c01-campana-declaracion-renta.html",
+    "categorias_deducciones": ["otros"],
+    "puntos_clave": [
+      "Apertura de campaña: abril 2025 (Renta WEB e internet)",
+      "Fecha límite: 30 de junio de 2025 (con o sin domiciliación)",
+      "Si sale a ingresar con domiciliación: límite 25 de junio",
+      "Fraccionamiento del pago: 60% al presentar + 40% el 5 de noviembre",
+      "Cita previa para atención telefónica o presencial desde mayo"
+    ],
+    "contenido_md": "## Cuándo y cómo presentar la declaración de la Renta 2025\n\nLa AEAT abre la campaña de la Renta cada año en primavera. Aquí tienes todos los plazos y opciones para presentar tu declaración del ejercicio 2024.\n\n## Plazos de la campaña 2025\n\n| Servicio | Apertura | Cierre |\n|----------|----------|--------|\n| Renta WEB (Internet) | Abril 2025 | 30 junio 2025 |\n| Atención telefónica (Cita previa) | Mayo 2025 | 30 junio 2025 |\n| Atención presencial (Oficinas AEAT) | Mayo 2025 | 30 junio 2025 |\n| Domiciliación bancaria del pago | — | 25 junio 2025 |\n\n> **Nota:** Si el resultado es a ingresar y domicilias el pago, el límite para presentar es el **25 de junio** (no el 30).\n\n## Formas de presentar\n\n### 1. Renta WEB (la más recomendada)\n\nAccede con Cl@ve, certificado electrónico o referencia (RENØ) en la sede electrónica de la AEAT. Puedes:\n- Confirmar el **borrador** si AEAT lo tiene completo\n- Modificar o complementar el borrador con tus datos\n- Presentar desde cero si tienes rentas complejas\n\n### 2. Atención telefónica (Le llamamos)\n\nLa AEAT te llama para ayudarte a confeccionar la declaración. Necesitas cita previa. Tendrás que identificarte con tu número de referencia (RENØ) o con Cl@ve.\n\n### 3. Atención presencial\n\nEn las oficinas de la AEAT. Necesitas cita previa. Lleva toda tu documentación: DNI, IBAN, datos del inmueble si eres propietario, y cualquier documento de rentas que no estén en el borrador.\n\n## Si la declaración sale a pagar\n\nTienes dos opciones:\n\n- **Pago íntegro al presentar**: antes del 30 de junio\n- **Pago fraccionado (sin recargo)**:\n  - **60%** al presentar la declaración (máx. 25 junio si domicilias)\n  - **40%** restante el **5 de noviembre de 2025**\n\nEl fraccionamiento es automático: solo tienes que solicitarlo al presentar la declaración. No hay intereses.\n\n## Si la declaración sale a devolver\n\nLa AEAT tiene plazo de **6 meses** desde el fin de campaña para devolver. Si no lo hace, empieza a correr el interés de demora a tu favor. En la práctica las devoluciones suelen llegar en pocas semanas si presentas por internet."
+  },
+  {
+    "slug": "trabajo",
+    "titulo": "Rendimientos del trabajo",
+    "subtitulo": "Sueldos, pensiones, dietas, retribuciones en especie y gastos deducibles",
+    "icono": "💼",
+    "color": "primary",
+    "resumen": "Los rendimientos del trabajo son la principal fuente de renta para la mayoría de contribuyentes. Incluyen sueldos, salarios, pensiones, prestaciones del SEPE y retribuciones en especie. De ellos se pueden deducir ciertos gastos para reducir la base imponible.",
+    "capitulo": "Capítulo 3",
+    "capitulo_slug": "c03-rendimientos-trabajo",
+    "url_oficial": "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/c03-rendimientos-trabajo.html",
+    "url_capitulo": "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/c03-rendimientos-trabajo.html",
+    "categorias_deducciones": ["otros", "movilidad"],
+    "puntos_clave": [
+      "Incluye: sueldos, salarios, pensiones, prestaciones por desempleo",
+      "También incluye: dietas exentas, retribuciones en especie (coche, seguro...)",
+      "Gastos deducibles: SS a cargo del trabajador, sindicatos, defensa jurídica",
+      "Reducción por rendimientos del trabajo: mínimo 2.000 € (más si son bajos)",
+      "Gastos deducibles adicionales: hasta 2.000 € para movilidad geográfica"
+    ],
+    "contenido_md": "## ¿Qué son los rendimientos del trabajo?\n\nSon todas las contraprestaciones que derivan directa o indirectamente del trabajo personal por cuenta ajena. Se integran en la **base imponible general** del IRPF y tributan a la escala progresiva.\n\n## Qué incluye\n\n### Rendimientos íntegros del trabajo\n\n- **Sueldos y salarios** (nóminas)\n- **Pensiones de la Seguridad Social** (jubilación, invalidez, viudedad...)\n- **Prestaciones por desempleo** del SEPE o Servicio Público de Empleo autonómico\n- **Prestaciones de planes de pensiones** y seguros de vida\n- **Retribuciones en especie**: coche de empresa, alojamiento, seguros de salud, tickets restaurante, opciones sobre acciones (*stock options*), etc.\n- **Dietas y gastos de viaje** (solo la parte que supere los límites exentos)\n- **Atrasos** de rendimientos del trabajo de años anteriores\n\n### Rentas exentas relacionadas con el trabajo\n\nNo tributan (o tributan con límites) ciertas prestaciones:\n- Dietas de manutención y desplazamiento dentro de los límites reglamentarios\n- Indemnizaciones por despido hasta el límite exento (180.300 € o el legal)\n- Seguro médico para el propio trabajador (hasta 500 € / año; 1.500 € si hay discapacidad)\n\n## Gastos deducibles\n\nSe pueden restar del rendimiento íntegro para obtener el rendimiento neto:\n\n| Gasto | Importe |\n|-------|---------|\n| Cotizaciones a la Seguridad Social | El importe real cotizado |\n| Cuotas a sindicatos | El importe real pagado |\n| Colegios profesionales (obligatorios) | Hasta 500 € |\n| Defensa jurídica frente al empleador | Hasta 300 € |\n| **Otros gastos** (régimen especial) | **2.000 €** fijos adicionales |\n\nEse último gasto de **2.000 € adicionales** se puede ampliar:\n- **+2.000 €** (total 4.000 €) para desempleados que acepten trabajo en otra comarca o municipio (*movilidad geográfica*)\n- **+3.500 €** (total 5.500 €) si el contribuyente tiene discapacidad con grado ≥ 33%\n- **+7.750 €** (total 9.750 €) si el grado de discapacidad es ≥ 65% o tiene movilidad reducida acreditada\n\n## Reducción por rendimientos del trabajo\n\nAdemás de los gastos, existe una **reducción** que disminuye la base imponible general:\n\n- **5.565 €** si el rendimiento neto del trabajo es ≤ 13.115 €\n- **Entre 5.565 € y 2.000 €** si el rendimiento neto está entre 13.115 € y 16.825 €\n- **2.000 €** fijos si el rendimiento neto supera 16.825 €\n\n## Cómo se calcula el rendimiento neto reducido\n\n```\nRendimiento íntegro\n - Gastos deducibles (SS, sindicato, otros...)\n = Rendimiento neto previo\n - Reducción por rendimientos del trabajo\n = Rendimiento neto reducido\n```\n\nEste importe se suma a la base imponible general junto con el resto de tus rentas."
+  },
+  {
+    "slug": "alquiler",
+    "titulo": "Vivienda, alquiler e inmuebles",
+    "subtitulo": "Cómo tributar el alquiler, gastos deducibles y la reducción del 50%",
+    "icono": "🏠",
+    "color": "secondary",
+    "resumen": "Si alquilas un piso, local o cualquier inmueble, los ingresos tributan como rendimientos del capital inmobiliario. Pero puedes deducir una larga lista de gastos (hipoteca, comunidad, reparaciones...) y si es vivienda habitual del inquilino, aplicar una reducción del 50%.",
+    "capitulo": "Capítulo 4",
+    "capitulo_slug": "c04-rendimientos-capital-inmobiliario",
+    "url_oficial": "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/c04-rendimientos-capital-inmobiliario.html",
+    "url_capitulo": "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/c04-rendimientos-capital-inmobiliario.html",
+    "categorias_deducciones": ["vivienda", "energia"],
+    "puntos_clave": [
+      "Alquiler de vivienda habitual: reducción del 50% sobre el rendimiento neto",
+      "Gastos deducibles: intereses hipoteca, IBI, comunidad, seguros, amortización...",
+      "Inmueble vacío: imputación de renta del 1,1% o 2% del valor catastral",
+      "Alquiler turístico o vacacional: sin reducción, tributa íntegro",
+      "Novedad 2025: la reducción baja al 50% (antes 60%) salvo zonas tensionadas"
+    ],
+    "contenido_md": "## Rendimientos del capital inmobiliario\n\nCuando alquilas un inmueble —piso, local, plaza de garaje, trastero— los ingresos se declaran como **rendimientos del capital inmobiliario** en la base imponible general del IRPF.\n\n## Qué se incluye como rendimiento íntegro\n\n- **Alquiler de inmuebles**: rentas y contraprestaciones recibidas\n- **Constitución o cesión de derechos reales** sobre inmuebles (usufructo, superficie...)\n- **Subarrendamientos**: el importe del subarriendo menos lo pagado al arrendador\n\n> Los rendimientos del capital inmobiliario son rentas del *arrendador*, no del arrendatario.\n\n## Gastos deducibles\n\nSe restan del rendimiento íntegro para calcular el rendimiento neto:\n\n| Concepto | Deducible |\n|----------|-----------|\n| Intereses del préstamo hipotecario | Sí (sin límite hasta el rendimiento íntegro) |\n| IBI y otros tributos locales | Sí |\n| Comunidad de propietarios | Sí |\n| Seguros del inmueble | Sí |\n| Gastos de conservación y reparación | Sí |\n| Amortización del inmueble | 3% del valor de construcción |\n| Gastos de administración y gestión | Sí |\n| Saldos de dudoso cobro (morosidad) | Sí, con requisitos |\n\n> **No** son deducibles los gastos de mejora ni ampliación (se amortizan a largo plazo).\n\n## La reducción del 50% para vivienda habitual\n\nSi el inmueble se alquila como **vivienda habitual** del inquilino (no vacacional), puedes aplicar una **reducción del 50%** sobre el rendimiento neto positivo.\n\n### Novedad 2025\n\nLa Ley de Vivienda (Ley 12/2023) modificó esta reducción:\n- **Reducción general**: 50% (antes 60%)\n- **Zonas de mercado tensionado** declaradas: puede llegar hasta el **90%** si se dan condiciones específicas (alquiler nuevo a precio reducido, primer alquiler a jóvenes...)\n\n> La reducción NO aplica a **alquileres turísticos o vacacionales**.\n\n## Inmueble vacío o uso propio\n\nSi tu inmueble urbano no genera rendimientos (está vacío o es segunda residencia), debes imputar una **renta presunta**:\n\n- **1,1%** del valor catastral si fue revisado después de 1994\n- **2%** si el valor catastral no ha sido revisado en los últimos 10 años\n\nEsta imputación va también a la base imponible general.\n\n## Cómo se calcula\n\n```\nRendimiento íntegro (alquiler cobrado)\n - Gastos deducibles\n = Rendimiento neto\n × 50% reducción (si vivienda habitual del inquilino)\n = Rendimiento neto reducido\n```"
+  },
+  {
+    "slug": "inversiones",
+    "titulo": "Inversiones, ahorros y ganancias patrimoniales",
+    "subtitulo": "Acciones, fondos, bonos, dividendos y cómo tributan en la base del ahorro",
+    "icono": "📈",
+    "color": "gold",
+    "resumen": "Los rendimientos de inversiones financieras y las ganancias al vender activos (acciones, fondos, inmuebles...) tributan en la base del ahorro, a tipos entre el 19% y el 30%. Puedes compensar pérdidas con ganancias del mismo año o de los cuatro siguientes.",
+    "capitulo": "Capítulos 5 y 11",
+    "capitulo_slug": "c05-rendimientos-capital-mobiliario",
+    "url_oficial": "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/c11-ganancias-perdidas-patrimoniales.html",
+    "url_capitulo": "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/c05-rendimientos-capital-mobiliario.html",
+    "categorias_deducciones": ["empresa", "otros"],
+    "puntos_clave": [
+      "Dividendos, intereses y cupones: rendimientos del capital mobiliario",
+      "Venta de acciones, fondos o inmuebles: ganancia o pérdida patrimonial",
+      "Tarifa del ahorro: 19% (hasta 6.000 €), 21% (hasta 50.000 €), 23% (hasta 200.000 €), 27% (hasta 300.000 €), 30% (más de 300.000 €)",
+      "Las pérdidas pueden compensarse con ganancias (mismo año o los 4 siguientes)",
+      "Traspasos entre fondos: no tributan hasta el rescate final"
+    ],
+    "contenido_md": "## Rendimientos del capital mobiliario\n\nSon los ingresos que generan tus activos financieros:\n\n- **Dividendos** de acciones\n- **Intereses** de depósitos, cuentas bancarias, bonos y obligaciones\n- **Rendimientos de seguros de vida** o rentas vitalicias\n- **Participaciones en fondos de inversión** (distribución de beneficios)\n\nTodos van a la **base imponible del ahorro**.\n\n## Ganancias y pérdidas patrimoniales\n\nSurgen al **transmitir** (vender, donar, permutar) un bien o derecho. Los más habituales:\n\n- Venta de **acciones** o participaciones en fondos\n- Venta de **inmuebles** (segunda residencia, locales...)\n- **Premios** de loterías y apuestas (excepto los exentos)\n- **Herencias y donaciones** (con matices)\n\n### Cálculo de la ganancia\n\n```\nValor de transmisión\n - Valor de adquisición (precio de compra + gastos)\n = Ganancia o pérdida patrimonial\n```\n\n> Las acciones adquiridas antes del 31/12/1994 tienen coeficientes reductores especiales.\n\n## La tarifa del ahorro (2025)\n\n| Tramo | Tipo |\n|-------|------|\n| Hasta 6.000 € | 19% |\n| De 6.000 € a 50.000 € | 21% |\n| De 50.000 € a 200.000 € | 23% |\n| De 200.000 € a 300.000 € | 27% |\n| Más de 300.000 € | 30% |\n\n## Compensación de pérdidas\n\nEs una de las estrategias fiscales más útiles:\n\n- Las **pérdidas del capital mobiliario** pueden compensar ganancias del capital mobiliario. Si hay exceso, puede compensar hasta el 25% de los rendimientos del capital mobiliario netos positivos.\n- Las **pérdidas patrimoniales** pueden compensar ganancias patrimoniales. El exceso, hasta el 25% de los rendimientos netos positivos del capital mobiliario.\n- Lo que quede sin compensar puede **arrastrarse 4 años**.\n\n## Traspasos de fondos: ventaja fiscal\n\nSi traspasas dinero de un fondo de inversión a otro (sin reembolso en cuenta), **no tributa**. La plusvalía queda diferida hasta el rescate definitivo. Es una ventaja fiscal exclusiva de los fondos de inversión.\n\n## Exenciones importantes\n\n- **Reinversión en vivienda habitual**: si vendes tu vivienda y reinviertes en otra habitual, la ganancia queda exenta\n- **Mayores de 65 años**: la ganancia por venta de vivienda habitual está exenta\n- **Constitución de renta vitalicia** (mayores 65 años): exento hasta 240.000 €"
+  },
+  {
+    "slug": "autonomos",
+    "titulo": "Autónomos y actividades económicas",
+    "subtitulo": "Estimación directa, módulos, gastos deducibles y cuotas de autónomos",
+    "icono": "🧾",
+    "color": "primary",
+    "resumen": "Los autónomos y profesionales tributan por sus rendimientos de actividades económicas. El método de estimación directa simplificada es el más habitual: deduces todos los gastos necesarios para ejercer tu actividad y tributas por el beneficio neto.",
+    "capitulo": "Capítulos 6 y 7",
+    "capitulo_slug": "c06-rendimientos-actividades-economicas-cuestiones-generales",
+    "url_oficial": "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/c06-rendimientos-actividades-economicas-cuestiones-generales.html",
+    "url_capitulo": "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/c06-rendimientos-actividades-economicas-cuestiones-generales.html",
+    "categorias_deducciones": ["empresa", "salud", "movilidad"],
+    "puntos_clave": [
+      "Cuota de autónomos: 100% deducible como gasto de la actividad",
+      "Gastos deducibles: local, suministros, material, gestoría, seguro, dietas...",
+      "Estimación directa simplificada: provisiones deducibles hasta 5% del rendimiento",
+      "Si trabajas en casa: puedes deducir % de suministros (30% de los gastos afectos)",
+      "Autónomos: siempre obligados a declarar aunque no tengan beneficio"
+    ],
+    "contenido_md": "## Rendimientos de actividades económicas\n\nCalifican como rendimientos de actividades económicas los que provienen de **ordenar por cuenta propia medios de producción y/o recursos humanos** con el fin de intervenir en la producción o distribución de bienes o servicios.\n\nEn la práctica: autónomos, profesionales liberales, freelancers, agricultores, ganaderos y empresarios individuales.\n\n## Métodos de determinación del rendimiento\n\n### Estimación directa normal\nPara actividades con facturación > 600.000 €. Contabilidad completa ajustada al Código de Comercio.\n\n### Estimación directa simplificada *(la más habitual)*\nPara facturación ≤ 600.000 €. Contabilidad simplificada. Principales diferencias con la normal:\n- **Amortizaciones** según tablas simplificadas especiales\n- **Provisiones deducibles**: hasta el **5%** del rendimiento neto previo (en lugar de las reales)\n\n### Estimación objetiva (módulos)\nPara actividades incluidas en la orden de módulos. El rendimiento se calcula por indicadores objetivos (número de empleados, metros cuadrados, etc.). Renuncias o exclusiones si facturación supera límites.\n\n## Gastos deducibles en estimación directa\n\n| Concepto | Notas |\n|----------|---------|\n| **Cuota de autónomos (RETA)** | 100% deducible |\n| Alquiler del local de negocio | Proporción afecta a actividad |\n| Suministros del local (luz, internet...) | Proporción afecta |\n| Compras de mercaderías y materias primas | Las efectivamente consumidas |\n| Sueldos y SS de empleados | 100% |\n| Servicios profesionales (gestoría, asesoría) | 100% |\n| Amortización de equipos e instalaciones | Según tablas |\n| Seguros relacionados con la actividad | 100% |\n| Gastos de formación | Con relación directa a la actividad |\n| Dietas y gastos de viaje | Con límites reglamentarios |\n\n## Trabajar en casa (home office)\n\nSi desarrollas tu actividad en tu vivienda habitual, puedes deducir:\n- Una **parte proporcional del alquiler** (según % de la vivienda afecta)\n- El **30% de los suministros** (luz, agua, internet, gas) de la parte proporcional afecta\n\nPor ejemplo: si usas el 20% de tu vivienda como despacho, puedes deducir el 30% de (20% × suministros totales).\n\n## Reducciones especiales para autónomos\n\n- **Reducción por inicio de actividad**: en los 2 primeros años con rendimiento neto positivo, reducción del 20%\n- **Reducción general**: si el rendimiento neto es ≤ 12.000 €, reducción de hasta 1.620 €\n- **Planes de pensiones**: aportaciones deducibles en base liquidable (no en la actividad)\n\n## Pagos fraccionados trimestrales\n\nLos autónomos en estimación directa declaran y pagan el **20% del rendimiento neto acumulado** cada trimestre (modelos 130/131). Estos pagos se descuentan de la cuota del IRPF anual."
+  },
+  {
+    "slug": "familia",
+    "titulo": "Familia, hijos y mínimo personal",
+    "subtitulo": "Mínimo personal, familiar, por descendientes, ascendientes y discapacidad",
+    "icono": "👨‍👩‍👧",
+    "color": "secondary",
+    "resumen": "El mínimo personal y familiar reduce la base liquidable que tributa a los tipos más altos. A más hijos o personas a cargo, mayor es la reducción. Además, hay deducciones específicas por maternidad, familia numerosa o ascendientes con discapacidad.",
+    "capitulo": "Capítulo 14",
+    "capitulo_slug": "c14-adecuacion-impuesto-circunstancias-personales",
+    "url_oficial": "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/c14-adecuacion-impuesto-circunstancias-personales.html",
+    "url_capitulo": "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/c14-adecuacion-impuesto-circunstancias-personales.html",
+    "categorias_deducciones": ["familia", "salud"],
+    "puntos_clave": [
+      "Mínimo personal: 5.550 € (mayores 65 años: +1.150 €; mayores 75: +1.400 €)",
+      "Por cada hijo menor de 25 años a cargo: 2.400 € (1.º), 2.700 € (2.º), 4.000 € (3.º), 4.500 € (4.º+)",
+      "Deducción por maternidad: hasta 1.200 € anuales por hijo menor de 3 años",
+      "Familia numerosa: hasta 1.200 € de deducción (2.400 € si es especial)",
+      "Discapacidad del contribuyente: reducción adicional sobre la base liquidable"
+    ],
+    "contenido_md": "## El mínimo personal y familiar\n\nEl mínimo personal y familiar es la parte de la renta que la ley considera necesaria para cubrir las necesidades básicas del contribuyente y su familia. **No tributa** (se deduce de la base liquidable para calcular la cuota).\n\n## Mínimo del contribuyente\n\n| Situación | Importe |\n|----------|---------|\n| Con carácter general | **5.550 €** |\n| Mayores de 65 años | **+ 1.150 €** (total 6.700 €) |\n| Mayores de 75 años | **+ 1.400 €** adicionales (total 8.100 €) |\n\n## Mínimo por descendientes\n\nPor cada hijo o descendiente **menor de 25 años** que conviva y no tenga rentas superiores a 8.000 €:\n\n| Hijo | Importe anual |\n|------|---------------|\n| 1.º hijo | **2.400 €** |\n| 2.º hijo | **2.700 €** |\n| 3.º hijo | **4.000 €** |\n| 4.º y siguientes | **4.500 €** |\n| Menor de 3 años | + **2.800 €** adicionales |\n\n> Si el descendiente tiene discapacidad ≥ 33%, se suma un mínimo adicional de **3.000 €** (o **9.000 €** si ≥ 65%).\n\n## Mínimo por ascendientes\n\nPor padres o abuelos mayores de 65 años (o con discapacidad) que convivan y no tengan rentas > 8.000 €:\n\n- **1.150 €** si tienen entre 65 y 74 años\n- **2.550 €** si tienen 75 o más años\n\n## Mínimo por discapacidad\n\nAdemás de los anteriores:\n\n| Grado de discapacidad | Mínimo adicional |\n|----------------------|------------------|\n| ≥ 33% y < 65% | **3.000 €** |\n| ≥ 65% o movilidad reducida acreditada | **9.000 €** |\n\n## Deducciones de la cuota\n\nEstas no reducen la base, sino directamente la cuota íntegra estatal:\n\n### Deducción por maternidad\n- **Hasta 1.200 €/año** por cada hijo menor de 3 años, si la madre trabaja por cuenta propia o ajena\n- Puede cobrarse de forma anticipada (100 €/mes)\n\n### Familia numerosa o personas con discapacidad a cargo\n- **1.200 €** anuales por familia numerosa general\n- **2.400 €** anuales por familia numerosa especial (5+ hijos)\n- **1.200 €** por cada ascendiente o hermano con discapacidad a cargo\n- **1.200 €** por cónyuge no separado con discapacidad ≥ 33% sin rentas > 8.000 €\n\nEstas deducciones también pueden adelantarse mensualmente.\n\n## Declaración individual vs. conjunta\n\nLa tributación conjunta (familia con hijos) tiene una reducción especial de **3.400 €** para matrimonios (o **2.150 €** para monoparentales), pero puede no ser siempre más ventajosa. Compara ambas opciones en Renta WEB."
+  },
+  {
+    "slug": "base-liquidable",
+    "titulo": "Reducciones en base liquidable",
+    "subtitulo": "Planes de pensiones, aportaciones a partidos, mutualidades y reducción por alquiler",
+    "icono": "⚡",
+    "color": "gold",
+    "resumen": "La base liquidable es lo que queda después de restar las reducciones a la base imponible. Las más importantes son las aportaciones a planes de pensiones, que reducen directamente la base y pueden suponer un ahorro fiscal significativo cada año.",
+    "capitulo": "Capítulo 13",
+    "capitulo_slug": "c13-determinacion-renta-contribuyente-sujeta-gravamen",
+    "url_oficial": "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/c13-determinacion-renta-contribuyente-sujeta-gravamen.html",
+    "url_capitulo": "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/c13-determinacion-renta-contribuyente-sujeta-gravamen.html",
+    "categorias_deducciones": ["empresa", "donativos", "otros"],
+    "puntos_clave": [
+      "Planes de pensiones individuales: hasta 1.500 € anuales de reducción en base",
+      "Planes de empresa (empleador): el límite conjunto sube a 8.500 €",
+      "Mutualidades: reducciones equivalentes si son alternativas al plan de pensiones",
+      "Alquiler (régimen transitorio): si tienes contrato anterior a 2015, reducción en base",
+      "Pensiones compensatorias y anualidades por alimentos: reducen la base general"
+    ],
+    "contenido_md": "## De la base imponible a la base liquidable\n\nLa **base liquidable** es la sobre la que finalmente se aplican los tipos del IRPF. Para llegar a ella, se restan a la base imponible una serie de **reducciones**.\n\n```\nBase imponible general\n - Reducciones en base imponible general\n = Base liquidable general\n\nBase imponible del ahorro\n - Reducciones en base imponible del ahorro\n = Base liquidable del ahorro\n```\n\n## Aportaciones a sistemas de previsión social\n\nEs la reducción más importante para la mayoría de contribuyentes.\n\n### Planes de pensiones individuales y similares\n\n| Sistema | Límite anual |\n|---------|-------------|\n| Plan de pensiones individual (PPI) | **1.500 €** |\n| Plan de previsión asegurado (PPA) | **1.500 €** |\n| Mutualidad de previsión social | **1.500 €** |\n\n### Planes de empleo (empresa)\n\nSi tu empresa también aporta a un plan de empleo, el límite conjunto sube:\n\n| Contribución empresa | Límite adicional del trabajador |\n|---------------------|----------------------------------|\n| Cualquier importe | Hasta **8.500 €** adicionales |\n\nEsto solo aplica si las aportaciones del trabajador igualan o no superan las del empleador.\n\n> **Límite global**: la reducción no puede superar el **30% de los rendimientos netos del trabajo y de actividades económicas**.\n\n## Plan de pensiones de cónyuge\n\nSi tu cónyuge tiene rendimientos inferiores a 8.000 €, puedes aportar a su plan hasta **1.000 € adicionales** con reducción en tu base.\n\n## Patrimonios protegidos de personas con discapacidad\n\nReducciones por aportaciones a patrimonios protegidos de familiares con discapacidad:\n- **Familiar o cónyuge**: hasta 10.000 € (el aportante los reduce en su base)\n- **Terceros no familiares**: hasta 10.000 €\n\n## Pensiones compensatorias y anualidades por alimentos\n\n- Las **pensiones compensatorias** al ex cónyuge establecidas judicialmente reducen la base general\n- Las **anualidades por alimentos** a hijos (no exentas) también reducen la base\n\nBajo estas reducciones, el resultado es la **base liquidable general**, que debe ser mayor o igual a cero.\n\n## Reducción para arrendatarios (régimen transitorio)\n\nSi eres **inquilino** y tienes un contrato de arrendamiento firmado **antes del 1 de enero de 2015**, puedes aplicar una reducción del **10,05% de las cantidades satisfechas** en concepto de alquiler de tu vivienda habitual, con un límite base de 9.040 €.\n\n> Esta reducción estaba en la cuota hasta 2014. Desde 2015 está suprimida con carácter general, pero se mantiene el régimen transitorio para contratos anteriores."
+  }
+]

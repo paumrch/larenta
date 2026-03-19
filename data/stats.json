@@ -1,0 +1,132 @@
+{
+  "total_deducciones": 375,
+  "total_estatales": 21,
+  "total_autonomicas": 354,
+  "total_ccaa": 15,
+  "total_alta_relevancia": 160,
+  "total_media_relevancia": 74,
+  "total_baja_relevancia": 141,
+  "novedades_2025": 41,
+  "categorias": {
+    "familia": 88,
+    "vivienda": 76,
+    "salud": 46,
+    "otros": 44,
+    "empresa": 42,
+    "educacion": 35,
+    "donativos": 26,
+    "movilidad": 10,
+    "energia": 8
+  },
+  "por_ccaa": {
+    "Comunitat Valenciana": 40,
+    "Canarias": 29,
+    "Región de Murcia": 28,
+    "Principado de Asturias": 27,
+    "La Rioja": 26,
+    "Castilla-La Mancha": 25,
+    "Galicia": 25,
+    "Illes Balears": 24,
+    "Comunidad de Madrid": 23,
+    "Cantabria": 21,
+    "Aragón": 19,
+    "Extremadura": 19,
+    "Castilla y León": 18,
+    "Andalucía": 17,
+    "Cataluña": 13
+  },
+  "top_situaciones": {
+    "tiene_hijos": 118,
+    "tiene_vivienda_propia": 77,
+    "alquila_vivienda": 45,
+    "discapacidad": 45,
+    "invierte": 41,
+    "cuida_mayores": 41,
+    "estudia_o_tiene_estudiantes": 25,
+    "hace_donativos": 21,
+    "tiene_conyuge": 19,
+    "autonomo": 17,
+    "vive_en_pueblo": 16,
+    "reforma_eficiencia": 11,
+    "familia_numerosa": 11,
+    "familia_monoparental": 10,
+    "coche_electrico": 7
+  },
+  "ccaa_lista": [
+    {
+      "codigo": "AND",
+      "nombre": "Andalucía",
+      "total": 17
+    },
+    {
+      "codigo": "ARA",
+      "nombre": "Aragón",
+      "total": 19
+    },
+    {
+      "codigo": "AST",
+      "nombre": "Principado de Asturias",
+      "total": 27
+    },
+    {
+      "codigo": "BAL",
+      "nombre": "Illes Balears",
+      "total": 24
+    },
+    {
+      "codigo": "CAN",
+      "nombre": "Canarias",
+      "total": 29
+    },
+    {
+      "codigo": "CTB",
+      "nombre": "Cantabria",
+      "total": 21
+    },
+    {
+      "codigo": "CLM",
+      "nombre": "Castilla-La Mancha",
+      "total": 25
+    },
+    {
+      "codigo": "CYL",
+      "nombre": "Castilla y León",
+      "total": 18
+    },
+    {
+      "codigo": "CAT",
+      "nombre": "Cataluña",
+      "total": 13
+    },
+    {
+      "codigo": "EXT",
+      "nombre": "Extremadura",
+      "total": 19
+    },
+    {
+      "codigo": "GAL",
+      "nombre": "Galicia",
+      "total": 25
+    },
+    {
+      "codigo": "MAD",
+      "nombre": "Comunidad de Madrid",
+      "total": 23
+    },
+    {
+      "codigo": "MUR",
+      "nombre": "Región de Murcia",
+      "total": 28
+    },
+    {
+      "codigo": "RIO",
+      "nombre": "La Rioja",
+      "total": 26
+    },
+    {
+      "codigo": "VAL",
+      "nombre": "Comunitat Valenciana",
+      "total": 40
+    }
+  ]
+}

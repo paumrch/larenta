@@ -1,0 +1,261 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getAllDeducciones } from "../../lib/data";
+import {
+  cleanName,
+  CCAA_MAP,
+  CATEGORIA_LABELS,
+  CATEGORIA_COLORS,
+  SITUACION_LABELS,
+  relevanciaText,
+  relevanciaLabel,
+  fichaUrl,
+} from "../../lib/types";
+import { marked } from "marked";
+
+export function getStaticPaths() {
+  const deducciones = getAllDeducciones();
+  return deducciones.map((d) => ({
+    params: { id: d.id },
+    props: { deduccion: d },
+  }));
+}
+
+const { deduccion: d } = Astro.props;
+const nombre = cleanName(d.nombre);
+const resumen = cleanName(d.resumen);
+const contentHtml = await marked.parse(d.contenido_md);
+const hasFacts = d.porcentaje || d.base_maxima || d.limite_renta;
+const situacionLabels = d.situaciones
+  .map((s) => SITUACION_LABELS[s])
+  .filter(Boolean);
+---
+
+<Base
+  title={nombre}
+  description={`${resumen} — Deducción ${d.tipo === "estatal" ? "estatal" : "autonómica de " + d.comunidad} del IRPF 2025.`}
+  ogImage={`/api/og?title=${encodeURIComponent(nombre)}&badge=${encodeURIComponent(d.tipo === "estatal" ? "Estatal" : d.comunidad)}`}
+>
+  <div style="background: var(--color-surface); min-height: 100vh;">
+    <div class="max-w-4xl mx-auto px-5 sm:px-8 py-10 sm:py-14">
+
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-sm mb-8" style="color: var(--color-on-surface-variant);">
+        <a href="/" class="hover:underline transition-colors" style="color: var(--color-on-surface-variant);">Inicio</a>
+        <span style="opacity: 0.4;">/</span>
+        <a href="/explorador" class="hover:underline" style="color: var(--color-on-surface-variant);">Explorador</a>
+        {d.tipo === "autonomica" && (
+          <>
+            <span style="opacity: 0.4;">/</span>
+            <a href={`/explorador?ccaa=${d.codigo_ccaa}`} class="hover:underline" style="color: var(--color-on-surface-variant);">
+              {d.comunidad}
+            </a>
+          </>
+        )}
+        <span style="opacity: 0.4;">/</span>
+        <span class="leading-snug" style="color: var(--color-on-surface);">{cleanName(d.nombre_corto)}</span>
+      </nav>
+
+      <!-- Header -->
+      <div class="mb-8">
+        <div class="flex flex-wrap items-center gap-2 mb-4">
+          <span class={`badge ${CATEGORIA_COLORS[d.categoria] || "badge-otros"}`}>
+            {CATEGORIA_LABELS[d.categoria] || d.categoria}
+          </span>
+          {d.tipo === "autonomica" ? (
+            <span class="badge" style="background: var(--color-surface-high); color: var(--color-on-surface-variant);">
+              {d.comunidad}
+            </span>
+          ) : (
+            <span class="badge" style="background: var(--color-surface-high); color: var(--color-primary);">
+              Estatal
+            </span>
+          )}
+          {d.novedad_2025 && (
+            <span class="badge" style="background: var(--color-secondary-fixed); color: var(--color-on-secondary-container);">
+              ✨ Novedad 2025
+            </span>
+          )}
+        <span
+          class={`text-xs font-semibold ${d.relevancia === 3 ? "relevancia-alta" : d.relevancia === 2 ? "relevancia-media" : "relevancia-baja"}`}
+          title={`Relevancia ${relevanciaLabel(d.relevancia)}`}
+        >
+            {relevanciaText(d.relevancia)}
+          </span>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl font-extrabold leading-tight"
+          style="color: var(--color-on-surface); letter-spacing: -0.02ch;">
+          {nombre}
+        </h1>
+      </div>
+
+      <!-- Executive Summary Card -->
+      {resumen && (
+        <div class="card mb-8" style="padding: 1.5rem 2rem;">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+              style="background: var(--color-surface-high);">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color: var(--color-primary);">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wider mb-1" style="color: var(--color-primary);">
+                Resumen
+              </p>
+              <p class="text-base leading-relaxed" style="color: var(--color-on-surface); max-width: 65ch;">
+                {resumen}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <!-- Two-column layout: Facts + Who -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+        <!-- Left: Key Data -->
+        {hasFacts && (
+          <div class="card" style="padding: 1.25rem 1.5rem;">
+            <p class="text-xs font-semibold uppercase tracking-wider mb-3" style="color: var(--color-primary);">
+              Datos clave
+            </p>
+            <div class="space-y-3">
+              {d.porcentaje && (
+                <div class="flex items-center justify-between">
+                  <span class="text-sm" style="color: var(--color-on-surface-variant);">Porcentaje / importe</span>
+                  <span class="text-lg font-extrabold" style="color: var(--color-primary); letter-spacing: -0.02ch;">
+                    {cleanName(d.porcentaje)}
+                  </span>
+                </div>
+              )}
+              {d.base_maxima && (
+                <div class="flex items-center justify-between">
+                  <span class="text-sm" style="color: var(--color-on-surface-variant);">Base máxima</span>
+                  <span class="text-sm font-bold" style="color: var(--color-on-surface);">
+                    {cleanName(d.base_maxima)}
+                  </span>
+                </div>
+              )}
+              {d.limite_renta && (
+                <div class="flex items-center justify-between">
+                  <span class="text-sm" style="color: var(--color-on-surface-variant);">Límite de renta</span>
+                  <span class="text-sm font-bold" style="color: var(--color-on-surface);">
+                    {cleanName(d.limite_renta)}
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        <!-- Right: Who applies + Situations -->
+        <div class="card" style="padding: 1.25rem 1.5rem;">
+          <p class="text-xs font-semibold uppercase tracking-wider mb-3" style="color: var(--color-primary);">
+            ¿A quién aplica?
+          </p>
+          <div class="space-y-3">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md flex items-center justify-center text-xs"
+                style="background: var(--color-surface-high);">
+                {d.aplica_asalariados ? "✓" : "✗"}
+              </span>
+              <span class="text-sm" style="color: var(--color-on-surface);">Asalariados</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md flex items-center justify-center text-xs"
+                style="background: var(--color-surface-high);">
+                {d.aplica_autonomos ? "✓" : "✗"}
+              </span>
+              <span class="text-sm" style="color: var(--color-on-surface);">Autónomos</span>
+            </div>
+          </div>
+          {situacionLabels.length > 0 && (
+            <div class="mt-4 pt-3" style="border-top: 1px solid var(--color-outline-variant);">
+              <p class="text-xs mb-2" style="color: var(--color-on-surface-variant);">Situaciones relacionadas:</p>
+              <div class="flex flex-wrap gap-1.5">
+                {situacionLabels.map((label) => (
+                  <span class="text-[11px] px-2 py-0.5 rounded-full" style="background: var(--color-surface-high); color: var(--color-on-surface-variant);">
+                    {label}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <!-- Full AEAT content — collapsible -->
+      <details class="card mb-8 group" open>
+        <summary class="flex items-center justify-between cursor-pointer list-none px-6 py-4" style="color: var(--color-primary);">
+          <div class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <span class="text-sm font-semibold">Información completa AEAT</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <article class="prose-civic px-6 pb-6 pt-2">
+          <Fragment set:html={contentHtml} />
+        </article>
+      </details>
+
+      <!-- Footer links -->
+      <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+        <a
+          href={d.url_oficial}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-text !text-sm"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+          Ver fuente oficial AEAT ↗
+        </a>
+        <div class="flex gap-3">
+          <a href="/asistente" class="btn-primary !py-2 !px-4 !text-sm">
+            Descubrir más deducciones
+          </a>
+          <a href="/explorador" class="btn-text !text-sm">
+            ← Volver al explorador
+          </a>
+        </div>
+      </div>
+
+    <!-- Sticky back bar — shown when user came from /asistente -->
+    <div id="sticky-back" class="hidden fixed bottom-0 left-0 right-0 z-50" style="pointer-events: none;">
+      <div class="max-w-4xl mx-auto px-5 sm:px-8 pb-5" style="pointer-events: auto;">
+        <button
+          id="sticky-back-btn"
+          class="w-full flex items-center justify-center gap-2 py-3.5 px-6 text-sm font-semibold transition-all"
+          style="background: var(--color-primary); color: var(--color-on-primary); border-radius: var(--radius-pill); box-shadow: 0 4px 24px rgba(0,0,0,0.18); border: none; cursor: pointer;"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+          Volver a mi cálculo
+        </button>
+      </div>
+    </div>
+    </div>
+  </div>
+</Base>
+
+<script is:inline>
+  // Show sticky "back to calculation" button if user came from /asistente
+  (function() {
+    var ref = document.referrer;
+    var bar = document.getElementById('sticky-back');
+    var btn = document.getElementById('sticky-back-btn');
+    if (bar && btn && ref && ref.indexOf('/asistente') !== -1) {
+      bar.classList.remove('hidden');
+      btn.addEventListener('click', function() {
+        history.back();
+      });
+    }
+  })();
+</script>

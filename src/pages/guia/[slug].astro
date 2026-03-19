@@ -1,0 +1,289 @@
+---
+import Base from "../../layouts/Base.astro";
+import { marked } from "marked";
+import guias from "../../../data/guias.json";
+import { getDeduccionesByCategoria } from "../../lib/data";
+import { cleanName } from "../../lib/types";
+
+export function getStaticPaths() {
+  return guias.map((guia) => ({
+    params: { slug: guia.slug },
+    props: { guia },
+  }));
+}
+
+const { guia } = Astro.props;
+const contentHtml = await marked.parse(guia.contenido_md);
+
+// Deducciones relacionadas por categoría
+const relacionadas = guia.categorias_deducciones
+  .flatMap((cat: string) => getDeduccionesByCategoria(cat))
+  .slice(0, 6);
+
+// Índice de la guía dentro del array
+const guiaIndex = guias.findIndex((g) => g.slug === guia.slug);
+const guiaAnterior = guiaIndex > 0 ? guias[guiaIndex - 1] : null;
+const guiaSiguiente = guiaIndex < guias.length - 1 ? guias[guiaIndex + 1] : null;
+---
+
+<Base
+  title={`${guia.titulo} — Guía IRPF 2025`}
+  description={`${guia.resumen} ${guia.subtitulo}. Manual Práctico IRPF 2025 de la Agencia Tributaria.`}
+  ogImage={`/api/og?title=${encodeURIComponent(guia.titulo)}&badge=Gu%C3%ADa+IRPF`}
+>
+  <!-- Hero de la guía -->
+  <section style="background: var(--color-surface); padding: 3rem 0 2rem;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem;">
+      <!-- Breadcrumb -->
+      <nav
+        style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 2rem; font-size: 0.875rem; color: var(--color-on-surface-variant);"
+        aria-label="Ruta de navegación"
+      >
+        <a href="/" style="color: var(--color-primary); text-decoration: none;">Inicio</a>
+        <span style="opacity: 0.4;">›</span>
+        <a href="/guia" style="color: var(--color-primary); text-decoration: none;">Guía IRPF</a>
+        <span style="opacity: 0.4;">›</span>
+        <span>{guia.titulo}</span>
+      </nav>
+
+      <div style="display: flex; align-items: flex-start; gap: 1.5rem; margin-bottom: 1.5rem;">
+        <div
+          style="font-size: 3rem; width: 5rem; height: 5rem; background: var(--color-surface-high); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; flex-shrink: 0;"
+          aria-hidden="true"
+        >
+          {guia.icono}
+        </div>
+        <div>
+          <div
+            style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-on-surface-variant); margin-bottom: 0.5rem;"
+          >
+            {guia.capitulo}
+          </div>
+          <h1
+            style="font-size: clamp(1.75rem, 3.5vw, 2.5rem); font-weight: 800; color: var(--color-on-surface); line-height: 1.15; margin-bottom: 0.5rem; letter-spacing: -0.02em;"
+          >
+            {guia.titulo}
+          </h1>
+          <p
+            style="font-size: 1rem; color: var(--color-on-surface-variant); margin: 0;"
+          >
+            {guia.subtitulo}
+          </p>
+        </div>
+      </div>
+
+      <!-- Resumen -->
+      <div
+        class="card-inset"
+        style="padding: 1.25rem 1.5rem; max-width: 780px;"
+      >
+        <p style="margin: 0; font-size: 0.975rem; color: var(--color-on-surface); line-height: 1.65;">
+          {guia.resumen}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contenido principal + sidebar -->
+  <section style="background: var(--color-surface-high); padding: 3rem 0;">
+    <div
+      style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; display: grid; grid-template-columns: 1fr 320px; gap: 2rem; align-items: start;"
+    >
+      <!-- Artículo principal -->
+      <div>
+        <article class="card" style="padding: 0;">
+          <div class="prose-civic" set:html={contentHtml} style="padding: 2rem;" />
+        </article>
+
+        <!-- Enlace a fuente oficial -->
+        <div
+          class="card-inset"
+          style="margin-top: 1.5rem; padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;"
+        >
+          <div>
+            <div
+              style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; letter-spacing: 0.06em; color: var(--color-on-surface-variant); margin-bottom: 0.25rem;"
+            >
+              Fuente oficial
+            </div>
+            <p style="margin: 0; font-size: 0.875rem; color: var(--color-on-surface);">
+              Manual Práctico IRPF 2025 — Agencia Tributaria
+            </p>
+          </div>
+          <a
+            href={guia.url_oficial}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-text"
+            style="font-size: 0.85rem; flex-shrink: 0;"
+          >
+            Ver en AEAT →
+          </a>
+        </div>
+      </div>
+
+      <!-- Sidebar con puntos clave y navegación -->
+      <aside style="position: sticky; top: 5.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
+        <!-- Puntos clave -->
+        <div class="card" style="padding: 1.5rem;">
+          <h2
+            style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; letter-spacing: 0.08em; color: var(--color-on-surface-variant); margin-bottom: 1.25rem;"
+          >
+            Puntos clave
+          </h2>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
+            {guia.puntos_clave.map((punto: string) => (
+              <li
+                class="card-keyfact"
+                style="padding-left: 1rem; font-size: 0.875rem; color: var(--color-on-surface); line-height: 1.45;"
+              >
+                {punto}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Usar el asistente -->
+        <div
+          class="card"
+          style="padding: 1.5rem; background: var(--color-primary); color: white; text-align: center;"
+        >
+          <div style="font-size: 1.75rem; margin-bottom: 0.75rem;">🤖</div>
+          <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem; color: white;">
+            ¿Te afecta este capítulo?
+          </h3>
+          <p style="font-size: 0.82rem; opacity: 0.85; margin-bottom: 1.25rem; line-height: 1.4;">
+            El asistente te dice qué deducciones aplican a tu situación.
+          </p>
+          <a
+            href="/asistente"
+            style="display: block; background: var(--color-secondary-container); color: var(--color-on-secondary-container); font-weight: 700; font-size: 0.85rem; padding: 0.65rem 1.25rem; border-radius: 9999px; text-decoration: none;"
+          >
+            Calcular mi situación →
+          </a>
+        </div>
+
+        <!-- Todas las guías -->
+        <div class="card" style="padding: 1.5rem;">
+          <h2
+            style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; letter-spacing: 0.08em; color: var(--color-on-surface-variant); margin-bottom: 1rem;"
+          >
+            Otras guías
+          </h2>
+          <nav style="display: flex; flex-direction: column; gap: 0.5rem;">
+            {guias.map((g) => (
+              <a
+                href={`/guia/${g.slug}`}
+                style={`display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.75rem; border-radius: var(--radius-md); font-size: 0.85rem; text-decoration: none; transition: background 0.1s; ${g.slug === guia.slug ? 'background: var(--color-surface-high); font-weight: 700; color: var(--color-primary);' : 'color: var(--color-on-surface-variant);'}`}
+              >
+                <span>{g.icono}</span>
+                <span style="line-height: 1.3;">{g.titulo}</span>
+              </a>
+            ))}
+          </nav>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Deducciones relacionadas -->
+  {relacionadas.length > 0 && (
+    <section style="background: var(--color-surface); padding: 3rem 0;">
+      <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem;">
+        <h2
+          style="font-size: 1.25rem; font-weight: 700; color: var(--color-on-surface); margin-bottom: 0.5rem;"
+        >
+          Deducciones relacionadas
+        </h2>
+        <p
+          style="color: var(--color-on-surface-variant); font-size: 0.9rem; margin-bottom: 2rem;"
+        >
+          Deducciones del IRPF 2025 vinculadas a este capítulo de la guía.
+        </p>
+        <div
+          style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;"
+        >
+          {relacionadas.map((d: any) => (
+            <a
+              href={`/deduccion/${d.id}`}
+              class="card"
+              style="text-decoration: none; padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; transition: transform 0.15s;"
+              onmouseover="this.style.transform='translateY(-2px)'"
+              onmouseout="this.style.transform=''"
+            >
+              <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+                <span
+                  style={`font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 9999px; ${d.tipo === 'estatal' ? 'background: var(--color-surface-high); color: var(--color-primary);' : 'background: var(--color-secondary-fixed); color: var(--color-on-secondary-container);'}`}
+                >
+                  {d.tipo === 'estatal' ? 'Estatal' : d.comunidad}
+                </span>
+                {d.novedad_2025 && (
+                  <span
+                    style="font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 9999px; background: var(--color-primary); color: white;"
+                  >
+                    Novedad 2025
+                  </span>
+                )}
+              </div>
+              <h3
+                style="font-size: 0.9rem; font-weight: 600; color: var(--color-on-surface); margin: 0; line-height: 1.35;"
+              >
+                {cleanName(d.nombre).slice(0, 70)}{cleanName(d.nombre).length > 70 ? '…' : ''}
+              </h3>
+              <span
+                style="font-size: 0.8rem; color: var(--color-primary); font-weight: 600; margin-top: auto;"
+              >
+                Ver deducción →
+              </span>
+            </a>
+          ))}
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+          <a
+            href={`/explorador?categoria=${guia.categorias_deducciones[0]}`}
+            class="btn-gold"
+            style="font-size: 0.9rem;"
+          >
+            Ver todas las deducciones →
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Navegación entre guías -->
+  <section style="background: var(--color-surface-high); padding: 2rem 0;">
+    <div
+      style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;"
+    >
+      {guiaAnterior ? (
+        <a
+          href={`/guia/${guiaAnterior.slug}`}
+          class="card"
+          style="text-decoration: none; padding: 1.25rem; display: flex; align-items: center; gap: 1rem;"
+        >
+          <span style="font-size: 1.25rem; color: var(--color-on-surface-variant);">←</span>
+          <div>
+            <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 700; letter-spacing: 0.06em; color: var(--color-on-surface-variant); margin-bottom: 0.25rem;">Anterior</div>
+            <div style="font-size: 0.9rem; font-weight: 600; color: var(--color-primary);">{guiaAnterior.icono} {guiaAnterior.titulo}</div>
+          </div>
+        </a>
+      ) : <div />}
+
+      {guiaSiguiente ? (
+        <a
+          href={`/guia/${guiaSiguiente.slug}`}
+          class="card"
+          style="text-decoration: none; padding: 1.25rem; display: flex; align-items: center; justify-content: flex-end; gap: 1rem; text-align: right;"
+        >
+          <div>
+            <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 700; letter-spacing: 0.06em; color: var(--color-on-surface-variant); margin-bottom: 0.25rem;">Siguiente</div>
+            <div style="font-size: 0.9rem; font-weight: 600; color: var(--color-primary);">{guiaSiguiente.icono} {guiaSiguiente.titulo}</div>
+          </div>
+          <span style="font-size: 1.25rem; color: var(--color-on-surface-variant);">→</span>
+        </a>
+      ) : <div />}
+    </div>
+  </section>
+</Base>

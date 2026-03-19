@@ -1,0 +1,195 @@
+---
+import Base from "../../layouts/Base.astro";
+import guias from "../../../data/guias.json";
+---
+
+<Base
+  title="Guía IRPF 2025 — Renta explicada paso a paso"
+  description="Guías completas sobre el IRPF 2025: quién declara, plazos, rendimientos del trabajo, alquiler, inversiones, autónomos y más. Basadas en el Manual Práctico de la AEAT."
+  ogImage="/api/og?title=Gu%C3%ADa+IRPF+2025&subtitle=Renta+explicada+paso+a+paso"
+>
+  <!-- Hero -->
+  <section
+    style="background: var(--color-surface); padding: 4rem 0 3rem;"
+  >
+    <div
+      style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem;"
+    >
+      <!-- Breadcrumb -->
+      <nav
+        style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 2rem; font-size: 0.875rem; color: var(--color-on-surface-variant);"
+        aria-label="Ruta de navegación"
+      >
+        <a href="/" style="color: var(--color-primary); text-decoration: none;">Inicio</a>
+        <span style="opacity: 0.4;">›</span>
+        <span>Guía IRPF</span>
+      </nav>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+        <div>
+          <div
+            style="display: inline-block; background: var(--color-secondary-fixed); color: var(--color-on-secondary-container); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.9rem; border-radius: 9999px; margin-bottom: 1.25rem;"
+          >
+            Manual Práctico IRPF 2025
+          </div>
+          <h1
+            style="font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 800; color: var(--color-on-surface); line-height: 1.15; margin-bottom: 1.25rem; letter-spacing: -0.02em;"
+          >
+            Guía completa del<br />
+            <span style="color: var(--color-primary);">IRPF 2025</span>
+          </h1>
+          <p
+            style="font-size: 1.125rem; color: var(--color-on-surface-variant); line-height: 1.6; max-width: 48ch; margin-bottom: 2rem;"
+          >
+            Todos los conceptos clave explicados en lenguaje humano.
+            Basadas en el Manual Práctico oficial de la Agencia Tributaria.
+          </p>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <a href="/asistente" class="btn-primary" style="font-size: 0.9rem; padding: 0.65rem 1.5rem;">
+              🤖 Usar el asistente
+            </a>
+            <a href="/explorador" class="btn-gold" style="font-size: 0.9rem; padding: 0.65rem 1.5rem;">
+              🔍 Ver deducciones
+            </a>
+          </div>
+        </div>
+
+        <!-- Stat cards -->
+        <div
+          style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;"
+        >
+          <div class="card" style="padding: 1.5rem; text-align: center;">
+            <div style="font-size: 2rem; font-weight: 800; color: var(--color-primary);">8</div>
+            <div style="font-size: 0.8rem; color: var(--color-on-surface-variant); margin-top: 0.25rem;">guías temáticas</div>
+          </div>
+          <div class="card" style="padding: 1.5rem; text-align: center;">
+            <div style="font-size: 2rem; font-weight: 800; color: var(--color-primary);">375</div>
+            <div style="font-size: 0.8rem; color: var(--color-on-surface-variant); margin-top: 0.25rem;">deducciones catalogadas</div>
+          </div>
+          <div class="card" style="padding: 1.5rem; text-align: center;">
+            <div style="font-size: 2rem; font-weight: 800; color: var(--color-primary);">19</div>
+            <div style="font-size: 0.8rem; color: var(--color-on-surface-variant); margin-top: 0.25rem;">comunidades autónomas</div>
+          </div>
+          <div class="card" style="padding: 1.5rem; text-align: center;">
+            <div style="font-size: 2rem; font-weight: 800; color: var(--color-secondary-container); filter: brightness(0.85);">2025</div>
+            <div style="font-size: 0.8rem; color: var(--color-on-surface-variant); margin-top: 0.25rem;">ejercicio fiscal</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Guías grid -->
+  <section style="background: var(--color-surface-high); padding: 4rem 0;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem;">
+      <h2
+        style="font-size: 1.5rem; font-weight: 700; color: var(--color-on-surface); margin-bottom: 0.5rem;"
+      >
+        Capítulos de la guía
+      </h2>
+      <p
+        style="color: var(--color-on-surface-variant); margin-bottom: 2.5rem; font-size: 0.95rem;"
+      >
+        Cada capítulo explica un bloque fiscal con referencias al manual oficial de la AEAT.
+      </p>
+
+      <div
+        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.25rem;"
+      >
+        {guias.map((guia) => (
+          <a
+            href={`/guia/${guia.slug}`}
+            class="card"
+            style="text-decoration: none; display: flex; flex-direction: column; gap: 1rem; transition: transform 0.15s, box-shadow 0.15s; cursor: pointer;"
+            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-modal)'"
+            onmouseout="this.style.transform=''; this.style.boxShadow=''"
+          >
+            <div style="display: flex; align-items: flex-start; gap: 1rem;">
+              <div
+                style="font-size: 2rem; flex-shrink: 0; width: 3rem; height: 3rem; background: var(--color-surface-high); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;"
+              >
+                {guia.icono}
+              </div>
+              <div style="flex: 1; min-width: 0;">
+                <div
+                  style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-on-surface-variant); margin-bottom: 0.35rem;"
+                >
+                  {guia.capitulo}
+                </div>
+                <h3
+                  style="font-size: 1.05rem; font-weight: 700; color: var(--color-primary); margin: 0 0 0.35rem; line-height: 1.25;"
+                >
+                  {guia.titulo}
+                </h3>
+                <p
+                  style="font-size: 0.85rem; color: var(--color-on-surface-variant); margin: 0; line-height: 1.4;"
+                >
+                  {guia.subtitulo}
+                </p>
+              </div>
+            </div>
+
+            <p
+              style="font-size: 0.88rem; color: var(--color-on-surface); line-height: 1.55; margin: 0; padding-top: 0.5rem;"
+              style="border-top: 1px solid var(--color-outline-variant);"
+            >
+              {guia.resumen}
+            </p>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto;">
+              <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+                {guia.puntos_clave.slice(0, 2).map((punto) => (
+                  <span
+                    style="font-size: 0.7rem; background: var(--color-surface-high); color: var(--color-on-surface-variant); padding: 0.2rem 0.6rem; border-radius: 9999px;"
+                  >
+                    {punto.length > 40 ? punto.slice(0, 40) + "…" : punto}
+                  </span>
+                ))}
+              </div>
+              <span
+                style="font-size: 0.8rem; font-weight: 600; color: var(--color-primary); flex-shrink: 0; margin-left: 0.5rem;"
+              >
+                Leer →
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA oficial -->
+  <section style="background: var(--color-surface); padding: 3rem 0;">
+    <div
+      style="max-width: 900px; margin: 0 auto; padding: 0 1.5rem; text-align: center;"
+    >
+      <div class="card-inset" style="padding: 2rem;">
+        <p
+          style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; color: var(--color-on-surface-variant); margin-bottom: 0.75rem;"
+        >
+          Fuente oficial
+        </p>
+        <h2
+          style="font-size: 1.35rem; font-weight: 700; color: var(--color-on-surface); margin-bottom: 0.75rem;"
+        >
+          Manual Práctico IRPF 2025 — Agencia Tributaria
+        </h2>
+        <p
+          style="color: var(--color-on-surface-variant); font-size: 0.9rem; margin-bottom: 1.5rem; max-width: 55ch; margin-left: auto; margin-right: auto; margin-bottom: 1.5rem;"
+        >
+          Todo el contenido de esta guía se basa en el Manual Práctico oficial.
+          Para consultas técnicas o casos complejos, accede directamente a la fuente.
+        </p>
+        <a
+          href="https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-text"
+          style="font-size: 0.9rem;"
+        >
+          Ver manual completo en AEAT →
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,163 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  canonical?: string;
+}
+
+const {
+  title,
+  description = "Descubre todas las deducciones del IRPF 2025 en segundos. Asistente interactivo + explorador con las 375 deducciones estatales y autonómicas.",
+  ogImage = "/api/og?title=Tu+gu%C3%ADa+completa+del+IRPF",
+  canonical,
+} = Astro.props;
+
+const siteUrl = "https://larenta.es";
+const pageUrl = canonical || new URL(Astro.url.pathname, siteUrl).href;
+const fullTitle = title === "larenta.es" ? title + " — Tu guía completa del IRPF 2025" : `${title} | larenta.es`;
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- SEO -->
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={pageUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(ogImage, siteUrl).href} />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content="larenta.es" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(ogImage, siteUrl).href} />
+
+    <!-- Fonts: Public Sans (The Civic Ledger) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <style is:global>
+      @import "../styles/global.css";
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col" style="background: var(--color-surface);">
+
+    <!-- Nav glassmorphic -->
+    <header class="sticky top-0 z-50 glass" style="box-shadow: 0 1px 0 var(--color-outline-variant);">
+      <nav class="max-w-6xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+        <!-- Logo -->
+        <a href="/" class="group" aria-label="larenta.es - Inicio">
+          <span class="text-xl font-extrabold tracking-tight" style="color: var(--color-primary); letter-spacing: -0.04ch;">
+            LARENTA<span style="color: var(--color-secondary); font-weight: 800;">.ES</span>
+          </span>
+        </a>
+
+        <!-- Links de navegación -->
+        <div class="flex items-center gap-1">
+          <a
+            href="/guia"
+            class:list={["px-3 sm:px-4 py-2 text-sm font-medium rounded-xl transition-colors", 
+              currentPath.startsWith('/guia') ? "text-[var(--color-primary)] bg-[var(--color-surface-high)]" : "text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] hover:bg-[var(--color-surface-high)]"
+            ]}
+          >
+            Guía IRPF
+          </a>
+          <a
+            href="/asistente"
+            class:list={["px-3 sm:px-4 py-2 text-sm font-medium rounded-xl transition-colors",
+              currentPath === '/asistente' ? "text-[var(--color-primary)] bg-[var(--color-surface-high)]" : "text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] hover:bg-[var(--color-surface-high)]"
+            ]}
+          >
+            Asistente
+          </a>
+          <a
+            href="/explorador"
+            class:list={["px-3 sm:px-4 py-2 text-sm font-medium rounded-xl transition-colors",
+              currentPath === '/explorador' ? "text-[var(--color-primary)] bg-[var(--color-surface-high)]" : "text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] hover:bg-[var(--color-surface-high)]"
+            ]}
+          >
+            Deducciones
+          </a>
+          <a
+            href="/asistente"
+            class="btn-primary ml-2 !py-2 !px-4 !text-sm hidden sm:inline-flex"
+          >
+            Calcular mi renta
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: var(--color-on-surface); color: var(--color-surface);">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8 py-14">
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-10">
+          <!-- Marca -->
+          <div class="sm:col-span-2">
+            <span class="text-xl font-extrabold tracking-tight" style="color: #ffffff; letter-spacing: -0.04ch;">
+              LARENTA<span style="color: var(--color-secondary-container); font-weight: 800;">.ES</span>
+            </span>
+            <p class="mt-3 text-sm max-w-xs leading-relaxed" style="color: rgba(246,250,255,0.6);">
+              Tu guía completa del IRPF 2025. Deducciones estatales y autonómicas explicadas de forma clara, con datos oficiales de la AEAT.
+            </p>
+          </div>
+
+          <!-- Herramientas -->
+          <div>
+            <h4 class="text-sm font-semibold mb-4" style="color: rgba(246,250,255,0.9);">Herramientas</h4>
+            <ul class="space-y-2.5 text-sm" style="color: rgba(246,250,255,0.54);">
+              <li><a href="/asistente" class="hover:text-white transition-colors">Asistente interactivo</a></li>
+              <li><a href="/explorador" class="hover:text-white transition-colors">Explorador de deducciones</a></li>
+              <li><a href="/guia" class="hover:text-white transition-colors">Guía IRPF 2025</a></li>
+            </ul>
+          </div>
+
+          <!-- Legal -->
+          <div>
+            <h4 class="text-sm font-semibold mb-4" style="color: rgba(246,250,255,0.9);">Fuentes y legal</h4>
+            <ul class="space-y-2.5 text-sm" style="color: rgba(246,250,255,0.54);">
+              <li>
+                <a href="https://sede.agenciatributaria.gob.es" target="_blank" rel="noopener noreferrer"
+                  class="hover:text-white transition-colors">
+                  AEAT — Agencia Tributaria ↗
+                </a>
+              </li>
+              <li class="text-xs pt-1 leading-relaxed" style="color: rgba(246,250,255,0.38);">
+                Información orientativa. No constituye asesoramiento fiscal. Consulta siempre con un profesional.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Bottom bar -->
+        <div class="mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs"
+          style="border-top: 1px solid rgba(246,250,255,0.1); color: rgba(246,250,255,0.38);">
+          <span>© {new Date().getFullYear()} larenta.es</span>
+          <span>Datos del Manual de la Renta 2025 — AEAT</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

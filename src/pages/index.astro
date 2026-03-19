@@ -1,0 +1,349 @@
+---
+import Base from "../layouts/Base.astro";
+import { getStats } from "../lib/data";
+import { CCAA_MAP, CATEGORIA_LABELS, CATEGORIA_COLORS } from "../lib/types";
+
+const stats = getStats();
+---
+
+<Base title="larenta.es" ogImage="/api/og?title=Descubre+todas+las+deducciones+del+IRPF&subtitle=375+deducciones+estatales+y+auton%C3%B3micas+explicadas+de+forma+clara">
+
+  <!-- ═══════════════════════════════════════════════
+       HERO — Diseño editorial asimétrico
+       Fondo: surface (#f6faff) + orbe azul sutil
+  ═══════════════════════════════════════════════ -->
+  <section class="relative overflow-hidden" style="background: var(--color-surface);">
+    <!-- Orbe de fondo (textura, no decoración plana) -->
+    <div class="absolute top-0 right-0 w-[700px] h-[700px] rounded-full pointer-events-none"
+      style="background: radial-gradient(circle, rgba(0,71,139,0.07) 0%, transparent 70%); transform: translate(30%, -30%);"></div>
+
+    <div class="max-w-6xl mx-auto px-5 sm:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 py-20 sm:py-28 items-center">
+        <!-- Columna izquierda: texto editorial -->
+        <div class="lg:pr-8">
+          <!-- Pill de novedad -->
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-sm font-semibold mb-8"
+            style="background: var(--color-surface-high); color: var(--color-on-surface-variant);">
+            <span class="w-2 h-2 rounded-full animate-pulse" style="background: var(--color-success);"></span>
+            Campaña IRPF 2025 · Actualizado
+          </div>
+
+          <!-- Título con margin asimétrico (editorial) -->
+          <h1 class="text-5xl sm:text-6xl font-extrabold leading-[1.05]"
+            style="color: var(--color-on-surface); letter-spacing: -0.02ch; margin-left: -2px;">
+            Tu guía completa<br />
+            <span style="color: var(--color-primary);">del IRPF 2025</span>
+          </h1>
+
+          <p class="mt-6 text-xl leading-relaxed" style="color: var(--color-on-surface-variant); max-width: 42ch;">
+            <strong style="color: var(--color-on-surface);">{stats.total_deducciones} deducciones</strong> estatales
+            y autonómicas explicadas en español claro. Responde unas preguntas y descubre exactamente
+            cuánto puedes ahorrarte.
+          </p>
+
+          <!-- CTAs: pill-shaped con gradient -->
+          <div class="mt-10 flex flex-col sm:flex-row gap-3">
+            <a href="/asistente" class="btn-primary text-base">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              </svg>
+              Descubrir mis deducciones
+            </a>
+            <a href="/guia" class="btn-gold text-base">
+              Leer la guía IRPF →
+            </a>
+          </div>
+
+          <!-- Social proof -->
+          <p class="mt-5 text-sm" style="color: var(--color-on-surface-variant);">
+            Gratis · Sin registro · Fuente oficial AEAT
+          </p>
+        </div>
+
+        <!-- Columna derecha: tarjetas flotantes (tonal layering) -->
+        <div class="relative lg:pl-4 flex flex-col gap-4">
+          <!-- Tarjeta stat principal -->
+          <div class="card card-keyfact">
+            <div class="text-5xl font-extrabold" style="color: var(--color-primary); letter-spacing: -0.03ch;">
+              {stats.total_deducciones}
+            </div>
+            <div class="mt-1 text-base font-medium" style="color: var(--color-on-surface-variant);">
+              Deducciones disponibles
+            </div>
+            <div class="mt-4 progress-track">
+              <div class="progress-fill" style="width: 100%;"></div>
+            </div>
+            <div class="mt-3 flex justify-between text-xs" style="color: var(--color-on-surface-variant);">
+              <span>{stats.total_ccaa} comunidades</span>
+              <span>{stats.total_alta_relevancia} de alta relevancia</span>
+            </div>
+          </div>
+
+          <!-- Stats en fila -->
+          <div class="grid grid-cols-3 gap-3">
+            <div class="card-inset text-center">
+              <div class="text-2xl font-extrabold" style="color: var(--color-primary);">{stats.total_ccaa}</div>
+              <div class="text-xs mt-1" style="color: var(--color-on-surface-variant);">CC.AA.</div>
+            </div>
+            <div class="card-inset text-center">
+              <div class="text-2xl font-extrabold" style="color: var(--color-secondary-container); -webkit-text-stroke: 1px var(--color-on-secondary-container);">
+                {stats.novedades_2025}
+              </div>
+              <div class="text-xs mt-1" style="color: var(--color-on-surface-variant);">Novedades 2025</div>
+            </div>
+            <div class="card-inset text-center">
+              <div class="text-2xl font-extrabold" style="color: var(--color-success);">{stats.total_alta_relevancia}</div>
+              <div class="text-xs mt-1" style="color: var(--color-on-surface-variant);">Alta relevancia</div>
+            </div>
+          </div>
+
+          <!-- Mini card informativa -->
+          <div class="card-inset flex items-start gap-3">
+            <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+              style="background: var(--color-secondary-container);">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="color: var(--color-on-secondary-container);">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div>
+              <div class="text-sm font-semibold" style="color: var(--color-on-surface);">Información oficial</div>
+              <div class="text-xs mt-0.5" style="color: var(--color-on-surface-variant);">
+                Datos extraídos del Manual de la Renta 2025 de la AEAT
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       HERRAMIENTAS — Cómo funciona
+       Surface shift sin bordes
+  ═══════════════════════════════════════════════ -->
+  <section style="background: var(--color-surface-high); padding: 5.5rem 0;">
+    <div class="max-w-6xl mx-auto px-5 sm:px-8">
+      <!-- Título asimétrico (no centrado) -->
+      <div class="ml-0 lg:ml-10 mb-14">
+        <p class="text-sm font-semibold uppercase tracking-widest mb-2" style="color: var(--color-primary);">
+          Herramientas
+        </p>
+        <h2 class="text-4xl font-extrabold" style="color: var(--color-on-surface); letter-spacing: -0.02ch;">
+          Dos formas de encontrar<br class="hidden sm:block" /> lo que te corresponde
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Card Asistente -->
+        <a href="/asistente" class="card group transition-all hover:-translate-y-1"
+          style="box-shadow: var(--shadow-float);">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6"
+            style="background: linear-gradient(135deg, var(--color-primary), var(--color-primary-container));">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2" style="color: var(--color-on-surface);">
+            Asistente interactivo
+          </h3>
+          <p class="leading-relaxed" style="color: var(--color-on-surface-variant);">
+            Responde 5 preguntas sobre tu situación: CCAA, trabajo, familia, vivienda e inversiones.
+            Recibes las deducciones que realmente te corresponden, ordenadas por impacto.
+          </p>
+          <div class="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold"
+            style="color: var(--color-primary);">
+            Empezar ahora
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </div>
+        </a>
+
+        <!-- Card Explorador -->
+        <a href="/explorador" class="card group transition-all hover:-translate-y-1"
+          style="box-shadow: var(--shadow-float);">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6"
+            style="background: var(--color-secondary-container);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color: var(--color-on-secondary-container);">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2" style="color: var(--color-on-surface);">
+            Explorador de deducciones
+          </h3>
+          <p class="leading-relaxed" style="color: var(--color-on-surface-variant);">
+            Filtra las {stats.total_deducciones} deducciones por comunidad autónoma, categoría o relevancia.
+            Busca por texto y accede a la ficha completa con todos los requisitos.
+          </p>
+          <div class="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold"
+            style="color: var(--color-on-secondary-container);">
+            Explorar todas
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       GUÍA IRPF — Hub de contenido
+       Fondo: surface (más claro que la sección anterior)
+  ═══════════════════════════════════════════════ -->
+  <section style="background: var(--color-surface); padding: 5.5rem 0;">
+    <div class="max-w-6xl mx-auto px-5 sm:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+        <!-- Texto editorial -->
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-widest mb-3" style="color: var(--color-primary);">
+            Guía IRPF 2025
+          </p>
+          <h2 class="text-4xl font-extrabold" style="color: var(--color-on-surface); letter-spacing: -0.02ch;">
+            Todo lo que necesitas<br />saber, explicado claro
+          </h2>
+          <p class="mt-5 text-lg leading-relaxed" style="color: var(--color-on-surface-variant);">
+            Desde la obligación de declarar hasta las ganancias patrimoniales. Guías detalladas
+            basadas en el Manual oficial de la Renta 2025 de la AEAT.
+          </p>
+          <a href="/guia" class="btn-primary mt-8 inline-flex">
+            Ver guía completa
+          </a>
+        </div>
+
+        <!-- Grid de temas (tonal layering, sin bordes) -->
+        <div class="grid grid-cols-2 gap-3">
+          {[
+            { icon: "📋", titulo: "Obligación de declarar", slug: "obligacion" },
+            { icon: "📅", titulo: "Plazos y novedades 2025", slug: "plazos" },
+            { icon: "💼", titulo: "Rendimientos del trabajo", slug: "trabajo" },
+            { icon: "🏠", titulo: "Vivienda y alquiler", slug: "alquiler" },
+            { icon: "📈", titulo: "Inversiones y ganancias", slug: "inversiones" },
+            { icon: "👨‍👩‍👧", titulo: "Familia y mínimo personal", slug: "familia" },
+            { icon: "🧾", titulo: "Autónomos y actividades", slug: "autonomos" },
+            { icon: "⚡", titulo: "Reducciones en base", slug: "base-liquidable" },
+          ].map(({ icon, titulo, slug }) => (
+            <a
+              href={`/guia/${slug}`}
+              class="card-inset group flex items-start gap-3 transition-all hover:-translate-y-0.5"
+              style="cursor: pointer;"
+            >
+              <span class="text-2xl">{icon}</span>
+              <div>
+                <div class="text-sm font-semibold" style="color: var(--color-on-surface);">{titulo}</div>
+                <div class="text-xs mt-0.5 inline-flex items-center gap-0.5 transition-transform group-hover:translate-x-0.5"
+                  style="color: var(--color-primary);">
+                  Leer →
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       CATEGORÍAS — Grid de categorías
+  ═══════════════════════════════════════════════ -->
+  <section style="background: var(--color-surface-high); padding: 5.5rem 0;">
+    <div class="max-w-6xl mx-auto px-5 sm:px-8">
+      <div class="mb-12 ml-0 lg:ml-10">
+        <p class="text-sm font-semibold uppercase tracking-widest mb-2" style="color: var(--color-primary);">
+          Categorías
+        </p>
+        <h2 class="text-4xl font-extrabold" style="color: var(--color-on-surface); letter-spacing: -0.02ch;">
+          Todas las situaciones<br class="hidden sm:block" /> que puedes deducir
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        {Object.entries(stats.categorias).map(([cat, count]) => (
+          <a
+            href={`/explorador?categoria=${cat}`}
+            class="card group transition-all hover:-translate-y-1"
+            style="padding: 1.5rem; box-shadow: none;"
+          >
+            <div class="flex items-start justify-between">
+              <span class={`badge ${CATEGORIA_COLORS[cat] || "badge-otros"}`}>
+                {CATEGORIA_LABELS[cat] || cat}
+              </span>
+              <span class="text-3xl font-extrabold" style="color: var(--color-primary); letter-spacing: -0.03ch;">
+                {count}
+              </span>
+            </div>
+            <div class="mt-3 text-xs" style="color: var(--color-on-surface-variant);">
+              deducciones disponibles
+            </div>
+            <!-- Accent bar at bottom -->
+            <div class="mt-3 h-1.5 rounded-full" style="background: var(--color-surface-high);"></div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       COMUNIDADES AUTÓNOMAS
+  ═══════════════════════════════════════════════ -->
+  <section style="background: var(--color-surface); padding: 5.5rem 0;">
+    <div class="max-w-6xl mx-auto px-5 sm:px-8">
+      <div class="mb-12">
+        <p class="text-sm font-semibold uppercase tracking-widest mb-2" style="color: var(--color-primary);">
+          Comunidades Autónomas
+        </p>
+        <h2 class="text-4xl font-extrabold" style="color: var(--color-on-surface); letter-spacing: -0.02ch;">
+          Cada CC.AA. tiene<br class="hidden sm:block" /> sus propias deducciones
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        {stats.ccaa_lista.map((ccaa) => (
+          <a
+            href={`/explorador?ccaa=${ccaa.codigo}`}
+            class="card-inset text-center group transition-all hover:-translate-y-0.5"
+          >
+            <div class="text-sm font-semibold leading-snug" style="color: var(--color-on-surface);">
+              {ccaa.nombre}
+            </div>
+            <div class="text-xs mt-1" style="color: var(--color-on-surface-variant);">
+              {ccaa.total} deducciones
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       CTA FINAL — Dark surface con gold accent
+  ═══════════════════════════════════════════════ -->
+  <section style="background: var(--color-on-surface); padding: 5.5rem 0;">
+    <div class="max-w-4xl mx-auto px-5 sm:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        <div>
+          <h2 class="text-4xl font-extrabold" style="color: #ffffff; letter-spacing: -0.02ch;">
+            No dejes dinero<br />sobre la mesa
+          </h2>
+          <p class="mt-4 text-lg leading-relaxed" style="color: rgba(246,250,255,0.6);">
+            Cientos de contribuyentes no aplican deducciones que les corresponden.
+            Descubre las tuyas en menos de 2 minutos.
+          </p>
+        </div>
+        <div class="flex flex-col gap-4">
+          <a href="/asistente" class="btn-primary text-base justify-center">
+            Calcular mis deducciones →
+          </a>
+          <a href="/guia" class="btn-gold text-base justify-center">
+            Leer la guía completa
+          </a>
+          <p class="text-center text-xs" style="color: rgba(246,250,255,0.38);">
+            Gratis · Sin registro · Datos oficiales AEAT 2025
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Base>
+

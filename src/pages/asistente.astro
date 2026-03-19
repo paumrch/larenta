@@ -1,0 +1,17 @@
+---
+import Base from "../layouts/Base.astro";
+import Wizard from "../components/Wizard";
+import { getWizardIndex } from "../lib/data";
+
+const deducciones = getWizardIndex();
+---
+
+<Base
+  title="Asistente de deducciones"
+  description="Responde unas preguntas y descubre qué deducciones del IRPF 2025 puedes aplicar según tu comunidad autónoma y situación personal."
+  ogImage="/api/og?title=Asistente+de+deducciones&subtitle=Descubre+qu%C3%A9+deducciones+puedes+aplicar+en+tu+declaraci%C3%B3n"
+>
+  <section class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+    <Wizard client:load deducciones={deducciones} />
+  </section>
+</Base>

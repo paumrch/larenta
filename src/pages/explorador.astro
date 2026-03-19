@@ -1,0 +1,25 @@
+---
+import Base from "../layouts/Base.astro";
+import Explorer from "../components/Explorer";
+import { getExplorerIndex } from "../lib/data";
+
+const deducciones = getExplorerIndex();
+---
+
+<Base
+  title="Explorador de deducciones"
+  description="Busca y filtra entre las 375 deducciones del IRPF 2025 por comunidad autónoma, categoría, relevancia y más."
+  ogImage="/api/og?title=Explorador+de+deducciones&subtitle=Busca+y+filtra+375+deducciones+del+IRPF&badge=375+deducciones"
+>
+  <section class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+    <div class="mb-6">
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-[var(--color-text-primary)] font-[var(--font-display)]">
+        Explorador de deducciones
+      </h1>
+      <p class="mt-2 text-[var(--color-text-secondary)]">
+        Busca entre las {deducciones.length} deducciones del IRPF 2025 disponibles
+      </p>
+    </div>
+    <Explorer client:load deducciones={deducciones} />
+  </section>
+</Base>
