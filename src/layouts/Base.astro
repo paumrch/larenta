@@ -13,7 +13,7 @@ const {
   canonical,
 } = Astro.props;
 
-const siteUrl = "https://larenta.es";
+const siteUrl = "https://www.larenta.es";
 const pageUrl = canonical || new URL(Astro.url.pathname, siteUrl).href;
 const fullTitle = title === "larenta.es" ? title + " — Tu guía completa del IRPF 2025" : `${title} | larenta.es`;
 const currentPath = Astro.url.pathname;

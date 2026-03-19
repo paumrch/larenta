@@ -5,7 +5,7 @@ import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel";
 
 export default defineConfig({
-  site: "https://larenta.es",
+  site: "https://www.larenta.es",
   output: "static",
   adapter: vercel(),
   integrations: [react(), sitemap()],
