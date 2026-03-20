@@ -6,3 +6,11 @@ dist/
 .env.*
 .vercel
 .env*.local
+
+# Documentación interna (local only)
+CHANGELOG_v2.md
+CHANGELOG_v2.txt
+SECURITY_AUDIT.md
+SEO_AUDIT.md
+og-redesign/
+.DS_Store
