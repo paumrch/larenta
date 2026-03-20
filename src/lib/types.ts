@@ -17,6 +17,8 @@ export interface Deduccion {
   base_maxima: string | null;
   limite_renta: string | null;
   novedad_2025: boolean;
+  edad_minima: number | null;
+  edad_maxima: number | null;
   url_oficial: string;
   contenido_md: string;
 }
@@ -38,6 +40,8 @@ export interface DeduccionIndex {
   base_maxima: string | null;
   limite_renta: string | null;
   novedad_2025: boolean;
+  edad_minima: number | null;
+  edad_maxima: number | null;
   url_oficial: string;
 }
 
