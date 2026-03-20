@@ -23,6 +23,7 @@ interface Answers {
   ccaa: string;
   laboral: "asalariado" | "autonomo" | "ambos" | "";
   situaciones: string[];
+  edad: string;
   alquiler: "si" | "no" | "";
   ganancias: "si" | "no" | "";
   datosEconomicos: Record<string, string>;
@@ -32,6 +33,7 @@ const STEPS = [
   { key: "ccaa",       title: "¿Dónde tributa tu IRPF?",             subtitle: "Selecciona tu Comunidad Autónoma" },
   { key: "laboral",    title: "¿Cuál es tu situación laboral?",       subtitle: "Esto determina qué deducciones aplican" },
   { key: "situaciones",title: "¿Qué situaciones te describen?",       subtitle: "Marca todas las que apliquen" },
+  { key: "edad",       title: "¿Cuántos años tienes?",               subtitle: "Algunas deducciones tienen límites de edad" },
   { key: "alquiler",   title: "¿Alquilas algún inmueble?",            subtitle: "Vivienda, local u otro bien" },
   { key: "ganancias",  title: "¿Has tenido ganancias patrimoniales?", subtitle: "Venta de inmuebles, fondos, acciones…" },
   { key: "economicos", title: "Unos datos más para personalizar",     subtitle: "Opcional — para estimar mejor tu ahorro" },
@@ -81,6 +83,7 @@ export default function Wizard({ deducciones }: WizardProps) {
     ccaa: "",
     laboral: "",
     situaciones: [],
+    edad: "",
     alquiler: "",
     ganancias: "",
     datosEconomicos: {},
@@ -99,9 +102,19 @@ export default function Wizard({ deducciones }: WizardProps) {
         if (answers.laboral === "asalariado" && !d.aplica_asalariados) return false;
         if (answers.laboral === "autonomo" && !d.aplica_autonomos) return false;
 
-        if (answers.situaciones.length > 0 && d.situaciones.length > 0) {
+        // If deduction requires specific situaciones, user must match at least one
+        if (d.situaciones.length > 0) {
           const match = d.situaciones.some((s) => answers.situaciones.includes(s));
           if (!match) return false;
+        }
+
+        // Age filtering
+        if (answers.edad) {
+          const edad = parseInt(answers.edad, 10);
+          if (!isNaN(edad)) {
+            if (d.edad_maxima != null && edad > d.edad_maxima) return false;
+            if (d.edad_minima != null && edad < d.edad_minima) return false;
+          }
         }
 
         return true;
@@ -134,9 +147,10 @@ export default function Wizard({ deducciones }: WizardProps) {
     (step === 0 && answers.ccaa !== "") ||
     (step === 1 && answers.laboral !== "") ||
     step === 2 ||
-    (step === 3 && answers.alquiler !== "") ||
-    (step === 4 && answers.ganancias !== "") ||
-    step === 5; // economic data is optional
+    step === 3 || // age is optional
+    (step === 4 && answers.alquiler !== "") ||
+    (step === 5 && answers.ganancias !== "") ||
+    step === 6; // economic data is optional
 
   function handleNext() {
     if (step < STEPS.length - 1) {
@@ -160,7 +174,7 @@ export default function Wizard({ deducciones }: WizardProps) {
 
   function handleReset() {
     setStep(0);
-    setAnswers({ ccaa: "", laboral: "", situaciones: [], alquiler: "", ganancias: "", datosEconomicos: {} });
+    setAnswers({ ccaa: "", laboral: "", situaciones: [], edad: "", alquiler: "", ganancias: "", datosEconomicos: {} });
     setShowResults(false);
   }
 
@@ -322,8 +336,40 @@ export default function Wizard({ deducciones }: WizardProps) {
           </div>
         )}
 
-        {/* Step 3: Alquiler — Sí / No */}
+        {/* Step 3: Edad */}
         {step === 3 && (
+          <div className="max-w-sm">
+            <div className="flex items-center gap-3">
+              <input
+                type="text"
+                inputMode="numeric"
+                placeholder="Ej: 32"
+                value={answers.edad}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/\D/g, "").slice(0, 3);
+                  setAnswers((p) => ({ ...p, edad: val }));
+                }}
+                className="flex-1 px-5 py-4 text-lg font-semibold text-center"
+                style={{
+                  background: "var(--color-surface-high)",
+                  borderRadius: "var(--radius-xl)",
+                  border: "none",
+                  color: "var(--color-on-surface)",
+                }}
+                autoFocus
+              />
+              <span className="text-base font-medium" style={{ color: "var(--color-on-surface-variant)" }}>
+                años
+              </span>
+            </div>
+            <p className="text-xs mt-3" style={{ color: "var(--color-on-surface-variant)", opacity: 0.7 }}>
+              Hay deducciones específicas para jóvenes (&lt;36) y mayores (&gt;65). Si prefieres no indicar tu edad, pulsa Siguiente.
+            </p>
+          </div>
+        )}
+
+        {/* Step 4: Alquiler — Sí / No */}
+        {step === 4 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md">
             {[
               { value: "si", label: "Sí, alquilo un inmueble", icon: "🏠", desc: "Vivienda, local, garaje…" },
@@ -354,8 +400,8 @@ export default function Wizard({ deducciones }: WizardProps) {
           </div>
         )}
 
-        {/* Step 4: Ganancias patrimoniales — Sí / No */}
-        {step === 4 && (
+        {/* Step 5: Ganancias patrimoniales — Sí / No */}
+        {step === 5 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md">
             {[
               { value: "si", label: "Sí, he tenido ganancias", icon: "📈", desc: "Venta de acciones, fondos, inmuebles…" },
@@ -386,8 +432,8 @@ export default function Wizard({ deducciones }: WizardProps) {
           </div>
         )}
 
-        {/* Step 5: Datos económicos */}
-        {step === 5 && (
+        {/* Step 6: Datos económicos */}
+        {step === 6 && (
           <div className="space-y-6 max-w-lg">
             {/* Income — always shown */}
             <div>
