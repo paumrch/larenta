@@ -296,7 +296,8 @@ export default function Report({ deducciones, ccaa, laboral, situaciones, datosE
         if (y > 250) { doc.addPage(); y = 25; }
         doc.setFontSize(12);
         doc.setTextColor(0, 71, 139);
-        doc.text(`${CATEGORIA_LABELS[cat] || cat} (${grouped[cat].length})`, margin, y);
+        const catLabel = (CATEGORIA_LABELS[cat] || cat).replace(/\p{Emoji_Presentation}/gu, "").trim();
+        doc.text(`${catLabel} (${grouped[cat].length})`, margin, y);
         y += 7;
 
         for (const d of grouped[cat]) {
