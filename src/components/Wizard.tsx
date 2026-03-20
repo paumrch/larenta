@@ -76,7 +76,7 @@ const LABORAL_OPTIONS = [
   { value: "ambos",      label: "Ambos",         desc: "Combino empleo y actividad", icon: "⚖️" },
 ] as const;
 
-const SITUACION_OPTIONS = Object.entries(SITUACION_LABELS);
+const ALL_SITUACION_OPTIONS = Object.entries(SITUACION_LABELS);
 
 export default function Wizard({ deducciones }: WizardProps) {
   const [step, setStep] = useState(0);
@@ -93,6 +93,14 @@ export default function Wizard({ deducciones }: WizardProps) {
 
   // Track wizard start (once)
   useEffect(() => { pushEvent("wizard_start"); }, []);
+
+  // Show CML-specific situaciones only when user selected Ceuta y Melilla
+  const SITUACION_OPTIONS = useMemo(() =>
+    ALL_SITUACION_OPTIONS.filter(([key]) =>
+      key !== "vive_en_ceuta_melilla" || answers.ccaa === "CML"
+    ),
+    [answers.ccaa]
+  );
 
   const results = useMemo(() => {
     if (!showResults) return [];
@@ -121,6 +129,7 @@ export default function Wizard({ deducciones }: WizardProps) {
 
         // Required tags: if the deduction includes these, the user must have them selected
         if (d.situaciones.includes("reforma_eficiencia") && !answers.situaciones.includes("reforma_eficiencia")) return false;
+        if (d.situaciones.includes("vive_en_ceuta_melilla") && !answers.situaciones.includes("vive_en_ceuta_melilla")) return false;
 
         // Negative filters: explicit "no" answers override situacion matches
         if (answers.alquiler === "no" && d.situaciones.includes("alquila_vivienda")) return false;
@@ -139,6 +148,14 @@ export default function Wizard({ deducciones }: WizardProps) {
             if (d.edad_maxima != null && edad > d.edad_maxima) return false;
             if (d.edad_minima != null && edad < d.edad_minima) return false;
           }
+        }
+
+        // Income filtering (limite_renta)
+        const ingresosRaw = answers.datosEconomicos?.ingresos_brutos;
+        if (ingresosRaw && d.limite_renta) {
+          const ingresos = parseFloat(ingresosRaw.replace(/\./g, "").replace(",", "."));
+          const limMatch = d.limite_renta.replace(/\./g, "").replace(",", ".").match(/^([\d.]+)\s*euros?/i);
+          if (limMatch && !isNaN(ingresos) && ingresos > parseFloat(limMatch[1])) return false;
         }
 
         return true;

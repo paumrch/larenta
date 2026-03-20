@@ -123,6 +123,7 @@ export const SITUACION_LABELS: Record<string, string> = {
   familia_numerosa: "Familia numerosa",
   familia_monoparental: "Familia monoparental",
   coche_electrico: "Tengo o quiero coche eléctrico",
+  vive_en_ceuta_melilla: "Vivo o trabajo en Ceuta o Melilla",
 };
 
 /** Limpia los escapes markdown del nombre */
