@@ -6,16 +6,30 @@ export const prerender = false;
 
 let fontBold: ArrayBuffer | null = null;
 let fontRegular: ArrayBuffer | null = null;
+let logoDataUri: string | null = null;
 
-async function loadFonts(siteUrl: string) {
-  if (fontBold && fontRegular) return { fontBold, fontRegular };
-  const [boldRes, regularRes] = await Promise.all([
+async function loadAssets(siteUrl: string) {
+  if (fontBold && fontRegular && logoDataUri) {
+    return { fontBold, fontRegular, logoDataUri };
+  }
+  const [boldRes, regularRes, logoRes] = await Promise.all([
     fetch(`${siteUrl}/fonts/PublicSans-ExtraBold.ttf`),
     fetch(`${siteUrl}/fonts/PublicSans-Regular.ttf`),
+    fetch(`${siteUrl}/LRwhite.svg`),
   ]);
   fontBold = await boldRes.arrayBuffer();
   fontRegular = await regularRes.arrayBuffer();
-  return { fontBold, fontRegular };
+
+  // Pre-render SVG logo to PNG (satori can't handle SVGs with <style> tags)
+  const svgText = await logoRes.text();
+  const cleanSvg = svgText
+    .replace(/<defs>[\s\S]*?<\/defs>/, "")
+    .replace(/class="cls-1"/g, 'fill="#ffffff"');
+  const logoResvg = new Resvg(cleanSvg, { fitTo: { mode: "height", value: 120 } });
+  const logoPng = logoResvg.render().asPng();
+  logoDataUri = `data:image/png;base64,${Buffer.from(logoPng).toString("base64")}`;
+
+  return { fontBold, fontRegular, logoDataUri };
 }
 
 const WIDTH = 1200;
@@ -34,7 +48,7 @@ function sanitize(str: string): string {
 
 export const GET: APIRoute = async ({ url }) => {
   const origin = url.origin;
-  const { fontBold: bold, fontRegular: regular } = await loadFonts(origin);
+  const { fontBold: bold, fontRegular: regular, logoDataUri: logo } = await loadAssets(origin);
 
   const title = sanitize((url.searchParams.get("title") || "Tu guía completa del IRPF").slice(0, 200));
   const subtitle = sanitize((url.searchParams.get("subtitle") || "").slice(0, 200));
@@ -50,135 +64,197 @@ export const GET: APIRoute = async ({ url }) => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "linear-gradient(135deg, #00478b 0%, #005eb5 60%, #0070d4 100%)",
-          padding: "60px",
+          background: "#00478b",
           fontFamily: "Public Sans",
+          position: "relative",
+          overflow: "hidden",
         },
         children: [
-          // Top section — badge + title
+          // Background: subtle geometric shapes (bottom-right)
           {
             type: "div",
             props: {
-              style: { display: "flex", flexDirection: "column", gap: "24px" },
-              children: [
-                // Badge (optional)
-                badge
-                  ? {
-                      type: "div",
-                      props: {
-                        style: {
-                          display: "flex",
-                          alignItems: "center",
-                        },
-                        children: [
-                          {
-                            type: "span",
-                            props: {
-                              style: {
-                                background: "#fcd400",
-                                color: "#6e5c00",
-                                fontSize: "18px",
-                                fontWeight: 800,
-                                padding: "6px 18px",
-                                borderRadius: "999px",
-                              },
-                              children: badge,
-                            },
-                          },
-                        ],
-                      },
-                    }
-                  : null,
-                // Title
-                {
-                  type: "div",
-                  props: {
-                    style: {
-                      fontSize: title.length > 60 ? "42px" : title.length > 40 ? "50px" : "58px",
-                      fontWeight: 800,
-                      color: "#ffffff",
-                      lineHeight: 1.15,
-                      letterSpacing: "-0.03em",
-                      maxWidth: "900px",
-                    },
-                    children: title,
-                  },
-                },
-                // Subtitle (optional)
-                subtitle
-                  ? {
-                      type: "div",
-                      props: {
-                        style: {
-                          fontSize: "24px",
-                          fontWeight: 400,
-                          color: "rgba(255,255,255,0.7)",
-                          lineHeight: 1.4,
-                          maxWidth: "750px",
-                        },
-                        children: subtitle,
-                      },
-                    }
-                  : null,
-              ].filter(Boolean),
+              style: {
+                position: "absolute",
+                bottom: "-80px",
+                right: "-80px",
+                width: "500px",
+                height: "500px",
+                borderRadius: "80px",
+                background: "rgba(255,255,255,0.03)",
+                transform: "rotate(15deg)",
+              },
             },
           },
-          // Bottom bar — logo + domain
+          {
+            type: "div",
+            props: {
+              style: {
+                position: "absolute",
+                bottom: "-40px",
+                right: "60px",
+                width: "300px",
+                height: "300px",
+                borderRadius: "60px",
+                background: "rgba(255,255,255,0.025)",
+                transform: "rotate(30deg)",
+              },
+            },
+          },
+          // Gold accent bar (top)
+          {
+            type: "div",
+            props: {
+              style: {
+                position: "absolute",
+                top: "0",
+                left: "0",
+                right: "0",
+                height: "5px",
+                background: "#fcd400",
+              },
+            },
+          },
+          // Content
           {
             type: "div",
             props: {
               style: {
                 display: "flex",
-                alignItems: "center",
+                flexDirection: "column",
                 justifyContent: "space-between",
+                height: "100%",
+                padding: "56px 64px 48px 64px",
               },
               children: [
-                // Logo
+                // Top: badge + title + subtitle
+                {
+                  type: "div",
+                  props: {
+                    style: {
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "20px",
+                    },
+                    children: [
+                      badge
+                        ? {
+                            type: "div",
+                            props: {
+                              style: { display: "flex", alignItems: "center" },
+                              children: [
+                                {
+                                  type: "span",
+                                  props: {
+                                    style: {
+                                      background: "#fcd400",
+                                      color: "#3d3200",
+                                      fontSize: "16px",
+                                      fontWeight: 800,
+                                      padding: "5px 16px",
+                                      borderRadius: "6px",
+                                      letterSpacing: "0.02em",
+                                      textTransform: "uppercase" as const,
+                                    },
+                                    children: badge,
+                                  },
+                                },
+                              ],
+                            },
+                          }
+                        : null,
+                      {
+                        type: "div",
+                        props: {
+                          style: {
+                            fontSize: title.length > 80 ? "38px" : title.length > 55 ? "44px" : title.length > 35 ? "52px" : "58px",
+                            fontWeight: 800,
+                            color: "#ffffff",
+                            lineHeight: 1.12,
+                            letterSpacing: "-0.03em",
+                            maxWidth: "850px",
+                          },
+                          children: title,
+                        },
+                      },
+                      subtitle
+                        ? {
+                            type: "div",
+                            props: {
+                              style: {
+                                fontSize: "22px",
+                                fontWeight: 400,
+                                color: "rgba(255,255,255,0.55)",
+                                lineHeight: 1.45,
+                                maxWidth: "700px",
+                              },
+                              children: subtitle,
+                            },
+                          }
+                        : null,
+                    ].filter(Boolean),
+                  },
+                },
+                // Bottom: logo + tagline
                 {
                   type: "div",
                   props: {
                     style: {
                       display: "flex",
                       alignItems: "center",
+                      justifyContent: "space-between",
+                      borderTop: "1px solid rgba(255,255,255,0.1)",
+                      paddingTop: "24px",
                     },
                     children: [
                       {
-                        type: "span",
+                        type: "img",
                         props: {
+                          src: logo,
+                          width: 206,
+                          height: 32,
                           style: {
-                            fontSize: "36px",
-                            fontWeight: 800,
-                            color: "#ffffff",
-                            letterSpacing: "-0.04em",
+                            width: "206px",
+                            height: "32px",
                           },
-                          children: "LARENTA",
                         },
                       },
                       {
-                        type: "span",
+                        type: "div",
                         props: {
                           style: {
-                            fontSize: "36px",
-                            fontWeight: 800,
-                            color: "#fcd400",
-                            letterSpacing: "-0.04em",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "10px",
                           },
-                          children: ".ES",
+                          children: [
+                            {
+                              type: "div",
+                              props: {
+                                style: {
+                                  width: "6px",
+                                  height: "6px",
+                                  borderRadius: "50%",
+                                  background: "#fcd400",
+                                },
+                              },
+                            },
+                            {
+                              type: "span",
+                              props: {
+                                style: {
+                                  fontSize: "16px",
+                                  color: "rgba(255,255,255,0.4)",
+                                  fontWeight: 400,
+                                  letterSpacing: "0.02em",
+                                },
+                                children: "Datos oficiales AEAT · IRPF 2025",
+                              },
+                            },
+                          ],
                         },
                       },
                     ],
-                  },
-                },
-                // Tagline
-                {
-                  type: "span",
-                  props: {
-                    style: {
-                      fontSize: "18px",
-                      color: "rgba(255,255,255,0.45)",
-                      fontWeight: 400,
-                    },
-                    children: "Datos oficiales AEAT",
                   },
                 },
               ],
