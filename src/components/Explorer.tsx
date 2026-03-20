@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import type { DeduccionIndex } from "../lib/types";
 import {
   CCAA_MAP,
+  CIUDADES_AUTONOMAS,
   CATEGORIA_LABELS,
   CATEGORIA_COLORS,
   cleanName,
@@ -279,6 +280,13 @@ export default function Explorer({
           </button>
         )}
       </div>
+
+      {/* Nota ciudades autónomas */}
+      {(CIUDADES_AUTONOMAS as readonly string[]).includes(ccaa) && (
+        <div className="mb-4 px-4 py-3 text-sm rounded-xl" style={{ background: "var(--color-secondary-container)", color: "var(--color-on-secondary-container)" }}>
+          <strong>Nota:</strong> Ceuta y Melilla no tienen deducciones autonómicas propias. Se muestran las deducciones estatales, incluyendo la deducción específica por rentas obtenidas en estos territorios.
+        </div>
+      )}
 
       {/* Counter */}
       <div className="mb-4 text-sm" style={{ color: "var(--color-on-surface-variant)" }}>

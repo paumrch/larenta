@@ -70,6 +70,7 @@ export const CCAA_MAP: Record<string, string> = {
   CLM: "Castilla-La Mancha",
   CYL: "Castilla y León",
   CAT: "Cataluña",
+  CML: "Ceuta y Melilla",
   EXT: "Extremadura",
   GAL: "Galicia",
   MAD: "Comunidad de Madrid",
@@ -78,6 +79,9 @@ export const CCAA_MAP: Record<string, string> = {
   VAL: "Comunitat Valenciana",
   EST: "Estatal",
 };
+
+/** Códigos de ciudades autónomas sin deducciones autonómicas propias */
+export const CIUDADES_AUTONOMAS = ["CML"] as const;
 
 export const CATEGORIA_LABELS: Record<string, string> = {
   familia: "👨‍👩‍👧 Familia",

@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import type { DeduccionIndex } from "../lib/types";
 import {
   CCAA_MAP,
+  CIUDADES_AUTONOMAS,
   SITUACION_LABELS,
 } from "../lib/types";
 import Report from "./Report";
@@ -253,26 +254,33 @@ export default function Wizard({ deducciones }: WizardProps) {
 
         {/* Step 0: CCAA — grid de pills sin borde */}
         {step === 0 && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-            {CCAA_OPTIONS.map(([code, name]) => {
-              const sel = answers.ccaa === code;
-              return (
-                <button
-                  key={code}
-                  onClick={() => setAnswers((p) => ({ ...p, ccaa: code }))}
-                  className="px-4 py-3 text-left text-sm font-medium transition-all"
-                  style={{
-                    background: sel ? "var(--color-primary)" : "var(--color-surface-high)",
-                    color: sel ? "var(--color-on-primary)" : "var(--color-on-surface)",
-                    borderRadius: "var(--radius-xl)",
-                    transform: sel ? "scale(1.02)" : "scale(1)",
-                  }}
-                >
-                  {name}
-                </button>
-              );
-            })}
-          </div>
+          <>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {CCAA_OPTIONS.map(([code, name]) => {
+                const sel = answers.ccaa === code;
+                return (
+                  <button
+                    key={code}
+                    onClick={() => setAnswers((p) => ({ ...p, ccaa: code }))}
+                    className="px-4 py-3 text-left text-sm font-medium transition-all"
+                    style={{
+                      background: sel ? "var(--color-primary)" : "var(--color-surface-high)",
+                      color: sel ? "var(--color-on-primary)" : "var(--color-on-surface)",
+                      borderRadius: "var(--radius-xl)",
+                      transform: sel ? "scale(1.02)" : "scale(1)",
+                    }}
+                  >
+                    {name}
+                  </button>
+                );
+              })}
+            </div>
+            {(CIUDADES_AUTONOMAS as readonly string[]).includes(answers.ccaa) && (
+              <div className="mt-4 px-4 py-3 text-sm rounded-xl" style={{ background: "var(--color-secondary-container)", color: "var(--color-on-secondary-container)" }}>
+                <strong>Nota:</strong> Ceuta y Melilla no tienen deducciones autonómicas propias. Te mostraremos las deducciones estatales, incluyendo la deducción específica por rentas obtenidas en estos territorios.
+              </div>
+            )}
+          </>
         )}
 
         {/* Step 1: Laboral — 3 opciones grandes */}
