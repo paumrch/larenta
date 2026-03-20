@@ -109,6 +109,29 @@ export default function Wizard({ deducciones }: WizardProps) {
           if (!match) return false;
         }
 
+        // Modifier tags like "vive_en_pueblo" are geographic context, not content qualifiers.
+        // For multi-tag deductions, require matching at least one content tag — not just a modifier.
+        const MODIFIER_TAGS = ["vive_en_pueblo"];
+        if (d.situaciones.length > 1) {
+          const contentTags = d.situaciones.filter((s) => !MODIFIER_TAGS.includes(s));
+          if (contentTags.length > 0 && !contentTags.some((s) => answers.situaciones.includes(s))) {
+            return false;
+          }
+        }
+
+        // Required tags: if the deduction includes these, the user must have them selected
+        if (d.situaciones.includes("reforma_eficiencia") && !answers.situaciones.includes("reforma_eficiencia")) return false;
+
+        // Negative filters: explicit "no" answers override situacion matches
+        if (answers.alquiler === "no" && d.situaciones.includes("alquila_vivienda")) return false;
+        if (answers.ganancias === "no" && d.situaciones.includes("invierte") && !answers.situaciones.includes("invierte")) return false;
+
+        // If user invested 0€ in housing, discard vivienda-category deductions about property
+        const invVivienda = answers.datosEconomicos?.inversion_vivienda;
+        if (invVivienda !== undefined && invVivienda !== "" && Number(invVivienda) === 0) {
+          if (d.situaciones.includes("tiene_vivienda_propia") && d.categoria === "vivienda") return false;
+        }
+
         // Age filtering
         if (answers.edad) {
           const edad = parseInt(answers.edad, 10);
