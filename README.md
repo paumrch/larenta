@@ -10,7 +10,7 @@ Tu guía completa del IRPF 2025. Todas las deducciones estatales y autonómicas 
 
 Cada año, millones de personas hacen la declaración de la renta sin saber que podrían deducirse cientos de euros. La información existe, pero está repartida entre el BOE, la web de la AEAT y 15 normativas autonómicas diferentes.
 
-**larenta.es** reúne las **375 deducciones del IRPF 2025** en un solo sitio y ofrece tres herramientas:
+**larenta.es** reúne las **377 deducciones del IRPF 2025** en un solo sitio y ofrece tres herramientas:
 
 - **[Asistente interactivo](https://www.larenta.es/asistente)** — responde unas preguntas y obtén tus deducciones aplicables en menos de 2 minutos.
 - **[Explorador de deducciones](https://www.larenta.es/explorador)** — busca y filtra entre todas las deducciones por CCAA, categoría, relevancia o texto.
@@ -74,7 +74,7 @@ Sin esta variable, todo funciona excepto el endpoint `/api/send-report`.
 ```
 larenta/
 ├── data/                    # Datos del IRPF (JSON)
-│   ├── deducciones.json     # 375 deducciones completas (con contenido markdown)
+│   ├── deducciones.json     # 377 deducciones completas (con contenido markdown)
 │   ├── wizard_index.json    # Índice ligero para el asistente
 │   ├── explorer_index.json  # Índice ligero para el explorador
 │   ├── guias.json           # Guías temáticas del IRPF
@@ -110,9 +110,9 @@ larenta/
 
 ## Datos
 
-El proyecto contiene **375 deducciones** extraídas del Manual Práctico de Renta 2025 de la AEAT, organizadas en:
+El proyecto contiene **377 deducciones** extraídas del Manual Práctico de Renta 2025 de la AEAT, organizadas en:
 
-- **16 comunidades autónomas** + deducciones estatales
+- **15 comunidades autónomas con deducciones propias** + deducciones estatales
 - **9 categorías**: vivienda, familia, educación, donativos, empresa, energía, movilidad, salud, otros
 - **3 niveles de relevancia**: alta (•••), media (••), baja (•)
 
@@ -132,7 +132,7 @@ Para regenerar los índices tras modificar los datos:
 python3 scripts/generate_indexes.py
 ```
 
-Los archivos fuente de datos están fuera de `larenta/`, en el directorio padre `data/fichas/` (375 ficheros JSON individuales). El script `generate_indexes.py` los agrega en los JSON optimizados que usa la webapp.
+Los archivos fuente de datos están fuera de `larenta/`, en el directorio padre `data/fichas/` (377 ficheros JSON individuales). El script `generate_indexes.py` los agrega en los JSON optimizados que usa la webapp.
 
 ## Cómo contribuir
 

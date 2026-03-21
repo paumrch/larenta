@@ -1,4 +1,6 @@
 ---
+import { getStats } from "../lib/data";
+
 interface Props {
   title: string;
   description?: string;
@@ -6,9 +8,11 @@ interface Props {
   canonical?: string;
 }
 
+const stats = getStats();
+
 const {
   title,
-  description = "Descubre todas las deducciones del IRPF 2025 en segundos. Asistente interactivo + explorador con las 377 deducciones estatales y autonómicas.",
+  description = `Descubre todas las deducciones del IRPF 2025 en segundos. Asistente interactivo + explorador con las ${stats.total_deducciones} deducciones estatales y autonómicas.`,
   ogImage = "/api/og?title=Tu+gu%C3%ADa+completa+del+IRPF",
   canonical,
 } = Astro.props;
