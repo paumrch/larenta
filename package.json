@@ -1,7 +1,26 @@
 {
   "name": "larenta",
   "version": "1.0.0",
+  "description": "Tu guía completa del IRPF 2025 — asistente y explorador de deducciones fiscales en España",
   "type": "module",
+  "license": "MIT",
+  "author": "Pau March",
+  "homepage": "https://www.larenta.es",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/paumrch/larenta.git"
+  },
+  "bugs": {
+    "url": "https://github.com/paumrch/larenta/issues"
+  },
+  "keywords": [
+    "irpf",
+    "renta",
+    "deducciones",
+    "impuestos",
+    "spain",
+    "astro"
+  ],
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",

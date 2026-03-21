@@ -1,0 +1,26 @@
+name: "\U0001F4A1 Mejora o nueva funcionalidad"
+description: Sugerir una mejora o nueva funcionalidad
+labels: ["mejora"]
+body:
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: Descripción
+      description: Describe la mejora o funcionalidad que propones
+      placeholder: "Sería útil poder filtrar por tipo de contribuyente en el explorador..."
+    validations:
+      required: true
+  - type: textarea
+    id: motivacion
+    attributes:
+      label: Motivación
+      description: ¿Qué problema resuelve o qué mejora aporta?
+    validations:
+      required: false
+  - type: textarea
+    id: alternativas
+    attributes:
+      label: Alternativas consideradas
+      description: ¿Has considerado otras formas de resolverlo?
+    validations:
+      required: false

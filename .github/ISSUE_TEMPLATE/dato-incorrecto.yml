@@ -1,0 +1,35 @@
+name: "\U0001F4CB Dato incorrecto"
+description: Reportar una deducción con información errónea o desactualizada
+labels: ["datos"]
+body:
+  - type: input
+    id: deduccion
+    attributes:
+      label: Deducción
+      description: ID (ej. MAD-13) o nombre de la deducción
+      placeholder: "MAD-13 — Arrendamiento de vivienda habitual"
+    validations:
+      required: true
+  - type: textarea
+    id: problema
+    attributes:
+      label: Qué es incorrecto
+      description: Describe qué dato está mal y cuál debería ser el valor correcto
+      placeholder: "El límite de renta indica 25.000 € pero según el BOE es 30.000 €"
+    validations:
+      required: true
+  - type: input
+    id: fuente
+    attributes:
+      label: Fuente oficial
+      description: Enlace a la AEAT, BOE o normativa que lo corrige
+      placeholder: "https://sede.agenciatributaria.gob.es/..."
+    validations:
+      required: false
+  - type: textarea
+    id: contexto
+    attributes:
+      label: Contexto adicional
+      description: Cualquier detalle extra que ayude a verificar la corrección
+    validations:
+      required: false
