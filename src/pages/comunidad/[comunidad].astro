@@ -1,0 +1,175 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getDeduccionesByCCAA } from "../../lib/data";
+import {
+  CCAA_MAP,
+  CCAA_SLUG,
+  CATEGORIA_LABELS,
+  CATEGORIA_COLORS,
+  cleanName,
+  fichaUrl,
+} from "../../lib/types";
+
+export function getStaticPaths() {
+  return Object.entries(CCAA_SLUG).map(([codigo, slug]) => ({
+    params: { comunidad: slug },
+    props: { codigo },
+  }));
+}
+
+const { comunidad: slug } = Astro.params;
+const { codigo } = Astro.props;
+
+const ccaaName = CCAA_MAP[codigo];
+const deducciones = getDeduccionesByCCAA(codigo);
+
+// Agrupar por categoría, ordenadas por volumen desc
+const byCategoria: Record<string, typeof deducciones> = {};
+for (const d of deducciones) {
+  if (!byCategoria[d.categoria]) byCategoria[d.categoria] = [];
+  byCategoria[d.categoria].push(d);
+}
+const categoriasOrdenadas = Object.entries(byCategoria).sort(
+  ([, a], [, b]) => b.length - a.length
+);
+
+const canonicalUrl = `https://www.larenta.es/comunidad/${slug}`;
+---
+
+<Base
+  title={`Deducciones IRPF ${ccaaName} 2025`}
+  description={`Lista completa de las ${deducciones.length} deducciones autonómicas del IRPF 2025 en ${ccaaName}. Requisitos, importes y condiciones para aplicarlas en tu declaración de la renta.`}
+  ogImage={`/api/og?title=${encodeURIComponent("Deducciones IRPF " + ccaaName)}&subtitle=${encodeURIComponent(deducciones.length + " deducciones · Campaña 2025")}`}
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://www.larenta.es" },
+      { "@type": "ListItem", "position": 2, "name": "Comunidades Autónomas", "item": "https://www.larenta.es/comunidad" },
+      { "@type": "ListItem", "position": 3, "name": ccaaName, "item": canonicalUrl },
+    ]
+  })} />
+
+  <div style="background: var(--color-surface); min-height: 100vh;">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8 py-10 sm:py-14">
+
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-1.5 text-sm mb-8 flex-wrap" style="color: var(--color-on-surface-variant);">
+        <a href="/" class="flex-shrink-0 hover:underline" style="color: var(--color-on-surface-variant);">Inicio</a>
+        <span class="flex-shrink-0" style="opacity: 0.4;">›</span>
+        <a href="/comunidad" class="flex-shrink-0 hover:underline" style="color: var(--color-on-surface-variant);">Comunidades</a>
+        <span class="flex-shrink-0" style="opacity: 0.4;">›</span>
+        <span class="font-medium" style="color: var(--color-on-surface);">{ccaaName}</span>
+      </nav>
+
+      <!-- Header -->
+      <div class="mb-10">
+        <div class="flex flex-wrap items-center gap-2 mb-4">
+          <span class="badge" style="background: var(--color-surface-high); color: var(--color-on-surface-variant);">
+            Autonómica
+          </span>
+          <span class="badge" style="background: var(--color-surface-high); color: var(--color-on-surface-variant);">
+            IRPF 2025
+          </span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold leading-tight mb-4"
+          style="color: var(--color-on-surface); letter-spacing: -0.02ch;">
+          Deducciones IRPF<br class="hidden sm:block" /> {ccaaName} 2025
+        </h1>
+        <p class="text-lg leading-relaxed" style="color: var(--color-on-surface-variant); max-width: 58ch;">
+          {deducciones.length} deducciones autonómicas disponibles en {ccaaName} para la declaración
+          de la renta 2025. Haz click en cualquier deducción para ver requisitos e importe.
+        </p>
+      </div>
+
+      <!-- Stats rápidas -->
+      <div class="grid grid-cols-3 gap-3 mb-10">
+        <div class="card-inset text-center">
+          <div class="text-2xl font-extrabold" style="color: var(--color-primary);">{deducciones.length}</div>
+          <div class="text-xs mt-1" style="color: var(--color-on-surface-variant);">Deducciones</div>
+        </div>
+        <div class="card-inset text-center">
+          <div class="text-2xl font-extrabold" style="color: var(--color-primary);">{categoriasOrdenadas.length}</div>
+          <div class="text-xs mt-1" style="color: var(--color-on-surface-variant);">Categorías</div>
+        </div>
+        <div class="card-inset text-center">
+          <div class="text-2xl font-extrabold" style="color: var(--color-primary);">
+            {deducciones.filter((d) => d.novedad_2025).length}
+          </div>
+          <div class="text-xs mt-1" style="color: var(--color-on-surface-variant);">Novedades 2025</div>
+        </div>
+      </div>
+
+      <!-- Listado por categoría -->
+      {categoriasOrdenadas.map(([cat, items]) => (
+        <section class="mb-10" id={`cat-${cat}`}>
+          <h2 class="flex items-center gap-2 text-base font-bold mb-4" style="color: var(--color-on-surface);">
+            <span class={`badge ${CATEGORIA_COLORS[cat] || "badge-otros"}`}>
+              {CATEGORIA_LABELS[cat] || cat}
+            </span>
+            <span class="text-sm font-normal" style="color: var(--color-on-surface-variant);">
+              — {items.length} deducción{items.length !== 1 ? "es" : ""}
+            </span>
+          </h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {items.map((d) => (
+              <a
+                href={fichaUrl(d.id)}
+                class="card group transition-all hover:-translate-y-0.5"
+                style="padding: 1.25rem 1.5rem; box-shadow: none; text-decoration: none;"
+              >
+                <div class="flex items-start justify-between gap-2">
+                  <div class="min-w-0 flex-1">
+                    <div class="text-sm font-semibold leading-snug mb-1" style="color: var(--color-on-surface);">
+                      {cleanName(d.nombre_corto)}
+                    </div>
+                    {d.resumen && (
+                      <div
+                        class="text-xs leading-relaxed"
+                        style="color: var(--color-on-surface-variant); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"
+                      >
+                        {cleanName(d.resumen)}
+                      </div>
+                    )}
+                    <div class="flex items-center gap-2 mt-2">
+                      {d.porcentaje && (
+                        <span class="text-xs font-bold" style="color: var(--color-primary);">
+                          {cleanName(d.porcentaje)}
+                        </span>
+                      )}
+                      {d.novedad_2025 && (
+                        <span class="text-[10px] px-1.5 py-0.5 rounded-full font-semibold"
+                          style="background: var(--color-secondary-fixed); color: var(--color-on-secondary-container);">
+                          ✨ Novedad
+                        </span>
+                      )}
+                      <span class={`text-xs font-semibold ${d.relevancia === 3 ? "relevancia-alta" : d.relevancia === 2 ? "relevancia-media" : "relevancia-baja"}`}>
+                        {d.relevancia === 3 ? "•••" : d.relevancia === 2 ? "••" : "•"}
+                      </span>
+                    </div>
+                  </div>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 flex-shrink-0 mt-0.5 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color: var(--color-outline);">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+      ))}
+
+      <!-- Footer links -->
+      <div class="mt-8 pt-8 flex flex-col sm:flex-row gap-4 items-start"
+        style="border-top: 1px solid var(--color-outline-variant);">
+        <a href="/asistente" class="btn-primary">
+          Descubrir mis deducciones →
+        </a>
+        <a href="/comunidad" class="btn-text">
+          ← Otras comunidades
+        </a>
+      </div>
+
+    </div>
+  </div>
+</Base>

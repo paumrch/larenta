@@ -83,6 +83,30 @@ export const CCAA_MAP: Record<string, string> = {
 /** Códigos de ciudades autónomas sin deducciones autonómicas propias */
 export const CIUDADES_AUTONOMAS = ["CML"] as const;
 
+/** Slug de URL para cada CCAA con deducciones autonómicas propias (excluye CML y EST) */
+export const CCAA_SLUG: Record<string, string> = {
+  AND: "andalucia",
+  ARA: "aragon",
+  AST: "asturias",
+  BAL: "baleares",
+  CAN: "canarias",
+  CTB: "cantabria",
+  CLM: "castilla-la-mancha",
+  CYL: "castilla-y-leon",
+  CAT: "cataluna",
+  EXT: "extremadura",
+  GAL: "galicia",
+  MAD: "madrid",
+  MUR: "murcia",
+  RIO: "la-rioja",
+  VAL: "comunitat-valenciana",
+};
+
+/** Mapa inverso: slug → código CCAA */
+export const SLUG_TO_CCAA: Record<string, string> = Object.fromEntries(
+  Object.entries(CCAA_SLUG).map(([k, v]) => [v, k])
+);
+
 export const CATEGORIA_LABELS: Record<string, string> = {
   familia: "👨‍👩‍👧 Familia",
   vivienda: "🏠 Vivienda",

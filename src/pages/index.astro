@@ -1,7 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import { getStats } from "../lib/data";
-import { CCAA_MAP, CATEGORIA_LABELS, CATEGORIA_COLORS } from "../lib/types";
+import { CCAA_MAP, CCAA_SLUG, CATEGORIA_LABELS, CATEGORIA_COLORS } from "../lib/types";
 
 const stats = getStats();
 ---
@@ -94,12 +94,12 @@ const stats = getStats();
               <div class="text-2xl font-extrabold" style="color: var(--color-primary);">{stats.total_ccaa}</div>
               <div class="text-xs mt-1" style="color: var(--color-on-surface-variant);">CC.AA.</div>
             </div>
-            <div class="card-inset text-center">
+            <a href="/novedades" class="card-inset text-center group transition-all hover:-translate-y-0.5">
               <div class="text-2xl font-extrabold" style="color: var(--color-primary);">
                 {stats.novedades_2025}
               </div>
               <div class="text-xs mt-1" style="color: var(--color-on-surface-variant);">Novedades 2025</div>
-            </div>
+            </a>
             <div class="card-inset text-center">
               <div class="text-2xl font-extrabold" style="color: var(--color-primary);">{stats.total_alta_relevancia}</div>
               <div class="text-xs mt-1" style="color: var(--color-on-surface-variant);">Alta relevancia</div>
@@ -269,7 +269,7 @@ const stats = getStats();
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
         {Object.entries(stats.categorias).map(([cat, count]) => (
           <a
-            href={`/explorador?categoria=${cat}`}
+            href={`/categoria/${cat}`}
             class="card group transition-all hover:-translate-y-1"
             style="padding: 1.25rem; box-shadow: none;"
           >
@@ -299,12 +299,13 @@ const stats = getStats();
         <h2 class="text-3xl sm:text-4xl font-extrabold" style="color: var(--color-on-surface); letter-spacing: -0.02ch;">
           Cada CC.AA. tiene<br class="hidden sm:block" /> sus propias deducciones
         </h2>
+        <a href="/comunidad" class="inline-block mt-4 text-sm font-semibold hover:underline" style="color: var(--color-primary);">Ver todas las comunidades →</a>
       </div>
 
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
         {stats.ccaa_lista.map((ccaa) => (
           <a
-            href={`/explorador?ccaa=${ccaa.codigo}`}
+            href={CCAA_SLUG[ccaa.codigo] ? `/comunidad/${CCAA_SLUG[ccaa.codigo]}` : `/explorador?ccaa=${ccaa.codigo}`}
             class="card-inset text-center group transition-all hover:-translate-y-0.5"
           >
             <div class="text-sm font-semibold leading-snug" style="color: var(--color-on-surface);">

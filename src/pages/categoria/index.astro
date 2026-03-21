@@ -1,0 +1,91 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getStats } from "../../lib/data";
+import { CATEGORIA_LABELS, CATEGORIA_COLORS } from "../../lib/types";
+
+const stats = getStats();
+
+const categorias = Object.entries(stats.categorias).sort(
+  ([, a], [, b]) => (b as number) - (a as number)
+);
+---
+
+<Base
+  title="Deducciones IRPF por Categoría 2025 | larenta.es"
+  description={`Explora las ${stats.total_deducciones} deducciones del IRPF 2025 organizadas por categoría: vivienda, familia, educación, salud, empresa, donativos, energía, movilidad y más.`}
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://www.larenta.es" },
+      { "@type": "ListItem", "position": 2, "name": "Categorías", "item": "https://www.larenta.es/categoria" },
+    ]
+  })} />
+
+  <div style="background: var(--color-surface); min-height: 100vh;">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8 py-10 sm:py-14">
+
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-1.5 text-sm mb-8" style="color: var(--color-on-surface-variant);">
+        <a href="/" class="hover:underline" style="color: var(--color-on-surface-variant);">Inicio</a>
+        <span style="opacity: 0.4;">›</span>
+        <span style="color: var(--color-on-surface);">Categorías</span>
+      </nav>
+
+      <!-- Header -->
+      <div class="mb-10">
+        <p class="text-sm font-semibold uppercase tracking-widest mb-2" style="color: var(--color-primary);">
+          Deducciones IRPF 2025
+        </p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold leading-tight mb-4"
+          style="color: var(--color-on-surface); letter-spacing: -0.02ch;">
+          Deducciones por categoría
+        </h1>
+        <p class="text-lg leading-relaxed" style="color: var(--color-on-surface-variant); max-width: 58ch;">
+          {stats.total_deducciones} deducciones organizadas por tipo de situación.
+          Selecciona una categoría para ver todas las deducciones disponibles, tanto estatales como autonómicas.
+        </p>
+      </div>
+
+      <!-- Grid de categorías -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+        {categorias.map(([cat, count]) => (
+          <a
+            href={`/categoria/${cat}`}
+            class="card group transition-all hover:-translate-y-0.5"
+            style="padding: 1.5rem; box-shadow: none; text-decoration: none;"
+          >
+            <div class="flex items-start justify-between gap-3">
+              <div class="min-w-0 flex-1">
+                <span class={`badge ${CATEGORIA_COLORS[cat] || "badge-otros"} mb-3 inline-block`}>
+                  {CATEGORIA_LABELS[cat] || cat}
+                </span>
+                <div class="text-2xl font-extrabold" style="color: var(--color-primary); letter-spacing: -0.03ch;">
+                  {count as number}
+                </div>
+                <div class="text-xs mt-0.5" style="color: var(--color-on-surface-variant);">
+                  deducción{(count as number) !== 1 ? "es" : ""}
+                </div>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 flex-shrink-0 mt-1 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="color: var(--color-primary);">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <!-- CTA -->
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a href="/asistente" class="btn-primary">
+          Descubrir mis deducciones →
+        </a>
+        <a href="/explorador" class="btn-text">
+          Ver todas las deducciones
+        </a>
+      </div>
+
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,113 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getStats } from "../../lib/data";
+import { CCAA_SLUG, CCAA_MAP } from "../../lib/types";
+
+const stats = getStats();
+
+// Build list of CCAA with slug + count, sorted by count desc
+const ccaaList = Object.entries(CCAA_SLUG).map(([codigo, slug]) => {
+  const nombre = CCAA_MAP[codigo];
+  return {
+    codigo,
+    slug,
+    nombre,
+    total: (stats.por_ccaa as Record<string, number>)[nombre] ?? 0,
+  };
+}).sort((a, b) => b.total - a.total);
+---
+
+<Base
+  title="Deducciones IRPF por Comunidad Autónoma 2025 | larenta.es"
+  description={`Descubre las deducciones autonómicas del IRPF 2025 en tu comunidad. Consulta las deducciones de las ${ccaaList.length} comunidades autónomas con régimen común.`}
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://www.larenta.es" },
+      { "@type": "ListItem", "position": 2, "name": "Comunidades Autónomas", "item": "https://www.larenta.es/comunidad" },
+    ]
+  })} />
+
+  <div style="background: var(--color-surface); min-height: 100vh;">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8 py-10 sm:py-14">
+
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-1.5 text-sm mb-8" style="color: var(--color-on-surface-variant);">
+        <a href="/" class="hover:underline" style="color: var(--color-on-surface-variant);">Inicio</a>
+        <span style="opacity: 0.4;">›</span>
+        <span style="color: var(--color-on-surface);">Comunidades Autónomas</span>
+      </nav>
+
+      <!-- Header -->
+      <div class="mb-10">
+        <p class="text-sm font-semibold uppercase tracking-widest mb-2" style="color: var(--color-primary);">
+          Deducciones autonómicas IRPF 2025
+        </p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold leading-tight mb-4"
+          style="color: var(--color-on-surface); letter-spacing: -0.02ch;">
+          Deducciones por<br class="hidden sm:block" /> Comunidad Autónoma
+        </h1>
+        <p class="text-lg leading-relaxed" style="color: var(--color-on-surface-variant); max-width: 58ch;">
+          Además de las <a href="/explorador?ccaa=EST" class="underline" style="color:var(--color-primary);">deducciones estatales</a>,
+          cada comunidad autónoma tiene sus propias deducciones en el IRPF.
+          Selecciona tu comunidad para ver la lista completa.
+        </p>
+      </div>
+
+      <!-- Grid de CCAA -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-10">
+        {ccaaList.map((ccaa) => (
+          <a
+            href={`/comunidad/${ccaa.slug}`}
+            class="card group transition-all hover:-translate-y-0.5"
+            style="padding: 1.25rem; box-shadow: none; text-decoration: none;"
+          >
+            <div class="text-sm font-semibold leading-snug mb-1" style="color: var(--color-on-surface);">
+              {ccaa.nombre}
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs" style="color: var(--color-on-surface-variant);">
+                {ccaa.total} deducciones
+              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="color: var(--color-primary);">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </a>
+        ))}
+
+        <!-- Ceuta y Melilla: sin deducciones autonómicas propias -->
+        <div
+          class="card"
+          style="padding: 1.25rem; box-shadow: none; opacity: 0.6; cursor: default;"
+        >
+          <div class="text-sm font-semibold leading-snug mb-1" style="color: var(--color-on-surface);">
+            Ceuta y Melilla
+          </div>
+          <div class="text-xs" style="color: var(--color-on-surface-variant);">
+            Solo estatales
+          </div>
+        </div>
+      </div>
+
+      <!-- Nota País Vasco y Navarra -->
+      <div class="px-4 py-3 rounded-xl text-sm mb-10" style="background: var(--color-surface-high); color: var(--color-on-surface-variant);">
+        <strong style="color: var(--color-on-surface);">País Vasco y Navarra</strong> tienen sistemas fiscales forales propios
+        (régimen de concierto y convenio económico) y no se rigen por el IRPF estatal. Sus deducciones no están incluidas en esta guía.
+      </div>
+
+      <!-- CTA -->
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a href="/asistente" class="btn-primary">
+          Descubrir mis deducciones →
+        </a>
+        <a href="/explorador" class="btn-text">
+          Ver todas las deducciones
+        </a>
+      </div>
+
+    </div>
+  </div>
+</Base>
