@@ -42,5 +42,8 @@
     "resend": "^6.9.4",
     "satori": "^0.25.0",
     "tailwindcss": "^4.2.2"
+  },
+  "overrides": {
+    "path-to-regexp": "^6.3.0"
   }
 }
