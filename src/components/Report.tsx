@@ -1,9 +1,10 @@
 import { useState, useMemo, useRef } from "react";
-import type { DeduccionIndex } from "../lib/types";
+import type { DeduccionIndex, SituacionLaboral } from "../lib/types";
 import {
   CCAA_MAP,
   CATEGORIA_LABELS,
   CATEGORIA_COLORS,
+  LABORAL_LABELS,
   cleanName,
   fichaUrl,
   relevanciaText,
@@ -22,7 +23,7 @@ function pushEvent(event: string, params?: Record<string, unknown>) {
 interface ReportProps {
   deducciones: DeduccionIndex[];
   ccaa: string;
-  laboral: string;
+  laboral: SituacionLaboral;
   situaciones: string[];
   datosEconomicos?: Record<string, string>;
   onBack: () => void;
@@ -169,6 +170,8 @@ export default function Report({ deducciones, ccaa, laboral, situaciones, datosE
     };
   }, [filteredDeducciones, datosEconomicos]);
 
+  const laboralLabel = LABORAL_LABELS[laboral];
+
   function toggleCategory(cat: string) {
     setExpandedCats((prev) => {
       const next = new Set(prev);
@@ -253,7 +256,7 @@ export default function Report({ deducciones, ccaa, laboral, situaciones, datosE
 
       doc.setFontSize(11);
       doc.setTextColor(66, 71, 82);
-      doc.text(`${CCAA_MAP[ccaa] || "Todas"} · ${laboral === "ambos" ? "Asalariado + Autónomo" : laboral === "asalariado" ? "Asalariado" : "Autónomo"}${userIncome ? ` · ${userIncome.toLocaleString("es-ES")} € brutos` : ""}`, margin, y);
+      doc.text(`${CCAA_MAP[ccaa] || "Todas"} · ${laboralLabel}${userIncome ? ` · ${userIncome.toLocaleString("es-ES")} € brutos` : ""}`, margin, y);
       y += 10;
 
       // Estimated savings
@@ -338,9 +341,6 @@ export default function Report({ deducciones, ccaa, laboral, situaciones, datosE
       setGeneratingPdf(false);
     }
   }
-
-  const laboralLabel = laboral === "ambos" ? "Asalariado + Autónomo"
-    : laboral === "asalariado" ? "Asalariado" : "Autónomo";
 
   return (
     <div className="animate-fade-up" ref={reportRef}>

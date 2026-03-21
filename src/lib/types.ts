@@ -60,6 +60,8 @@ export interface Stats {
   ccaa_lista: { codigo: string; nombre: string; total: number }[];
 }
 
+export type SituacionLaboral = "asalariado" | "autonomo" | "ambos";
+
 export const CCAA_MAP: Record<string, string> = {
   AND: "Andalucía",
   ARA: "Aragón",
@@ -82,6 +84,12 @@ export const CCAA_MAP: Record<string, string> = {
 
 /** Códigos de ciudades autónomas sin deducciones autonómicas propias */
 export const CIUDADES_AUTONOMAS = ["CML"] as const;
+
+export const LABORAL_LABELS: Record<SituacionLaboral, string> = {
+  asalariado: "Asalariado/a o pensionista",
+  autonomo: "Autónomo",
+  ambos: "Asalariado + Autónomo",
+};
 
 export const CATEGORIA_LABELS: Record<string, string> = {
   familia: "👨‍👩‍👧 Familia",
