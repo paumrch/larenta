@@ -1,6 +1,9 @@
 ---
 import Base from "../../layouts/Base.astro";
+import { getStats } from "../../lib/data";
 import guias from "../../../data/guias.json";
+
+const stats = getStats();
 ---
 
 <Base
@@ -59,15 +62,15 @@ import guias from "../../../data/guias.json";
           class=\"grid grid-cols-2 gap-4\"
         >
           <div class="card" style="padding: 1.5rem; text-align: center;">
-            <div style="font-size: 2rem; font-weight: 800; color: var(--color-primary);">8</div>
+            <div style="font-size: 2rem; font-weight: 800; color: var(--color-primary);">{guias.length}</div>
             <div style="font-size: 0.8rem; color: var(--color-on-surface-variant); margin-top: 0.25rem;">guías temáticas</div>
           </div>
           <div class="card" style="padding: 1.5rem; text-align: center;">
-            <div style="font-size: 2rem; font-weight: 800; color: var(--color-primary);">377</div>
+            <div style="font-size: 2rem; font-weight: 800; color: var(--color-primary);">{stats.total_deducciones}</div>
             <div style="font-size: 0.8rem; color: var(--color-on-surface-variant); margin-top: 0.25rem;">deducciones catalogadas</div>
           </div>
           <div class="card" style="padding: 1.5rem; text-align: center;">
-            <div style="font-size: 2rem; font-weight: 800; color: var(--color-primary);">19</div>
+            <div style="font-size: 2rem; font-weight: 800; color: var(--color-primary);">{stats.total_ccaa}</div>
             <div style="font-size: 0.8rem; color: var(--color-on-surface-variant); margin-top: 0.25rem;">comunidades autónomas</div>
           </div>
           <div class="card" style="padding: 1.5rem; text-align: center;">
