@@ -7,6 +7,8 @@ import {
 } from "../lib/types";
 import Report from "./Report";
 
+const STORAGE_KEY = "larenta_wizard_state";
+
 declare global {
   interface Window { dataLayer: Record<string, unknown>[]; }
 }
@@ -78,9 +80,36 @@ const LABORAL_OPTIONS = [
 
 const ALL_SITUACION_OPTIONS = Object.entries(SITUACION_LABELS);
 
+/** Try to restore saved wizard state from sessionStorage */
+function loadSavedState(): { step: number; answers: Answers; showResults: boolean } | null {
+  try {
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    // Basic validation
+    if (typeof parsed.step !== "number" || !parsed.answers) return null;
+    return {
+      step: parsed.step,
+      answers: {
+        ccaa: parsed.answers.ccaa || "",
+        laboral: parsed.answers.laboral || "",
+        situaciones: Array.isArray(parsed.answers.situaciones) ? parsed.answers.situaciones : [],
+        edad: parsed.answers.edad || "",
+        alquiler: parsed.answers.alquiler || "",
+        ganancias: parsed.answers.ganancias || "",
+        datosEconomicos: parsed.answers.datosEconomicos || {},
+      },
+      showResults: !!parsed.showResults,
+    };
+  } catch {
+    return null;
+  }
+}
+
 export default function Wizard({ deducciones }: WizardProps) {
-  const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<Answers>({
+  const saved = useMemo(() => loadSavedState(), []);
+  const [step, setStep] = useState(saved?.step ?? 0);
+  const [answers, setAnswers] = useState<Answers>(saved?.answers ?? {
     ccaa: "",
     laboral: "",
     situaciones: [],
@@ -89,7 +118,14 @@ export default function Wizard({ deducciones }: WizardProps) {
     ganancias: "",
     datosEconomicos: {},
   });
-  const [showResults, setShowResults] = useState(false);
+  const [showResults, setShowResults] = useState(saved?.showResults ?? false);
+
+  // Persist wizard state to sessionStorage on every change
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ step, answers, showResults }));
+    } catch { /* quota exceeded — ignore */ }
+  }, [step, answers, showResults]);
 
   // Track wizard start (once)
   useEffect(() => { pushEvent("wizard_start"); }, []);
@@ -217,6 +253,7 @@ export default function Wizard({ deducciones }: WizardProps) {
     setStep(0);
     setAnswers({ ccaa: "", laboral: "", situaciones: [], edad: "", alquiler: "", ganancias: "", datosEconomicos: {} });
     setShowResults(false);
+    try { sessionStorage.removeItem(STORAGE_KEY); } catch { /* ignore */ }
   }
 
   function toggleSituacion(sit: string) {
