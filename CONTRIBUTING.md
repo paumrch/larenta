@@ -14,48 +14,17 @@ Si encuentras una deducción con información errónea o desactualizada, [abre u
 
 ### 2. Contribuir datos
 
-Cada deducción es un archivo JSON en `data/fichas/<id>.json`. Un fichero típico tiene esta estructura:
+Los datos de deducciones se mantienen internamente y se compilan en los archivos JSON que consume la webapp (`data/deducciones.json`, `data/wizard_index.json`, `data/explorer_index.json`).
 
-```json
-{
-  "id": "AND-01",
-  "tipo": "autonomica",
-  "comunidad": "Andalucía",
-  "codigo_ccaa": "AND",
-  "nombre": "Nombre oficial de la deducción",
-  "nombre_corto": "Versión concisa para UI",
-  "categoria": "vivienda",
-  "relevancia": 1,
-  "aplica_asalariados": true,
-  "aplica_autonomos": true,
-  "situaciones": ["tiene_vivienda_propia"],
-  "resumen": "Descripción accesible de 1-2 frases",
-  "porcentaje": "6%",
-  "base_maxima": "9.040 euros",
-  "limite_renta": "25.000 euros",
-  "novedad_2025": false,
-  "url_oficial": "https://sede.agenciatributaria.gob.es/...",
-  "contenido_md": "Contenido completo en markdown...",
-  "edad_minima": null,
-  "edad_maxima": 35
-}
-```
+Si quieres corregir o añadir información sobre una deducción:
 
-Para corregir o añadir información:
+1. [Abre un issue](https://github.com/paumrch/larenta/issues/new?template=dato-incorrecto.yml) indicando:
+   - El ID de la deducción (ej. `MAD-13`) o su nombre.
+   - Qué dato hay que corregir o añadir.
+   - La fuente oficial (enlace a la AEAT, BOE o normativa autonómica).
+2. Un mantenedor aplicará el cambio, regenerará los índices y lo mergeará.
 
-1. Modifica la ficha en `data/fichas/`.
-2. Regenera los índices:
-   ```bash
-   python3 scripts/generate_indexes.py
-   ```
-3. Copia los índices a la webapp:
-   ```bash
-   cp data/wizard_index.json data/explorer_index.json data/deducciones.json larenta/data/
-   ```
-4. Comprueba que el build pasa:
-   ```bash
-   cd larenta && npm run build
-   ```
+Si prefieres enviar una PR directamente, puedes editar los archivos JSON en `data/`. Asegúrate de que el build pasa (`npm run build`) antes de abrirla.
 
 ### 3. Contribuir código
 
@@ -99,15 +68,11 @@ src/
    git checkout -b fix/mi-mejora
    ```
 3. Haz tus cambios.
-4. Pasa los tests:
-   ```bash
-   node scripts/test_income_filter.mjs
-   ```
-5. Comprueba que el build funciona:
+4. Comprueba que el build funciona:
    ```bash
    npm run build
    ```
-6. Abre un Pull Request describiendo los cambios.
+5. Abre un Pull Request describiendo los cambios.
 
 ## Convenciones
 
@@ -116,15 +81,15 @@ src/
 - **Idioma**: el código y los commits pueden ser en español o inglés. Los datos están en español.
 - **Formato**: respeta el formato existente. No reformatees archivos que no has modificado.
 
-## Tests
+## Validación
 
-El proyecto tiene tests de simulación que verifican la lógica de filtrado del asistente:
+Antes de abrir una PR, comprueba que el proyecto compila correctamente:
 
 ```bash
-node scripts/test_income_filter.mjs
+npm run build
 ```
 
-Si tus cambios afectan al filtrado de deducciones (Wizard.tsx, types.ts, datos de fichas), asegúrate de que los 31 tests pasan.
+Si el build falla, revisa los errores — normalmente son imports rotos o errores de tipo en TypeScript.
 
 ## Código de conducta
 
