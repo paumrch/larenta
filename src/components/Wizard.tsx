@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
-import type { DeduccionIndex } from "../lib/types";
+import type { DeduccionIndex, SituacionLaboral } from "../lib/types";
 import {
   CCAA_MAP,
   CIUDADES_AUTONOMAS,
@@ -24,7 +24,7 @@ interface WizardProps {
 
 interface Answers {
   ccaa: string;
-  laboral: "asalariado" | "autonomo" | "ambos" | "";
+  laboral: SituacionLaboral | "";
   situaciones: string[];
   edad: string;
   alquiler: "si" | "no" | "";
@@ -73,7 +73,7 @@ const CCAA_OPTIONS = Object.entries(CCAA_MAP)
   .sort(([, a], [, b]) => a.localeCompare(b));
 
 const LABORAL_OPTIONS = [
-  { value: "asalariado", label: "Asalariado/a",  desc: "Trabajo por cuenta ajena",  icon: "💼" },
+  { value: "asalariado", label: "Asalariado/a o pensionista", desc: "Trabajo por cuenta ajena o cobro una pensión", icon: "💼" },
   { value: "autonomo",   label: "Autónomo/a",    desc: "Trabajo por cuenta propia",  icon: "🧾" },
   { value: "ambos",      label: "Ambos",         desc: "Combino empleo y actividad", icon: "⚖️" },
 ] as const;

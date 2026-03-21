@@ -60,6 +60,8 @@ export interface Stats {
   ccaa_lista: { codigo: string; nombre: string; total: number }[];
 }
 
+export type SituacionLaboral = "asalariado" | "autonomo" | "ambos";
+
 export const CCAA_MAP: Record<string, string> = {
   AND: "Andalucía",
   ARA: "Aragón",
@@ -107,6 +109,11 @@ export const SLUG_TO_CCAA: Record<string, string> = Object.fromEntries(
   Object.entries(CCAA_SLUG).map(([k, v]) => [v, k])
 );
 
+export const LABORAL_LABELS: Record<SituacionLaboral, string> = {
+  asalariado: "Asalariado/a o pensionista",
+  autonomo: "Autónomo",
+  ambos: "Asalariado + Autónomo",
+};
 export const CATEGORIA_LABELS: Record<string, string> = {
   familia: "👨‍👩‍👧 Familia",
   vivienda: "🏠 Vivienda",
