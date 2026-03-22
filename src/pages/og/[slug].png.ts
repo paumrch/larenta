@@ -1,36 +1,38 @@
-import type { APIRoute } from "astro";
+import type { APIRoute, GetStaticPaths } from "astro";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
+import {
+  getAllDeducciones,
+  getDeduccionesByCCAA,
+  getDeduccionesByCategoria,
+  getStats,
+} from "../../lib/data";
+import {
+  CCAA_MAP,
+  CCAA_SLUG,
+  CATEGORIA_LABELS,
+  cleanName,
+} from "../../lib/types";
+import guiasData from "../../../data/guias.json";
 
-export const prerender = false;
+export const prerender = true;
 
-let fontBold: ArrayBuffer | null = null;
-let fontRegular: ArrayBuffer | null = null;
-let logoDataUri: string | null = null;
+// ── Assets (read once at build time) ────────────────────────────────
+const root = process.cwd();
+const fontBold = readFileSync(join(root, "public/fonts/PublicSans-ExtraBold.ttf"));
+const fontRegular = readFileSync(join(root, "public/fonts/PublicSans-Regular.ttf"));
 
-async function loadAssets(siteUrl: string) {
-  if (fontBold && fontRegular && logoDataUri) {
-    return { fontBold, fontRegular, logoDataUri };
-  }
-  const [boldRes, regularRes, logoRes] = await Promise.all([
-    fetch(`${siteUrl}/fonts/PublicSans-ExtraBold.ttf`),
-    fetch(`${siteUrl}/fonts/PublicSans-Regular.ttf`),
-    fetch(`${siteUrl}/LRwhite.svg`),
-  ]);
-  fontBold = await boldRes.arrayBuffer();
-  fontRegular = await regularRes.arrayBuffer();
-
-  // Pre-render SVG logo to PNG (satori can't handle SVGs with <style> tags)
-  const svgText = await logoRes.text();
-  const cleanSvg = svgText
-    .replace(/<defs>[\s\S]*?<\/defs>/, "")
-    .replace(/class="cls-1"/g, 'fill="#ffffff"');
-  const logoResvg = new Resvg(cleanSvg, { fitTo: { mode: "height", value: 120 } });
-  const logoPng = logoResvg.render().asPng();
-  logoDataUri = `data:image/png;base64,${Buffer.from(logoPng).toString("base64")}`;
-
-  return { fontBold, fontRegular, logoDataUri };
-}
+const logoSvg = readFileSync(join(root, "public/LRwhite.svg"), "utf-8");
+const cleanSvg = logoSvg
+  .replace(/<defs>[\s\S]*?<\/defs>/, "")
+  .replace(/class="cls-1"/g, 'fill="#ffffff"');
+const logoResvg = new Resvg(cleanSvg, {
+  fitTo: { mode: "height", value: 120 },
+});
+const logoPng = logoResvg.render().asPng();
+const logoDataUri = `data:image/png;base64,${Buffer.from(logoPng).toString("base64")}`;
 
 const WIDTH = 1200;
 const HEIGHT = 630;
@@ -46,13 +48,118 @@ function sanitize(str: string): string {
     .trim();
 }
 
-export const GET: APIRoute = async ({ url }) => {
-  const origin = url.origin;
-  const { fontBold: bold, fontRegular: regular, logoDataUri: logo } = await loadAssets(origin);
+// ── All OG image entries ────────────────────────────────────────────
+interface OgEntry {
+  slug: string;
+  title: string;
+  subtitle?: string;
+  badge?: string;
+}
 
-  const title = sanitize((url.searchParams.get("title") || "Tu guía completa del IRPF").slice(0, 200));
-  const subtitle = sanitize((url.searchParams.get("subtitle") || "").slice(0, 200));
-  const badge = sanitize((url.searchParams.get("badge") || "").slice(0, 50));
+function buildEntries(): OgEntry[] {
+  const stats = getStats();
+  const deducciones = getAllDeducciones();
+  const entries: OgEntry[] = [];
+
+  // Fixed pages
+  entries.push({
+    slug: "home",
+    title: "Descubre todas las deducciones del IRPF",
+    subtitle: `${stats.total_deducciones} deducciones estatales y autonómicas explicadas de forma clara`,
+  });
+  entries.push({
+    slug: "asistente",
+    title: "Asistente de deducciones",
+    subtitle: "Descubre qué deducciones puedes aplicar en tu declaración",
+  });
+  entries.push({
+    slug: "explorador",
+    title: "Explorador de deducciones",
+    subtitle: `Busca y filtra ${deducciones.length} deducciones del IRPF`,
+    badge: `${deducciones.length} deducciones`,
+  });
+  entries.push({
+    slug: "novedades",
+    title: "Novedades IRPF 2025",
+    subtitle: `${stats.novedades_2025} deducciones nuevas o modificadas`,
+  });
+  entries.push({
+    slug: "elproyecto",
+    title: "Sobre este proyecto",
+    badge: "larenta.es",
+    subtitle: "Quién está detrás y por qué existe",
+  });
+  entries.push({
+    slug: "guia",
+    title: "Guía IRPF 2025",
+    subtitle: "Renta explicada paso a paso",
+  });
+
+  // Guías
+  for (const guia of guiasData as { slug: string; titulo: string }[]) {
+    entries.push({
+      slug: `guia-${guia.slug}`,
+      title: guia.titulo,
+      badge: "Guía IRPF",
+    });
+  }
+
+  // Deducciones
+  for (const d of deducciones) {
+    entries.push({
+      slug: `deduccion-${d.id}`,
+      title: cleanName(d.nombre),
+      badge: d.tipo === "estatal" ? "Estatal" : d.comunidad,
+    });
+  }
+
+  // Comunidades
+  for (const [codigo, slug] of Object.entries(CCAA_SLUG)) {
+    const ccaaName = CCAA_MAP[codigo];
+    const deds = getDeduccionesByCCAA(codigo);
+    entries.push({
+      slug: `comunidad-${slug}`,
+      title: `Deducciones IRPF ${ccaaName}`,
+      subtitle: `${deds.length} deducciones · Campaña 2025`,
+    });
+  }
+
+  // Categorías
+  const categorias = [
+    "familia", "vivienda", "educacion", "salud", "empresa",
+    "donativos", "energia", "movilidad", "otros",
+  ];
+  for (const cat of categorias) {
+    const label = CATEGORIA_LABELS[cat] || cat;
+    const labelTexto = label.replace(/^[^\s]+\s/, "");
+    const deds = getDeduccionesByCategoria(cat);
+    const totalCCAA = new Set(
+      deds.filter((d) => d.tipo === "autonomica").map((d) => d.codigo_ccaa),
+    ).size;
+    entries.push({
+      slug: `categoria-${cat}`,
+      title: `Deducciones ${labelTexto} IRPF 2025`,
+      subtitle: `${deds.length} deducciones · ${totalCCAA} comunidades`,
+    });
+  }
+
+  return entries;
+}
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return buildEntries().map((e) => ({
+    params: { slug: e.slug },
+    props: { title: e.title, subtitle: e.subtitle || "", badge: e.badge || "" },
+  }));
+};
+
+// ── Render ───────────────────────────────────────────────────────────
+export const GET: APIRoute = async ({ props }) => {
+  const title = sanitize(
+    ((props.title as string) || "Tu guía completa del IRPF").slice(0, 200),
+  );
+  const subtitle = sanitize(((props.subtitle as string) || "").slice(0, 200));
+  const badge = sanitize(((props.badge as string) || "").slice(0, 50));
 
   const svg = await satori(
     {
@@ -70,7 +177,6 @@ export const GET: APIRoute = async ({ url }) => {
           overflow: "hidden",
         },
         children: [
-          // Background: subtle geometric shapes (bottom-right)
           {
             type: "div",
             props: {
@@ -101,7 +207,6 @@ export const GET: APIRoute = async ({ url }) => {
               },
             },
           },
-          // Gold accent bar (top)
           {
             type: "div",
             props: {
@@ -115,7 +220,6 @@ export const GET: APIRoute = async ({ url }) => {
               },
             },
           },
-          // Content
           {
             type: "div",
             props: {
@@ -127,7 +231,6 @@ export const GET: APIRoute = async ({ url }) => {
                 padding: "56px 64px 48px 64px",
               },
               children: [
-                // Top: badge + title + subtitle
                 {
                   type: "div",
                   props: {
@@ -141,7 +244,10 @@ export const GET: APIRoute = async ({ url }) => {
                         ? {
                             type: "div",
                             props: {
-                              style: { display: "flex", alignItems: "center" },
+                              style: {
+                                display: "flex",
+                                alignItems: "center",
+                              },
                               children: [
                                 {
                                   type: "span",
@@ -167,7 +273,14 @@ export const GET: APIRoute = async ({ url }) => {
                         type: "div",
                         props: {
                           style: {
-                            fontSize: title.length > 80 ? "38px" : title.length > 55 ? "44px" : title.length > 35 ? "52px" : "58px",
+                            fontSize:
+                              title.length > 80
+                                ? "38px"
+                                : title.length > 55
+                                  ? "44px"
+                                  : title.length > 35
+                                    ? "52px"
+                                    : "58px",
                             fontWeight: 800,
                             color: "#ffffff",
                             lineHeight: 1.12,
@@ -195,7 +308,6 @@ export const GET: APIRoute = async ({ url }) => {
                     ].filter(Boolean),
                   },
                 },
-                // Bottom: logo + tagline
                 {
                   type: "div",
                   props: {
@@ -210,13 +322,10 @@ export const GET: APIRoute = async ({ url }) => {
                       {
                         type: "img",
                         props: {
-                          src: logo,
+                          src: logoDataUri,
                           width: 206,
                           height: 32,
-                          style: {
-                            width: "206px",
-                            height: "32px",
-                          },
+                          style: { width: "206px", height: "32px" },
                         },
                       },
                       {
@@ -269,30 +378,24 @@ export const GET: APIRoute = async ({ url }) => {
       fonts: [
         {
           name: "Public Sans",
-          data: bold,
+          data: fontBold,
           weight: 800,
           style: "normal" as const,
         },
         {
           name: "Public Sans",
-          data: regular,
+          data: fontRegular,
           weight: 400,
           style: "normal" as const,
         },
       ],
-    }
+    },
   );
 
-  const resvg = new Resvg(svg, {
-    fitTo: { mode: "width", value: WIDTH },
-  });
+  const resvg = new Resvg(svg, { fitTo: { mode: "width", value: WIDTH } });
   const png = resvg.render().asPng();
 
   return new Response(png, {
-    status: 200,
-    headers: {
-      "Content-Type": "image/png",
-      "Cache-Control": "public, max-age=86400, s-maxage=604800",
-    },
+    headers: { "Content-Type": "image/png" },
   });
 };

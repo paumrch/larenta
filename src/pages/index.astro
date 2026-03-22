@@ -6,7 +6,7 @@ import { CCAA_MAP, CCAA_SLUG, CATEGORIA_LABELS, CATEGORIA_COLORS } from "../lib/
 const stats = getStats();
 ---
 
-<Base title="larenta.es" ogImage={`/api/og?title=Descubre+todas+las+deducciones+del+IRPF&subtitle=${stats.total_deducciones}+deducciones+estatales+y+auton%C3%B3micas+explicadas+de+forma+clara`}>
+<Base title="larenta.es" ogImage="/og/home.png">
 
   <script slot="head" type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",

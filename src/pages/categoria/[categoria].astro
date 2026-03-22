@@ -59,7 +59,7 @@ const novedades = deducciones.filter((d) => d.novedad_2025).length;
 <Base
   title={`Deducciones IRPF ${labelTexto} 2025`}
   description={`${deducciones.length} deducciones de ${labelTexto.toLowerCase()} en el IRPF 2025: ${estatales.length} estatales y ${autonomicas.length} autonómicas en ${totalCCAA} comunidades. Requisitos e importes actualizados.`}
-  ogImage={`/api/og?title=${encodeURIComponent("Deducciones " + labelTexto + " IRPF 2025")}&subtitle=${encodeURIComponent(deducciones.length + " deducciones · " + totalCCAA + " comunidades")}`}
+  ogImage={`/og/categoria-${categoria}.png`}
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",

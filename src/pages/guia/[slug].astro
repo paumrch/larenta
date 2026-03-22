@@ -29,7 +29,7 @@ const guiaSiguiente = guiaIndex < guias.length - 1 ? guias[guiaIndex + 1] : null
 <Base
   title={`${guia.titulo} — Guía IRPF 2025`}
   description={`${guia.resumen} ${guia.subtitulo}. Manual Práctico IRPF 2025 de la Agencia Tributaria.`}
-  ogImage={`/api/og?title=${encodeURIComponent(guia.titulo)}&badge=Gu%C3%ADa+IRPF`}
+  ogImage={`/og/guia-${guia.slug}.png`}
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify({
@@ -47,7 +47,7 @@ const guiaSiguiente = guiaIndex < guias.length - 1 ? guias[guiaIndex + 1] : null
       "headline": `${guia.titulo} — Guía IRPF 2025`,
       "description": guia.resumen,
       "url": `https://www.larenta.es/guia/${guia.slug}`,
-      "image": `https://www.larenta.es/api/og?title=${encodeURIComponent(guia.titulo)}&badge=Gu%C3%ADa+IRPF`,
+      "image": `https://www.larenta.es/og/guia-${guia.slug}.png`,
       "datePublished": "2025-04-02",
       "dateModified": "2025-07-01",
       "author": { "@type": "Organization", "name": "larenta.es", "url": "https://www.larenta.es" },

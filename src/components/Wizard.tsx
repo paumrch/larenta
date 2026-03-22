@@ -141,9 +141,16 @@ export default function Wizard({ deducciones }: WizardProps) {
   const results = useMemo(() => {
     if (!showResults) return [];
 
+    // Estatales that only apply to a specific CCAA (e.g. Régimen especial Baleares)
+    const ESTATAL_CCAA: Record<string, string> = {
+      "E-04-incentivos-directa-04": "BAL",
+    };
+
     return deducciones
       .filter((d) => {
         if (d.tipo === "autonomica" && d.codigo_ccaa !== answers.ccaa) return false;
+        const reqCcaa = ESTATAL_CCAA[d.id];
+        if (reqCcaa && reqCcaa !== answers.ccaa) return false;
         if (answers.laboral === "asalariado" && !d.aplica_asalariados) return false;
         if (answers.laboral === "autonomo" && !d.aplica_autonomos) return false;
 

@@ -53,7 +53,7 @@ const relacionadas = (() => {
 <Base
   title={nombre}
   description={`${resumen} — Deducción ${d.tipo === "estatal" ? "estatal" : "autonómica de " + d.comunidad} del IRPF 2025.`}
-  ogImage={`/api/og?title=${encodeURIComponent(nombre)}&badge=${encodeURIComponent(d.tipo === "estatal" ? "Estatal" : d.comunidad)}`}
+  ogImage={`/og/deduccion-${d.id}.png`}
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",

@@ -39,7 +39,7 @@ const canonicalUrl = `https://www.larenta.es/comunidad/${slug}`;
 <Base
   title={`Deducciones IRPF ${ccaaName} 2025`}
   description={`Lista completa de las ${deducciones.length} deducciones autonómicas del IRPF 2025 en ${ccaaName}. Requisitos, importes y condiciones para aplicarlas en tu declaración de la renta.`}
-  ogImage={`/api/og?title=${encodeURIComponent("Deducciones IRPF " + ccaaName)}&subtitle=${encodeURIComponent(deducciones.length + " deducciones · Campaña 2025")}`}
+  ogImage={`/og/comunidad-${slug}.png`}
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",

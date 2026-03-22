@@ -31,7 +31,7 @@ const autonomicas = novedades.filter((d) => d.tipo === "autonomica").length;
 <Base
   title="Novedades IRPF 2025: nuevas deducciones fiscales"
   description={`${novedades.length} deducciones nuevas o modificadas en el IRPF 2025. Descubre qué ha cambiado este año: ${estatales} estatales y ${autonomicas} autonómicas con novedades para la declaración de la renta.`}
-  ogImage={`/api/og?title=${encodeURIComponent("Novedades IRPF 2025")}&subtitle=${encodeURIComponent(novedades.length + " deducciones nuevas o modificadas")}`}
+  ogImage="/og/novedades.png"
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
