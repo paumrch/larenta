@@ -1,17 +1,17 @@
 {
-  "total_deducciones": 377,
-  "total_estatales": 23,
+  "total_deducciones": 375,
+  "total_estatales": 21,
   "total_autonomicas": 354,
   "total_ccaa": 15,
-  "total_alta_relevancia": 161,
-  "total_media_relevancia": 75,
+  "total_alta_relevancia": 160,
+  "total_media_relevancia": 74,
   "total_baja_relevancia": 141,
   "novedades_2025": 41,
   "categorias": {
-    "familia": 87,
+    "familia": 88,
     "vivienda": 76,
     "salud": 46,
-    "otros": 47,
+    "otros": 44,
     "empresa": 42,
     "educacion": 35,
     "donativos": 26,
@@ -36,7 +36,7 @@
     "Cataluña": 13
   },
   "top_situaciones": {
-    "tiene_hijos": 117,
+    "tiene_hijos": 118,
     "tiene_vivienda_propia": 77,
     "alquila_vivienda": 45,
     "discapacidad": 45,
