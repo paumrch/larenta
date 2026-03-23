@@ -150,8 +150,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "La Sede electrónica de la Agencia Tributaria incorpora un « », donde podrá consultar si tiene derecho a la deducción, los efectos sobre la deducción por cambios en la titularidad del contrato de alquiler o por quien realiza los",
     "porcentaje": "10,05%",
@@ -617,9 +617,9 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
       "discapacidad",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "- El 15 por 100 de las cantidades satisfechas en el período impositivo por el alquiler de la vivienda habitual del contribuyente.",
     "porcentaje": "15%",
@@ -945,8 +945,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "El 10 por 100 de las cantidades satisfechas durante el ejercicio correspondiente, por el arrendamiento de la vivienda habitual vinculado a las operaciones de dación en pago, con una base máxima de deducción de 4.",
     "porcentaje": "10%",
@@ -1086,7 +1086,7 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda"
+      "es_arrendador"
     ],
     "resumen": "El 30 por 100 de la parte de cuota íntegra autonómica del IRPF que corresponda a los rendimientos del capital inmobiliario de tales arrendamientos en los términos que más adelante se indican.",
     "porcentaje": "30%",
@@ -1365,8 +1365,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "- El 24 por 100 de las cantidades satisfechas en el período impositivo por el alquiler de la vivienda habitual.",
     "porcentaje": "24%",
@@ -1389,8 +1389,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "- El 25 por 100 de las cantidades satisfechas durante el ejercicio correspondiente, por el arrendamiento de la vivienda habitual.",
     "porcentaje": "25%",
@@ -1531,8 +1531,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_arrendador"
     ],
     "resumen": "- El 10 por 100 de las cantidades satisfechas en el período impositivo por los contribuyentes, que correspondan a alguno de los siguientes conceptos:",
     "porcentaje": "10%",
@@ -1717,7 +1717,7 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda"
+      "es_arrendador"
     ],
     "resumen": "- El 75 por 100 de los gastos satisfechos por el contribuyente durante el ejercicio en concepto de primas de seguros de crédito que cubran total o parcialmente el impago de las rentas a las que el contribuyente tenga derecho por razón del",
     "porcentaje": "75%",
@@ -1763,7 +1763,7 @@
     "aplica_asalariados": false,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda"
+      "es_arrendador"
     ],
     "resumen": "- 1.000 euros por cada uno de los bienes inmuebles radicados en Canarias destinados a los arrendamientos de vivienda previstos en el artículo 2 de la Ley 29/1994, de 24 de noviembre, de arrendamientos",
     "porcentaje": null,
@@ -2018,10 +2018,10 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
       "discapacidad",
       "tiene_conyuge",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "- El 10 por 100 de las cantidades satisfechas en el período impositivo por el arrendamiento de la vivienda habitual",
     "porcentaje": "10%",
@@ -2044,8 +2044,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "- El 20 por 100 de las cantidades satisfechas en el periodo impositivo por el arrendamiento de una vivienda que constituya o vaya a constituir su vivienda habitual.",
     "porcentaje": "20%",
@@ -2162,7 +2162,7 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda"
+      "es_arrendador"
     ],
     "resumen": "500 euros por cada uno de los bienes inmuebles destinados al arrendamiento de vivienda.",
     "porcentaje": null,
@@ -2394,8 +2394,8 @@
     "aplica_asalariados": false,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "autonomo"
+      "autonomo",
+      "es_inquilino"
     ],
     "resumen": "El 20 por 100 del valor de adquisición, incluyendo los gastos y tributos inherentes a dicha adquisición, excluidos los intereses, de los siguientes elementos patrimoniales.",
     "porcentaje": "20%",
@@ -2578,8 +2578,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "- El 20 por 100 de las cantidades satisfechas en el período impositivo en concepto de alquiler de la vivienda habitual en Castilla y León, con un límite de 459 euros.",
     "porcentaje": "20%",
@@ -2697,8 +2697,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "vive_en_pueblo"
+      "vive_en_pueblo",
+      "es_arrendador"
     ],
     "resumen": "El 15 por 100 de las cantidades invertidas en actuaciones de rehabilitación de viviendas.",
     "porcentaje": "15%",
@@ -2973,9 +2973,9 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
       "familia_monoparental",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "- El 15 por 100 de las cantidades satisfechas por el arrendamiento de la vivienda que constituya o vaya a constituir su residencia habitual en Castilla-La Mancha durante el período impositivo, cuando se cumplan los requisitos que indicamos en el",
     "porcentaje": "15%",
@@ -2998,8 +2998,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "- El 15 por 100 de las cantidades satisfechas por el arrendamiento de la vivienda que constituya o vaya a constituir su residencia habitual en Castilla-La Mancha durante el período impositivo, cuando se cumplan los requisitos que indicamos en el",
     "porcentaje": "15%",
@@ -3022,8 +3022,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "- El 15 por 100 de las cantidades satisfechas por el arrendamiento de la vivienda que constituya o vaya a constituir su residencia habitual en Castilla-La Mancha durante el período impositivo, con un máximo de 450",
     "porcentaje": "15%",
@@ -3046,9 +3046,9 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
       "discapacidad",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "- El 15 por 100 de las cantidades satisfechas por el arrendamiento de la vivienda que constituya o vaya a constituir su residencia habitual en Castilla-La Mancha durante el período impositivo, cuando se cumplan los requisitos que indicamos en el",
     "porcentaje": "15%",
@@ -3071,8 +3071,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "- El 15 por 100 de las cantidades satisfechas durante el ejercicio por el arrendamiento de la vivienda habitual del contribuyente, situada en Castilla-La Mancha y que constituya la residencia",
     "porcentaje": "15%",
@@ -3516,8 +3516,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "- El 10 por 100 de las cantidades satisfechas en el período impositivo en concepto de alquiler de la vivienda habitual, simpre que el contribuyente se encuentre en alguna de las situaciones",
     "porcentaje": "10%",
@@ -3540,10 +3540,10 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
       "discapacidad",
       "tiene_hijos",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "- El 20 por 100 de las cantidades satisfechas en el período impositivo en concepto de alquiler de la vivienda habitual.",
     "porcentaje": "20%",
@@ -3915,9 +3915,9 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
       "tiene_conyuge",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "- El 30 por 100 de las cantidades satisfechas por el arrendamiento de la vivienda habitual en el período impositivo.",
     "porcentaje": "30%",
@@ -4108,7 +4108,7 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda"
+      "es_arrendador"
     ],
     "resumen": "1.000 euros por cada uno de los bienes inmuebles destinados al arrendamiento de vivienda.",
     "porcentaje": null,
@@ -4155,8 +4155,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "reforma_eficiencia"
+      "reforma_eficiencia",
+      "es_arrendador"
     ],
     "resumen": "- El 10 por 100 de las cantidades satisfechas en el ejercicio por los contribuyentes que tengan inmuebles arrendados como vivienda siempre que correspondan a alguno de los siguientes conceptos vinculados a tales",
     "porcentaje": "10%",
@@ -4408,8 +4408,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "Importante: a efectos de la aplicación de la presente deducción se equipara el tratamiento otorgado a los arrendatarios con el de los cesionarios de uso en virtud de contratos otorgados con entidades titulares de viviendas colaborativas al amparo de",
     "porcentaje": "20%",
@@ -4738,7 +4738,7 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda"
+      "es_arrendador"
     ],
     "resumen": "El 5 por 100 de los rendimientos íntegros en el periodo impositivo, siempre que se cumplan los requisitos que se indican a continuación.",
     "porcentaje": "5%",
@@ -4807,7 +4807,7 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda"
+      "es_inquilino"
     ],
     "resumen": "El 10 por 100 de las cantidades satisfechas en el período impositivo por el arrendamiento de una vivienda, como consecuencia de la realización de una actividad por cuenta propia o ajena, en municipio distinto de aquel en el que el contribuyente",
     "porcentaje": "10%",
@@ -5322,9 +5322,9 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
       "tiene_vivienda_propia",
-      "vive_en_pueblo"
+      "vive_en_pueblo",
+      "es_inquilino"
     ],
     "resumen": "- El 30 por 100 de las cantidades satisfechas por el contribuyente en el período impositivo en concepto de alquiler de su vivienda habitual, con el límite de 1.000 euros anuales.",
     "porcentaje": "30%",
@@ -5420,8 +5420,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "vive_en_pueblo"
+      "vive_en_pueblo",
+      "es_arrendador"
     ],
     "resumen": "El 15 por 100 de las cantidades invertidas durante el período impositivo en actuaciones de rehabilitación de viviendas en zonas rurales para ser destinadas a su alquiler.",
     "porcentaje": "15%",
@@ -5492,8 +5492,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_arrendador"
     ],
     "resumen": "- El 100 por 100 del rendimiento neto reducido obtenido por el arrendamiento de viviendas que hayan estado en desuso.",
     "porcentaje": "100%",
@@ -5739,9 +5739,9 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
       "tiene_hijos",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "- El 10 por 100 de las cantidades satisfechas durante el período impositivo en concepto de alquiler de la vivienda habitual.",
     "porcentaje": "10%",
@@ -5928,7 +5928,7 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda"
+      "es_arrendador"
     ],
     "resumen": "500 euros por cada uno de los bienes inmuebles destinados al arrendamiento de vivienda.",
     "porcentaje": null,
@@ -5951,8 +5951,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "reforma_eficiencia"
+      "reforma_eficiencia",
+      "es_arrendador"
     ],
     "resumen": "- El 1 5 por 100 de las cantidades satisfechas por las obras de reparación y conservación, así como cualquier otro gasto necesario para que el inmueble se encuentre en condiciones de ser arrendado como vivienda, incluida la obtención del certificado",
     "porcentaje": "5%",
@@ -6311,8 +6311,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "- \\- Sean mayores de 65 años y no ejerzan ninguna actividad laboral o profesional.",
     "porcentaje": "15%",
@@ -6404,7 +6404,7 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda"
+      "es_inquilino"
     ],
     "resumen": "- El 15 por 100 de los gastos satisfechos por el contribuyente durante el ejercicio en concepto de renta de alquiler de vivienda por razón del traslado temporal de su isla de residencia a otra isla del archipiélago balear en el ámbito de una misma",
     "porcentaje": "15%",
@@ -6540,7 +6540,7 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda"
+      "es_arrendador"
     ],
     "resumen": "- El 50 por 100 de los gastos satisfechos por el contribuyente durante el ejercicio en concepto de:",
     "porcentaje": "50%",
@@ -6563,7 +6563,7 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda"
+      "es_arrendador"
     ],
     "resumen": "- El 75 por 100 de los gastos satisfechos por el contribuyente durante el ejercicio en concepto de primas de seguros que cubran total o parcialmente el impago de las rentas a las que el contribuyente tenga derecho por razón del arrendamiento a",
     "porcentaje": "75%",
@@ -6815,8 +6815,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "El 40 por 100 de los gastos satisfechos durante el ejercicio en concepto de adquisición o construcción o alquiler de la vivienda en las Illes Balears o del transporte aéreo o marítimo interinsular de los",
     "porcentaje": "40%",
@@ -6839,10 +6839,10 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
       "cuida_mayores",
       "tiene_hijos",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "<table><thead><tr><th><p>Código</p></th><th><p>Municipio</p></th><th><p>Código</p></th><th><p>Municipio</p></th><th><p>Código</p></th><th><p>Municipio</p></th></tr></thead><tbody><tr><td>12</td><td>Abalos</td><td>630</td><td>Fonzaleche</td><td>129</t",
     "porcentaje": null,
@@ -6912,8 +6912,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "- El 10 por 100 de las cantidades no subvencionadas satisfechas en el ejercicio para el alquiler de la vivienda habitual.",
     "porcentaje": "10%",
@@ -7540,9 +7540,9 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
       "familia_monoparental",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "\\- Las condiciones necesarias para la consideración de familia numerosa y su clasificación por categorías se determinarán con arreglo a lo establecido en la Ley 40/2003, de 18 de noviembre, de Protección a las Familias",
     "porcentaje": "10%",
@@ -7612,8 +7612,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "reforma_eficiencia"
+      "reforma_eficiencia",
+      "es_arrendador"
     ],
     "resumen": "- El importe de las cantidades satisfechas en el ejercicio que correspondan a alguno de los siguientes conceptos:",
     "porcentaje": null,
@@ -8138,8 +8138,8 @@
     "aplica_asalariados": true,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "- El 10 por 100 de las cantidades no subvencionadas satisfechas en el ejercicio, en el período impositivo por alquiler de la vivienda habitual del contribuyente.",
     "porcentaje": "10%",
@@ -8467,10 +8467,10 @@
     "aplica_asalariados": false,
     "aplica_autonomos": true,
     "situaciones": [
-      "alquila_vivienda",
       "autonomo",
       "invierte",
-      "tiene_vivienda_propia"
+      "tiene_vivienda_propia",
+      "es_inquilino"
     ],
     "resumen": "Por las inversiones realizas en el periodo en la instalación de sistemas destinados al aprovechamiento de energías renovables:",
     "porcentaje": "50%",

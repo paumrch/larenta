@@ -27,7 +27,6 @@ interface Answers {
   laboral: SituacionLaboral | "";
   situaciones: string[];
   edad: string;
-  alquiler: "si" | "no" | "";
   ganancias: "si" | "no" | "";
   datosEconomicos: Record<string, string>;
 }
@@ -37,7 +36,6 @@ const STEPS = [
   { key: "laboral",    title: "¿Cuál es tu situación laboral?",       subtitle: "Esto determina qué deducciones aplican" },
   { key: "situaciones",title: "¿Qué situaciones te describen?",       subtitle: "Marca todas las que apliquen" },
   { key: "edad",       title: "¿Cuántos años tienes?",               subtitle: "Algunas deducciones tienen límites de edad" },
-  { key: "alquiler",   title: "¿Alquilas algún inmueble?",            subtitle: "Vivienda, local u otro bien" },
   { key: "ganancias",  title: "¿Has tenido ganancias patrimoniales?", subtitle: "Venta de inmuebles, fondos, acciones…" },
   { key: "economicos", title: "Unos datos más para personalizar",     subtitle: "Opcional — para estimar mejor tu ahorro" },
 ] as const;
@@ -61,7 +59,7 @@ const INCOME_QUESTIONS: FinancialQuestion[] = [
 /** Situational financial questions */
 const SITUATIONAL_QUESTIONS: FinancialQuestion[] = [
   { key: "num_hijos", label: "¿Cuántos hijos tienes?", placeholder: "0", suffix: "", showIf: ["tiene_hijos", "familia_numerosa", "familia_monoparental"] },
-  { key: "alquiler_anual", label: "¿Cuánto pagas de alquiler al año?", placeholder: "9.600", suffix: "€/año", showIf: ["alquila_vivienda"] },
+  { key: "alquiler_anual", label: "¿Cuánto pagas de alquiler al año?", placeholder: "9.600", suffix: "€/año", showIf: ["es_inquilino"] },
   { key: "inversion_vivienda", label: "¿Cuánto has invertido en vivienda este año?", placeholder: "5.000", suffix: "€", showIf: ["tiene_vivienda_propia"] },
   { key: "donativos", label: "¿Cuánto has donado este año?", placeholder: "500", suffix: "€", showIf: ["hace_donativos"] },
   { key: "gastos_educacion", label: "¿Gastos en educación este año?", placeholder: "2.000", suffix: "€", showIf: ["estudia_o_tiene_estudiantes"] },
@@ -95,7 +93,6 @@ function loadSavedState(): { step: number; answers: Answers; showResults: boolea
         laboral: parsed.answers.laboral || "",
         situaciones: Array.isArray(parsed.answers.situaciones) ? parsed.answers.situaciones : [],
         edad: parsed.answers.edad || "",
-        alquiler: parsed.answers.alquiler || "",
         ganancias: parsed.answers.ganancias || "",
         datosEconomicos: parsed.answers.datosEconomicos || {},
       },
@@ -114,7 +111,6 @@ export default function Wizard({ deducciones }: WizardProps) {
     laboral: "",
     situaciones: [],
     edad: "",
-    alquiler: "",
     ganancias: "",
     datosEconomicos: {},
   });
@@ -179,7 +175,6 @@ export default function Wizard({ deducciones }: WizardProps) {
         }
 
         // Negative filters: explicit "no" answers override situacion matches
-        if (answers.alquiler === "no" && d.situaciones.includes("alquila_vivienda")) return false;
         if (answers.ganancias === "no" && d.situaciones.includes("invierte") && !answers.situaciones.includes("invierte")) return false;
 
         // If user invested 0€ in housing, discard vivienda-category deductions about property
@@ -236,9 +231,8 @@ export default function Wizard({ deducciones }: WizardProps) {
     (step === 1 && answers.laboral !== "") ||
     step === 2 ||
     step === 3 || // age is optional
-    (step === 4 && answers.alquiler !== "") ||
-    (step === 5 && answers.ganancias !== "") ||
-    step === 6; // economic data is optional
+    (step === 4 && answers.ganancias !== "") ||
+    step === 5; // economic data is optional
 
   function handleNext() {
     if (step < STEPS.length - 1) {
@@ -262,7 +256,7 @@ export default function Wizard({ deducciones }: WizardProps) {
 
   function handleReset() {
     setStep(0);
-    setAnswers({ ccaa: "", laboral: "", situaciones: [], edad: "", alquiler: "", ganancias: "", datosEconomicos: {} });
+    setAnswers({ ccaa: "", laboral: "", situaciones: [], edad: "", ganancias: "", datosEconomicos: {} });
     setShowResults(false);
     try { sessionStorage.removeItem(STORAGE_KEY); } catch { /* ignore */ }
   }
@@ -467,43 +461,9 @@ export default function Wizard({ deducciones }: WizardProps) {
           </div>
         )}
 
-        {/* Step 4: Alquiler — Sí / No */}
+        {/* Step 4: Ganancias patrimoniales — Sí / No */}
         {step === 4 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md" role="radiogroup" aria-label={STEPS[4].title}>
-            {[
-              { value: "si", label: "Sí, alquilo un inmueble", icon: "🏠", desc: "Vivienda, local, garaje…" },
-              { value: "no", label: "No alquilo nada", icon: "✖️", desc: "No tengo ingresos por alquiler" },
-            ].map((opt) => {
-              const sel = answers.alquiler === opt.value;
-              return (
-                <button
-                  key={opt.value}
-                  role="radio"
-                  aria-checked={sel}
-                  onClick={() => setAnswers((p) => ({ ...p, alquiler: opt.value as Answers["alquiler"] }))}
-                  className="px-5 py-5 text-left transition-all"
-                  style={{
-                    background: sel ? "var(--color-primary)" : "var(--color-surface-lowest)",
-                    color: sel ? "white" : "var(--color-on-surface)",
-                    borderRadius: "var(--radius-xl)",
-                    boxShadow: sel ? "none" : "var(--shadow-float)",
-                    transform: sel ? "scale(1.02)" : "scale(1)",
-                  }}
-                >
-                  <span className="text-2xl block mb-3">{opt.icon}</span>
-                  <div className="font-semibold">{opt.label}</div>
-                  <div className="text-sm mt-0.5" style={{ opacity: 0.75, color: sel ? "inherit" : "var(--color-on-surface-variant)" }}>
-                    {opt.desc}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        )}
-
-        {/* Step 5: Ganancias patrimoniales — Sí / No */}
-        {step === 5 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md" role="radiogroup" aria-label={STEPS[5].title}>
             {[
               { value: "si", label: "Sí, he tenido ganancias", icon: "📈", desc: "Venta de acciones, fondos, inmuebles…" },
               { value: "no", label: "No he tenido ganancias", icon: "📉", desc: "Sin operaciones de inversión este año" },
@@ -535,8 +495,8 @@ export default function Wizard({ deducciones }: WizardProps) {
           </div>
         )}
 
-        {/* Step 6: Datos económicos */}
-        {step === 6 && (
+        {/* Step 5: Datos económicos */}
+        {step === 5 && (
           <div className="space-y-6 max-w-lg">
             {/* Income — always shown */}
             <div>

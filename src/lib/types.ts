@@ -141,7 +141,8 @@ export const CATEGORIA_COLORS: Record<string, string> = {
 export const SITUACION_LABELS: Record<string, string> = {
   tiene_hijos: "Tengo hijos",
   tiene_vivienda_propia: "Tengo vivienda propia",
-  alquila_vivienda: "Alquilo vivienda",
+  es_inquilino: "Pago alquiler de vivienda",
+  es_arrendador: "Alquilo un inmueble a terceros",
   discapacidad: "Discapacidad (propia o familiar)",
   invierte: "Invierto o ahorro",
   cuida_mayores: "Cuido de mayores",
