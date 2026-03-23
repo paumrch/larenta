@@ -339,12 +339,14 @@ export default function Wizard({ deducciones }: WizardProps) {
         {/* Step 0: CCAA — grid de pills sin borde */}
         {step === 0 && (
           <>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2" role="radiogroup" aria-label={STEPS[0].title}>
               {CCAA_OPTIONS.map(([code, name]) => {
                 const sel = answers.ccaa === code;
                 return (
                   <button
                     key={code}
+                    role="radio"
+                    aria-checked={sel}
                     onClick={() => setAnswers((p) => ({ ...p, ccaa: code }))}
                     className="px-4 py-3 text-left text-sm font-medium transition-all"
                     style={{
@@ -369,12 +371,14 @@ export default function Wizard({ deducciones }: WizardProps) {
 
         {/* Step 1: Laboral — 3 opciones grandes */}
         {step === 1 && (
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3" role="radiogroup" aria-label={STEPS[1].title}>
             {LABORAL_OPTIONS.map((opt) => {
               const sel = answers.laboral === opt.value;
               return (
                 <button
                   key={opt.value}
+                  role="radio"
+                  aria-checked={sel}
                   onClick={() => setAnswers((p) => ({ ...p, laboral: opt.value as Answers["laboral"] }))}
                   className="px-5 py-5 text-left transition-all"
                   style={{
@@ -398,12 +402,14 @@ export default function Wizard({ deducciones }: WizardProps) {
 
         {/* Step 2: Situaciones — checkbox pills */}
         {step === 2 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2" aria-label={STEPS[2].title}>
             {SITUACION_OPTIONS.map(([key, label]) => {
               const sel = answers.situaciones.includes(key);
               return (
                 <button
                   key={key}
+                  role="checkbox"
+                  aria-checked={sel}
                   onClick={() => toggleSituacion(key)}
                   className="flex items-center gap-3 px-4 py-3 text-left text-sm font-medium transition-all"
                   style={{
@@ -413,6 +419,7 @@ export default function Wizard({ deducciones }: WizardProps) {
                   }}
                 >
                   <span
+                    aria-hidden="true"
                     className="flex items-center justify-center w-5 h-5 rounded-md flex-shrink-0 text-xs font-bold transition-all"
                     style={{
                       background: sel ? "var(--color-on-secondary-container)" : "var(--color-surface-highest)",
@@ -436,6 +443,8 @@ export default function Wizard({ deducciones }: WizardProps) {
                 type="text"
                 inputMode="numeric"
                 placeholder="Ej: 32"
+                aria-label="Edad en años"
+                aria-describedby="edad-hint"
                 value={answers.edad}
                 onChange={(e) => {
                   const val = e.target.value.replace(/\D/g, "").slice(0, 3);
@@ -450,11 +459,11 @@ export default function Wizard({ deducciones }: WizardProps) {
                 }}
                 autoFocus
               />
-              <span className="text-base font-medium" style={{ color: "var(--color-on-surface-variant)" }}>
+              <span className="text-base font-medium" aria-hidden="true" style={{ color: "var(--color-on-surface-variant)" }}>
                 años
               </span>
             </div>
-            <p className="text-xs mt-3" style={{ color: "var(--color-on-surface-variant)", opacity: 0.7 }}>
+            <p id="edad-hint" className="text-xs mt-3" style={{ color: "var(--color-on-surface-variant)", opacity: 0.7 }}>
               Hay deducciones específicas para jóvenes (&lt;36) y mayores (&gt;65). Si prefieres no indicar tu edad, pulsa Siguiente.
             </p>
           </div>
@@ -462,7 +471,7 @@ export default function Wizard({ deducciones }: WizardProps) {
 
         {/* Step 4: Alquiler — Sí / No */}
         {step === 4 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md" role="radiogroup" aria-label={STEPS[4].title}>
             {[
               { value: "si", label: "Sí, alquilo un inmueble", icon: "🏠", desc: "Vivienda, local, garaje…" },
               { value: "no", label: "No alquilo nada", icon: "✖️", desc: "No tengo ingresos por alquiler" },
@@ -471,6 +480,8 @@ export default function Wizard({ deducciones }: WizardProps) {
               return (
                 <button
                   key={opt.value}
+                  role="radio"
+                  aria-checked={sel}
                   onClick={() => setAnswers((p) => ({ ...p, alquiler: opt.value as Answers["alquiler"] }))}
                   className="px-5 py-5 text-left transition-all"
                   style={{
@@ -494,7 +505,7 @@ export default function Wizard({ deducciones }: WizardProps) {
 
         {/* Step 5: Ganancias patrimoniales — Sí / No */}
         {step === 5 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md" role="radiogroup" aria-label={STEPS[5].title}>
             {[
               { value: "si", label: "Sí, he tenido ganancias", icon: "📈", desc: "Venta de acciones, fondos, inmuebles…" },
               { value: "no", label: "No he tenido ganancias", icon: "📉", desc: "Sin operaciones de inversión este año" },
@@ -503,6 +514,8 @@ export default function Wizard({ deducciones }: WizardProps) {
               return (
                 <button
                   key={opt.value}
+                  role="radio"
+                  aria-checked={sel}
                   onClick={() => setAnswers((p) => ({ ...p, ganancias: opt.value as Answers["ganancias"] }))}
                   className="px-5 py-5 text-left transition-all"
                   style={{
@@ -535,14 +548,16 @@ export default function Wizard({ deducciones }: WizardProps) {
               <div className="space-y-4">
                 {incomeQuestions.map((q) => (
                   <div key={q.key}>
-                    <label className="text-sm font-medium block mb-1.5" style={{ color: "var(--color-on-surface)" }}>
+                    <label htmlFor={q.key} className="text-sm font-medium block mb-1.5" style={{ color: "var(--color-on-surface)" }}>
                       {q.label}
                     </label>
                     <div className="flex items-center gap-2">
                       <input
+                        id={q.key}
                         type="text"
                         inputMode="numeric"
                         placeholder={q.placeholder}
+                        aria-describedby={q.suffix ? `${q.key}-suffix` : undefined}
                         value={answers.datosEconomicos[q.key] || ""}
                         onChange={(e) => {
                           const val = e.target.value.replace(/[^\d.,]/g, "");
@@ -560,7 +575,7 @@ export default function Wizard({ deducciones }: WizardProps) {
                         }}
                       />
                       {q.suffix && (
-                        <span className="text-sm font-medium flex-shrink-0" style={{ color: "var(--color-on-surface-variant)" }}>
+                        <span id={`${q.key}-suffix`} className="text-sm font-medium flex-shrink-0" style={{ color: "var(--color-on-surface-variant)" }}>
                           {q.suffix}
                         </span>
                       )}
@@ -579,14 +594,16 @@ export default function Wizard({ deducciones }: WizardProps) {
                 <div className="space-y-4">
                   {relevantFinancialQuestions.map((q) => (
                     <div key={q.key}>
-                      <label className="text-sm font-medium block mb-1.5" style={{ color: "var(--color-on-surface)" }}>
+                      <label htmlFor={`sit-${q.key}`} className="text-sm font-medium block mb-1.5" style={{ color: "var(--color-on-surface)" }}>
                         {q.label}
                       </label>
                       <div className="flex items-center gap-2">
                         <input
+                          id={`sit-${q.key}`}
                           type="text"
                           inputMode="numeric"
                           placeholder={q.placeholder}
+                          aria-describedby={q.suffix ? `sit-${q.key}-suffix` : undefined}
                           value={answers.datosEconomicos[q.key] || ""}
                           onChange={(e) => {
                             const val = e.target.value.replace(/[^\d.,]/g, "");
@@ -604,7 +621,7 @@ export default function Wizard({ deducciones }: WizardProps) {
                           }}
                         />
                         {q.suffix && (
-                          <span className="text-sm font-medium flex-shrink-0" style={{ color: "var(--color-on-surface-variant)" }}>
+                          <span id={`sit-${q.key}-suffix`} className="text-sm font-medium flex-shrink-0" style={{ color: "var(--color-on-surface-variant)" }}>
                             {q.suffix}
                           </span>
                         )}
