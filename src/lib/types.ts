@@ -149,7 +149,6 @@ export const SITUACION_LABELS: Record<string, string> = {
   estudia_o_tiene_estudiantes: "Estudio o tengo hijos estudiando",
   hace_donativos: "Hago donativos",
   tiene_conyuge: "Tengo cónyuge",
-  autonomo: "Soy autónomo",
   vive_en_pueblo: "Vivo en zona rural",
   reforma_eficiencia: "He hecho reformas de eficiencia energética",
   familia_numerosa: "Familia numerosa",

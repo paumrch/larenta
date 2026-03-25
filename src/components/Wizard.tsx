@@ -50,11 +50,12 @@ interface FinancialQuestion {
   showIf: string[];
 }
 
-/** Core income questions — always shown */
-const INCOME_QUESTIONS: FinancialQuestion[] = [
-  { key: "ingresos_brutos", label: "¿Cuáles son tus ingresos brutos anuales?", placeholder: "28.000", suffix: "€/año", showIf: [] },
-  { key: "ingresos_autonomo", label: "¿Cuáles son tus ingresos como autónomo?", placeholder: "20.000", suffix: "€/año", showIf: ["__autonomo"] },
-];
+/** Income label adapts to laboral profile */
+function incomeLabel(laboral: string): string {
+  if (laboral === "autonomo") return "¿Cuál es tu facturación bruta anual?";
+  if (laboral === "ambos") return "¿Cuáles son tus ingresos brutos totales (nómina + facturación)?";
+  return "¿Cuáles son tus ingresos brutos anuales?";
+}
 
 /** Situational financial questions */
 const SITUATIONAL_QUESTIONS: FinancialQuestion[] = [
@@ -126,6 +127,17 @@ export default function Wizard({ deducciones }: WizardProps) {
   // Track wizard start (once)
   useEffect(() => { pushEvent("wizard_start"); }, []);
 
+  // Auto-sync "autonomo" situacion from laboral selection
+  useEffect(() => {
+    const shouldHave = answers.laboral === "autonomo" || answers.laboral === "ambos";
+    const has = answers.situaciones.includes("autonomo");
+    if (shouldHave && !has) {
+      setAnswers((p) => ({ ...p, situaciones: [...p.situaciones, "autonomo"] }));
+    } else if (!shouldHave && has) {
+      setAnswers((p) => ({ ...p, situaciones: p.situaciones.filter((s) => s !== "autonomo") }));
+    }
+  }, [answers.laboral]);
+
   // Track wizard completion (once per results view)
   const hasTrackedComplete = useRef(false);
   useEffect(() => {
@@ -174,8 +186,9 @@ export default function Wizard({ deducciones }: WizardProps) {
           if (!match) return false;
         }
 
-        // Negative filters: explicit "no" answers override situacion matches
-        if (answers.ganancias === "no" && d.situaciones.includes("invierte") && !answers.situaciones.includes("invierte")) return false;
+        // Negative filters: explicit "no" to ganancias discards investment-only deductions
+        // (but keeps them if user explicitly marked "invierte" in situaciones)
+        if (answers.ganancias === "no" && d.situaciones.length === 1 && d.situaciones[0] === "invierte") return false;
 
         // If user invested 0€ in housing, discard vivienda-category deductions about property
         const invVivienda = answers.datosEconomicos?.inversion_vivienda;
@@ -209,14 +222,10 @@ export default function Wizard({ deducciones }: WizardProps) {
       });
   }, [showResults, deducciones, answers]);
 
-  // Income questions: always show base income; show autonomo only if relevant
-  const incomeQuestions = useMemo(() =>
-    INCOME_QUESTIONS.filter((q) =>
-      q.showIf.length === 0 ||
-      (q.showIf.includes("__autonomo") && (answers.laboral === "autonomo" || answers.laboral === "ambos"))
-    ),
-    [answers.laboral]
-  );
+  // Single income question with dynamic label
+  const incomeQuestions: FinancialQuestion[] = useMemo(() => [
+    { key: "ingresos_brutos", label: incomeLabel(answers.laboral), placeholder: answers.laboral === "autonomo" ? "20.000" : "28.000", suffix: "€/año", showIf: [] },
+  ], [answers.laboral]);
 
   // Situational financial questions relevant to this user
   const relevantFinancialQuestions = useMemo(() =>
@@ -394,6 +403,7 @@ export default function Wizard({ deducciones }: WizardProps) {
 
         {/* Step 2: Situaciones — checkbox pills */}
         {step === 2 && (
+          <>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2" role="group" aria-label={STEPS[2].title}>
             {SITUACION_OPTIONS.map(([key, label]) => {
               const sel = answers.situaciones.includes(key);
@@ -425,6 +435,12 @@ export default function Wizard({ deducciones }: WizardProps) {
               );
             })}
           </div>
+          {answers.situaciones.length === 0 && (
+            <p className="text-xs mt-3" style={{ color: "var(--color-on-surface-variant)", opacity: 0.7 }}>
+              Si no marcas ninguna situación, solo verás las deducciones generales.
+            </p>
+          )}
+          </>
         )}
 
         {/* Step 3: Edad */}
