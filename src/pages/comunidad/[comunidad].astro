@@ -105,9 +105,9 @@ const canonicalUrl = `https://www.larenta.es/comunidad/${slug}`;
       {categoriasOrdenadas.map(([cat, items]) => (
         <section class="mb-10" id={`cat-${cat}`}>
           <h2 class="flex items-center gap-2 text-base font-bold mb-4" style="color: var(--color-on-surface);">
-            <span class={`badge ${CATEGORIA_COLORS[cat] || "badge-otros"}`}>
+            <a href={`/categoria/${cat}`} class={`badge ${CATEGORIA_COLORS[cat] || "badge-otros"}`} style="text-decoration: none;">
               {CATEGORIA_LABELS[cat] || cat}
-            </span>
+            </a>
             <span class="text-sm font-normal" style="color: var(--color-on-surface-variant);">
               — {items.length} deducción{items.length !== 1 ? "es" : ""}
             </span>
