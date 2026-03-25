@@ -12,6 +12,14 @@ const deducciones = getWizardIndex();
   ogImage="/og/asistente.png"
 >
   <section class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+    <header class="mb-8 text-center">
+      <h1 class="text-3xl sm:text-4xl font-extrabold leading-tight mb-3" style="color: var(--color-on-surface); letter-spacing: -0.02ch;">
+        Asistente de deducciones IRPF 2025
+      </h1>
+      <p class="text-base sm:text-lg leading-relaxed mx-auto" style="color: var(--color-on-surface-variant); max-width: 58ch;">
+        Responde unas preguntas sobre tu comunidad autónoma y situación personal y descubre qué deducciones del IRPF 2025 puedes aplicar en tu declaración de la renta.
+      </p>
+    </header>
     <Wizard client:load deducciones={deducciones} />
   </section>
 </Base>
