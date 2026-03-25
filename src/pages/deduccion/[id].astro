@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { getAllDeducciones } from "../../lib/data";
+import guias from "../../../data/guias.json";
 import {
   cleanName,
   CCAA_MAP,
@@ -48,6 +49,11 @@ const relacionadas = (() => {
     : [];
   return [...sameCatSameCCAA, ...sameCatOther];
 })();
+
+// Guía relacionada: primera guía cuyas categorías incluyen la categoría de esta deducción
+const guiaRelacionada = guias.find((g) =>
+  g.categorias_deducciones.includes(d.categoria)
+);
 ---
 
 <Base
@@ -232,6 +238,31 @@ const relacionadas = (() => {
           <Fragment set:html={contentHtml} />
         </article>
       </details>
+
+      <!-- Guía relacionada -->
+      {guiaRelacionada && (
+        <a
+          href={`/guia/${guiaRelacionada.slug}`}
+          class="card mb-8 flex items-center gap-4 group transition-all hover:-translate-y-0.5"
+          style="padding: 1.25rem 1.5rem; text-decoration: none;"
+        >
+          <span class="text-2xl flex-shrink-0">{guiaRelacionada.icono}</span>
+          <div class="min-w-0 flex-1">
+            <p class="text-xs font-semibold uppercase tracking-wider mb-0.5" style="color: var(--color-primary);">
+              Guía relacionada
+            </p>
+            <p class="text-sm font-bold leading-snug" style="color: var(--color-on-surface);">
+              {guiaRelacionada.titulo}
+            </p>
+            <p class="text-xs mt-0.5 line-clamp-1" style="color: var(--color-on-surface-variant);">
+              {guiaRelacionada.subtitulo}
+            </p>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color: var(--color-outline);">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      )}
 
       <!-- Deducciones relacionadas -->
       {relacionadas.length > 0 && (
