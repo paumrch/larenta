@@ -202,6 +202,7 @@ export default function Explorer({
         <input
           type="search"
           placeholder="Buscar deducción por nombre, comunidad…"
+          aria-label="Buscar deducciones"
           value={search}
           onChange={(e) => { setSearch(e.target.value); trackSearch(e.target.value); }}
           className="w-full pl-10 pr-5 py-3.5 text-sm focus:outline-none transition-colors"

@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import type { DeduccionIndex, SituacionLaboral } from "../lib/types";
 import {
   CCAA_MAP,
@@ -130,6 +130,23 @@ export default function Wizard({ deducciones }: WizardProps) {
   // Track wizard start (once)
   useEffect(() => { pushEvent("wizard_start"); }, []);
 
+  // Track wizard completion (once per results view)
+  const hasTrackedComplete = useRef(false);
+  useEffect(() => {
+    if (showResults && !hasTrackedComplete.current) {
+      hasTrackedComplete.current = true;
+      pushEvent("wizard_complete", {
+        ccaa: answers.ccaa,
+        ccaa_name: CCAA_MAP[answers.ccaa] || answers.ccaa,
+        laboral: answers.laboral,
+        total_deducciones: results.length,
+      });
+    }
+    if (!showResults) {
+      hasTrackedComplete.current = false;
+    }
+  }, [showResults]);
+
   // Show CML-specific situaciones only when user selected Ceuta y Melilla
   const SITUACION_OPTIONS = useMemo(() =>
     ALL_SITUACION_OPTIONS.filter(([key]) =>
@@ -153,26 +170,13 @@ export default function Wizard({ deducciones }: WizardProps) {
         if (reqCcaa && reqCcaa !== answers.ccaa) return false;
         if (answers.laboral === "asalariado" && !d.aplica_asalariados) return false;
         if (answers.laboral === "autonomo" && !d.aplica_autonomos) return false;
+        if (answers.laboral === "ambos" && !d.aplica_asalariados && !d.aplica_autonomos) return false;
 
         // If deduction requires specific situaciones, user must match at least one
         if (d.situaciones.length > 0) {
           const match = d.situaciones.some((s) => answers.situaciones.includes(s));
           if (!match) return false;
         }
-
-        // Modifier tags like "vive_en_pueblo" are geographic context, not content qualifiers.
-        // For multi-tag deductions, require matching at least one content tag — not just a modifier.
-        const MODIFIER_TAGS = ["vive_en_pueblo"];
-        if (d.situaciones.length > 1) {
-          const contentTags = d.situaciones.filter((s) => !MODIFIER_TAGS.includes(s));
-          if (contentTags.length > 0 && !contentTags.some((s) => answers.situaciones.includes(s))) {
-            return false;
-          }
-        }
-
-        // Required tags: if the deduction includes these, the user must have them selected
-        if (d.situaciones.includes("reforma_eficiencia") && !answers.situaciones.includes("reforma_eficiencia")) return false;
-        if (d.situaciones.includes("vive_en_ceuta_melilla") && !answers.situaciones.includes("vive_en_ceuta_melilla")) return false;
 
         // Negative filters: explicit "no" answers override situacion matches
         if (answers.alquiler === "no" && d.situaciones.includes("alquila_vivienda")) return false;
@@ -274,12 +278,6 @@ export default function Wizard({ deducciones }: WizardProps) {
 
   // ── RESULTS ──────────────────────────────────────────────────────────
   if (showResults) {
-    pushEvent("wizard_complete", {
-      ccaa: answers.ccaa,
-      ccaa_name: CCAA_MAP[answers.ccaa] || answers.ccaa,
-      laboral: answers.laboral,
-      total_deducciones: results.length,
-    });
     return (
       <Report
         deducciones={results}
@@ -402,7 +400,7 @@ export default function Wizard({ deducciones }: WizardProps) {
 
         {/* Step 2: Situaciones — checkbox pills */}
         {step === 2 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2" aria-label={STEPS[2].title}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2" role="group" aria-label={STEPS[2].title}>
             {SITUACION_OPTIONS.map(([key, label]) => {
               const sel = answers.situaciones.includes(key);
               return (
@@ -645,6 +643,7 @@ export default function Wizard({ deducciones }: WizardProps) {
         <button
           onClick={handleBack}
           className="btn-text"
+          aria-label="Paso anterior"
           style={{ visibility: step === 0 ? "hidden" : "visible" }}
         >
           ← Atrás
@@ -654,6 +653,7 @@ export default function Wizard({ deducciones }: WizardProps) {
           onClick={handleNext}
           disabled={!canAdvance}
           className="btn-primary"
+          aria-label={step === STEPS.length - 1 ? "Ver mis deducciones" : "Siguiente paso"}
           style={!canAdvance ? { opacity: 0.4, cursor: "not-allowed", pointerEvents: "none" } : {}}
         >
           {step === STEPS.length - 1 ? "Ver mis deducciones →" : "Siguiente →"}

@@ -450,8 +450,10 @@ export default function Report({ deducciones, ccaa, laboral, situaciones, datosE
             ) : (
               <div className="flex gap-2">
                 <input
+                  id="report-email"
                   type="email"
                   placeholder="tu@email.com"
+                  aria-label="Dirección de email para recibir el informe"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="min-w-0 flex-1 sm:w-48 px-3.5 py-2.5 text-sm"
