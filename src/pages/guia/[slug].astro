@@ -24,6 +24,23 @@ const relacionadas = guia.categorias_deducciones
 const guiaIndex = guias.findIndex((g) => g.slug === guia.slug);
 const guiaAnterior = guiaIndex > 0 ? guias[guiaIndex - 1] : null;
 const guiaSiguiente = guiaIndex < guias.length - 1 ? guias[guiaIndex + 1] : null;
+
+// Extract FAQ from markdown: h2 headings as questions, first paragraph after as answer
+const faqItems = (() => {
+  const sections = guia.contenido_md.split(/^## /m).slice(1); // skip content before first h2
+  return sections
+    .map((section: string) => {
+      const lines = section.split("\n");
+      const question = lines[0].trim();
+      // Find first non-empty, non-heading, non-blockquote line as answer
+      const answer = lines.slice(1)
+        .map((l: string) => l.trim())
+        .find((l: string) => l && !l.startsWith("#") && !l.startsWith(">") && !l.startsWith("|") && !l.startsWith("```") && !l.startsWith("-"));
+      return answer ? { question, answer } : null;
+    })
+    .filter(Boolean)
+    .slice(0, 5); // limit to 5 FAQ items for structured data
+})();
 ---
 
 <Base
@@ -49,12 +66,26 @@ const guiaSiguiente = guiaIndex < guias.length - 1 ? guias[guiaIndex + 1] : null
       "url": `https://www.larenta.es/guia/${guia.slug}`,
       "image": `https://www.larenta.es/og/guia-${guia.slug}.png`,
       "datePublished": "2025-04-02",
-      "dateModified": "2025-07-01",
+      "dateModified": new Date().toISOString().split("T")[0],
       "author": { "@type": "Organization", "name": "larenta.es", "url": "https://www.larenta.es" },
       "publisher": { "@type": "Organization", "name": "larenta.es", "url": "https://www.larenta.es" },
       "inLanguage": "es",
       "mainEntityOfPage": { "@type": "WebPage", "@id": `https://www.larenta.es/guia/${guia.slug}` }
     })} />
+    {faqItems.length > 0 && (
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": faqItems.map((faq: any) => ({
+          "@type": "Question",
+          "name": faq.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.answer
+          }
+        }))
+      })} />
+    )}
   </Fragment>
   <!-- Hero de la guía -->
   <section style="background: var(--color-surface);" class="py-8 sm:py-12">

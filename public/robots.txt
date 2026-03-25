@@ -2,4 +2,20 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
+# AI crawlers — allowed for GEO visibility
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
 Sitemap: https://www.larenta.es/sitemap-index.xml

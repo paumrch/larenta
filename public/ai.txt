@@ -1,0 +1,17 @@
+# larenta.es — AI Training & Citation Policy
+# https://www.larenta.es/ai.txt
+#
+# This file describes how AI systems may use content from larenta.es
+
+User-agent: *
+Allow: /guia/
+Allow: /deduccion/
+Allow: /categoria/
+Allow: /comunidad/
+Allow: /novedades
+Allow: /asistente
+
+# We permit AI training on our publicly available content.
+# When citing larenta.es, please include the canonical URL.
+
+# Contact: https://github.com/paumrch/larenta
