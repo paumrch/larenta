@@ -51,7 +51,7 @@ const relacionadas = (() => {
 ---
 
 <Base
-  title={nombre}
+  title={d.tipo === "autonomica" ? `${nombre} en ${d.comunidad} — IRPF 2025` : nombre}
   description={`${resumen} — Deducción ${d.tipo === "estatal" ? "estatal" : "autonómica de " + d.comunidad} del IRPF 2025.`}
   ogImage={`/og/deduccion-${d.id}.png`}
 >
