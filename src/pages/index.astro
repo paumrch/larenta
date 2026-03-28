@@ -4,6 +4,8 @@ import { getStats } from "../lib/data";
 import { CCAA_MAP, CCAA_SLUG, CATEGORIA_LABELS, CATEGORIA_COLORS } from "../lib/types";
 
 const stats = getStats();
+const aeatManualUrl = "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025.html";
+const xProfileUrl = "https://x.com/paumrch";
 ---
 
 <Base title="larenta.es" ogImage="/og/home.png">
@@ -63,10 +65,35 @@ const stats = getStats();
             </a>
           </div>
 
-          <!-- Social proof -->
-          <p class="mt-5 text-sm" style="color: var(--color-on-surface-variant);">
-            Gratis · Sin registro · Fuente oficial AEAT
-          </p>
+          <div class="mt-5 flex flex-col items-start gap-3.5">
+            <p class="text-sm leading-relaxed"
+              style="color: var(--color-on-surface-variant); max-width: 52ch;">
+              Acceso gratis, sin registro y basado en el
+              <a
+                href={aeatManualUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-semibold"
+                style="color: var(--color-on-surface); text-decoration: underline; text-decoration-color: var(--color-outline-variant); text-underline-offset: 0.18em;"
+              >
+                Manual Práctico IRPF 2025 de la AEAT
+              </a>.
+            </p>
+
+            <a
+              href={xProfileUrl}
+              id="hero-follow-pau-x"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-sm font-semibold transition-all hover:-translate-y-0.5"
+              style="background: var(--color-on-surface); color: var(--color-surface); text-decoration: none; box-shadow: 0 8px 20px rgba(11, 23, 43, 0.16);"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+              Seguir a Pau
+            </a>
+          </div>
         </div>
 
         <!-- Columna derecha: tarjetas flotantes (tonal layering) -->
@@ -125,6 +152,23 @@ const stats = getStats();
       </div>
     </div>
   </section>
+
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+
+    const followPauButton = document.getElementById("hero-follow-pau-x");
+
+    if (followPauButton) {
+      followPauButton.addEventListener("click", () => {
+        window.dataLayer.push({
+          event: "hero_follow_pau_click",
+          section: "home_hero",
+          destination: "x_profile",
+          profile_handle: "paumrch",
+        });
+      });
+    }
+  </script>
 
   <!-- ═══════════════════════════════════════════════
        HERRAMIENTAS — Cómo funciona
