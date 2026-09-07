@@ -21,6 +21,12 @@ export const RECURSOS_EXTERNOS: Record<string, RecursoExterno> = {
     contexto:
       "Las deducciones de este apartado exigen que el inmueble sea una vivienda. Si lo que tienes es un local, primero hay que tramitar el cambio de uso: estos son los",
   },
+  "categoria:vivienda": {
+    href: "https://cambiodeuso.es/local-a-vivienda/",
+    ancla: "cambio de uso de local a vivienda",
+    contexto:
+      "Un local no da derecho a estas deducciones mientras no sea legalmente una vivienda. El trámite que cambia eso es el",
+  },
 };
 
 export function recursoPara(clave: string): RecursoExterno | null {
