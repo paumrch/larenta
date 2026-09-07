@@ -33,6 +33,12 @@ export const RECURSOS_EXTERNOS: Record<string, RecursoExterno> = {
     contexto:
       "Si las obras forman parte de la conversión de un local en vivienda, además del IRPF hay que cumplir la",
   },
+  "deduccion:E-11-eficiencia-energetica-03": {
+    href: "https://cambiodeuso.es/guias/cedula-de-habitabilidad/",
+    ancla: "cédula de habitabilidad",
+    contexto:
+      "Esta deducción exige que el edificio tenga uso predominantemente residencial. Un local no lo tiene hasta completar el cambio de uso y obtener la",
+  },
 };
 
 export function recursoPara(clave: string): RecursoExterno | null {
