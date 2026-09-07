@@ -27,6 +27,12 @@ export const RECURSOS_EXTERNOS: Record<string, RecursoExterno> = {
     contexto:
       "Un local no da derecho a estas deducciones mientras no sea legalmente una vivienda. El trámite que cambia eso es el",
   },
+  "categoria:energia": {
+    href: "https://cambiodeuso.es/guias/eficiencia-energetica/",
+    ancla: "eficiencia energética que exige un cambio de uso",
+    contexto:
+      "Si las obras forman parte de la conversión de un local en vivienda, además del IRPF hay que cumplir la",
+  },
 };
 
 export function recursoPara(clave: string): RecursoExterno | null {
