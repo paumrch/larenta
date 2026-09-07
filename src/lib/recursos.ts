@@ -14,7 +14,14 @@ export type RecursoExterno = {
   contexto: string;
 };
 
-export const RECURSOS_EXTERNOS: Record<string, RecursoExterno> = {};
+export const RECURSOS_EXTERNOS: Record<string, RecursoExterno> = {
+  "guia:alquiler": {
+    href: "https://cambiodeuso.es/requisitos/",
+    ancla: "requisitos para convertir un local en vivienda",
+    contexto:
+      "Las deducciones de este apartado exigen que el inmueble sea una vivienda. Si lo que tienes es un local, primero hay que tramitar el cambio de uso: estos son los",
+  },
+};
 
 export function recursoPara(clave: string): RecursoExterno | null {
   return RECURSOS_EXTERNOS[clave] ?? null;
