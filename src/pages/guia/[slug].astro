@@ -4,6 +4,8 @@ import { marked } from "marked";
 import guias from "../../../data/guias.json";
 import { getDeduccionesByCategoria } from "../../lib/data";
 import { cleanName } from "../../lib/types";
+import RecursoExterno from "../../components/RecursoExterno.astro";
+import { recursoPara } from "../../lib/recursos";
 
 export function getStaticPaths() {
   return guias.map((guia) => ({
@@ -19,6 +21,9 @@ const contentHtml = await marked.parse(guia.contenido_md);
 const relacionadas = guia.categorias_deducciones
   .flatMap((cat: string) => getDeduccionesByCategoria(cat))
   .slice(0, 6);
+
+// Recurso externo relacionado, si esta guía tiene uno
+const recurso = recursoPara(`guia:${guia.slug}`);
 
 // Índice de la guía dentro del array
 const guiaIndex = guias.findIndex((g) => g.slug === guia.slug);
@@ -139,6 +144,8 @@ const faqItems = (() => {
           {guia.resumen}
         </p>
       </div>
+
+      <RecursoExterno recurso={recurso} />
     </div>
   </section>
 

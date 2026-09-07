@@ -9,6 +9,8 @@ import {
   cleanName,
   fichaUrl,
 } from "../../lib/types";
+import RecursoExterno from "../../components/RecursoExterno.astro";
+import { recursoPara } from "../../lib/recursos";
 
 export function getStaticPaths() {
   const categorias = [
@@ -49,6 +51,8 @@ for (const d of autonomicas) {
 const ccaaOrdenadas = Object.entries(byCCAA).sort(
   ([, a], [, b]) => b.length - a.length
 );
+
+const recurso = recursoPara(`categoria:${categoria}`);
 
 const canonicalUrl = `https://www.larenta.es/categoria/${categoria}`;
 
@@ -100,6 +104,8 @@ const novedades = deducciones.filter((d) => d.novedad_2025).length;
           {autonomicas.length > 0 && ` y ${autonomicas.length} autonómicas en ${totalCCAA} ${totalCCAA === 1 ? "comunidad" : "comunidades"}`}.
         </p>
       </div>
+
+      <RecursoExterno recurso={recurso} maxWidth="100%" marginBottom="2.5rem" />
 
       <!-- Stats rápidas -->
       <div class="grid grid-cols-3 gap-3 mb-10">

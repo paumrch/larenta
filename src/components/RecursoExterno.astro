@@ -1,0 +1,26 @@
+---
+import type { RecursoExterno } from "../lib/recursos";
+
+interface Props {
+  recurso: RecursoExterno | null;
+  maxWidth?: string;
+  /** Margen inferior, para separarlo del bloque siguiente. */
+  marginBottom?: string;
+}
+
+const { recurso, maxWidth = "780px", marginBottom = "0" } = Astro.props;
+---
+
+{recurso && (
+  <aside
+    class="card-inset"
+    style={`padding: 1rem 1.25rem; max-width: ${maxWidth}; margin-bottom: ${marginBottom}; border-left: 3px solid var(--color-secondary-container);`}
+  >
+    <p style="margin: 0; font-size: 0.9rem; line-height: 1.6; color: var(--color-on-surface-variant);">
+      {recurso.contexto}{" "}
+      <a href={recurso.href} style="color: var(--color-primary); font-weight: 600;">
+        {recurso.ancla}
+      </a>.
+    </p>
+  </aside>
+)}

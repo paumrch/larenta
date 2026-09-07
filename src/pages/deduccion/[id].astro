@@ -14,6 +14,8 @@ import {
   fichaUrl,
 } from "../../lib/types";
 import { marked } from "marked";
+import RecursoExterno from "../../components/RecursoExterno.astro";
+import { recursoPara } from "../../lib/recursos";
 
 export function getStaticPaths() {
   const deducciones = getAllDeducciones();
@@ -31,6 +33,8 @@ const hasFacts = d.porcentaje || d.base_maxima || d.limite_renta;
 const situacionLabels = d.situaciones
   .map((s) => SITUACION_LABELS[s])
   .filter(Boolean);
+
+const recurso = recursoPara(`deduccion:${d.id}`);
 
 // Deducciones relacionadas: misma categoría, misma CCAA primero, luego otras
 const relacionadas = (() => {
@@ -220,6 +224,8 @@ const guiaRelacionada = guias.find((g) =>
           )}
         </div>
       </div>
+
+      <RecursoExterno recurso={recurso} maxWidth="100%" marginBottom="2rem" />
 
       <!-- Full AEAT content — collapsible -->
       <details class="card mb-8 group" open>
