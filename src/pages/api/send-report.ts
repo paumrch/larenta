@@ -5,6 +5,26 @@ export const prerender = false;
 
 const resend = new Resend(import.meta.env.RESEND_API_KEY);
 
+// La clave de envío está restringida a enviar emails: no puede gestionar
+// audiencias. Para eso hay una clave aparte. Si falta cualquiera de las dos
+// variables, el informe se envía igual y simplemente no se da de alta a nadie.
+const resendAudiencias = import.meta.env.RESEND_AUDIENCE_API_KEY
+  ? new Resend(import.meta.env.RESEND_AUDIENCE_API_KEY)
+  : null;
+const AUDIENCIA = import.meta.env.RESEND_AUDIENCE_NAME;
+
+// El id se resuelve por nombre una sola vez por instancia y se cachea, para no
+// pagar una llamada extra en cada petición. `null` = no hay audiencia utilizable.
+let audienciaId: string | null | undefined;
+async function getAudienciaId(): Promise<string | null> {
+  if (audienciaId !== undefined) return audienciaId;
+  audienciaId = null;
+  if (!resendAudiencias || !AUDIENCIA) return null;
+  const { data } = await resendAudiencias.audiences.list();
+  audienciaId = data?.data?.find((a) => a.name === AUDIENCIA)?.id ?? null;
+  return audienciaId;
+}
+
 // ── Rate Limiting (in-memory, per serverless instance) ──────────────
 // Limits: 100 requests/hour, 1000 requests/day (global, not per-IP)
 // Note: in-memory counters reset on cold starts. This is a best-effort
@@ -186,6 +206,22 @@ export const POST: APIRoute = async ({ request }) => {
     if (error) {
       console.error("Resend error:", error);
       return new Response(JSON.stringify({ error: "Error al enviar" }), { status: 500 });
+    }
+
+    // Alta en la audiencia. Va DESPUÉS del envío y en su propio try: si falla,
+    // el usuario ya tiene su informe y no debe ver un error por esto.
+    try {
+      const id = await getAudienciaId();
+      if (id && resendAudiencias) {
+        await resendAudiencias.contacts.create({
+          email: body.email,
+          audienceId: id,
+          unsubscribed: false,
+        });
+      }
+    } catch (e) {
+      // Un email repetido devuelve error y es lo esperado: no es un fallo.
+      console.warn("Resend audiencia:", e instanceof Error ? e.message : e);
     }
 
     return new Response(JSON.stringify({ ok: true }), { status: 200 });
