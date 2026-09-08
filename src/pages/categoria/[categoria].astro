@@ -82,7 +82,7 @@ const novedades = deducciones.filter((d) => d.novedad_2025).length;
       <nav class="flex items-center gap-1.5 text-sm mb-8 flex-wrap" style="color: var(--color-on-surface-variant);">
         <a href="/" class="flex-shrink-0 hover:underline" style="color: var(--color-on-surface-variant);">Inicio</a>
         <span class="flex-shrink-0" style="opacity: 0.4;">›</span>
-        <a href="/categoria" class="flex-shrink-0 hover:underline" style="color: var(--color-on-surface-variant);">Categorías</a>
+        <a href="/categoria/" class="flex-shrink-0 hover:underline" style="color: var(--color-on-surface-variant);">Categorías</a>
         <span class="flex-shrink-0" style="opacity: 0.4;">›</span>
         <span class="font-medium" style="color: var(--color-on-surface);">{labelTexto}</span>
       </nav>
@@ -182,7 +182,7 @@ const novedades = deducciones.filter((d) => d.novedad_2025).length;
         <section class="mb-10" id={`ccaa-${codigo.toLowerCase()}`}>
           <h2 class="flex items-center gap-2 text-base font-bold mb-4" style="color: var(--color-on-surface);">
             <a
-              href={CCAA_SLUG[codigo] ? `/comunidad/${CCAA_SLUG[codigo]}` : `/explorador?ccaa=${codigo}`}
+              href={CCAA_SLUG[codigo] ? `/comunidad/${CCAA_SLUG[codigo]}/` : `/explorador/?ccaa=${codigo}`}
               class="hover:underline"
               style="color: var(--color-on-surface);"
             >
@@ -242,10 +242,10 @@ const novedades = deducciones.filter((d) => d.novedad_2025).length;
       <!-- Footer links -->
       <div class="mt-8 pt-8 flex flex-col sm:flex-row gap-4 items-start"
         style="border-top: 1px solid var(--color-outline-variant);">
-        <a href="/asistente" class="btn-primary">
+        <a href="/asistente/" class="btn-primary">
           Descubrir mis deducciones →
         </a>
-        <a href="/categoria" class="btn-text">
+        <a href="/categoria/" class="btn-text">
           ← Otras categorías
         </a>
       </div>

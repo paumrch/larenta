@@ -6,6 +6,10 @@ interface Props {
   description?: string;
   ogImage?: string;
   canonical?: string;
+  /** Si es true, usa `title` tal cual, sin añadir "| larenta.es". */
+  tituloExacto?: boolean;
+  /** Si es true, emite robots noindex (p. ej. la 404). */
+  noindex?: boolean;
 }
 
 const stats = getStats();
@@ -15,11 +19,17 @@ const {
   description = `Descubre todas las deducciones del IRPF 2025 en segundos. Asistente interactivo + explorador con las ${stats.total_deducciones} deducciones estatales y autonómicas.`,
   ogImage = "/og/home.png",
   canonical,
+  tituloExacto = false,
+  noindex = false,
 } = Astro.props;
 
 const siteUrl = "https://www.larenta.es";
 const pageUrl = canonical || new URL(Astro.url.pathname, siteUrl).href;
-const fullTitle = title === "larenta.es" ? title + " — Tu guía completa del IRPF 2025" : `${title} | larenta.es`;
+const fullTitle = tituloExacto
+  ? title
+  : title === "larenta.es"
+    ? title + " — Tu guía completa del IRPF 2025"
+    : `${title} | larenta.es`;
 const currentPath = Astro.url.pathname;
 ---
 
@@ -33,7 +43,7 @@ const currentPath = Astro.url.pathname;
     <!-- SEO -->
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={noindex ? "noindex, follow" : "index, follow"} />
     <link rel="canonical" href={pageUrl} />
 
     <!-- Open Graph -->
@@ -52,6 +62,16 @@ const currentPath = Astro.url.pathname;
     <meta name="twitter:image" content={new URL(ogImage, siteUrl).href} />
 
     <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "larenta.es",
+      "url": "https://www.larenta.es",
+      "logo": "https://www.larenta.es/LR.png",
+      "sameAs": [
+        "https://github.com/paumrch/larenta"
+      ]
+    })} />
     <slot name="head" />
 
     <!-- Fonts: Public Sans (The Civic Ledger) -->
@@ -91,7 +111,7 @@ const currentPath = Astro.url.pathname;
         <!-- Desktop nav links -->
         <div class="hidden sm:flex items-center gap-1">
           <a
-            href="/guia"
+            href="/guia/"
             class:list={["px-4 py-2 text-sm font-medium rounded-xl transition-colors", 
               currentPath.startsWith('/guia') ? "text-[var(--color-primary)] bg-[var(--color-surface-high)]" : "text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] hover:bg-[var(--color-surface-high)]"
             ]}
@@ -99,7 +119,7 @@ const currentPath = Astro.url.pathname;
             Guía IRPF
           </a>
           <a
-            href="/asistente"
+            href="/asistente/"
             class:list={["px-4 py-2 text-sm font-medium rounded-xl transition-colors",
               currentPath === '/asistente' ? "text-[var(--color-primary)] bg-[var(--color-surface-high)]" : "text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] hover:bg-[var(--color-surface-high)]"
             ]}
@@ -107,7 +127,7 @@ const currentPath = Astro.url.pathname;
             Asistente
           </a>
           <a
-            href="/explorador"
+            href="/explorador/"
             class:list={["px-4 py-2 text-sm font-medium rounded-xl transition-colors",
               currentPath === '/explorador' ? "text-[var(--color-primary)] bg-[var(--color-surface-high)]" : "text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] hover:bg-[var(--color-surface-high)]"
             ]}
@@ -115,7 +135,7 @@ const currentPath = Astro.url.pathname;
             Deducciones
           </a>
           <a
-            href="/asistente"
+            href="/asistente/"
             class="btn-primary ml-2 !py-2 !px-4 !text-sm"
           >
             Calcular mi renta
@@ -147,7 +167,7 @@ const currentPath = Astro.url.pathname;
       >
         <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-1">
           <a
-            href="/guia"
+            href="/guia/"
             class:list={["flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-colors",
               currentPath.startsWith('/guia') ? "text-[var(--color-primary)] bg-[var(--color-surface-high)]" : "text-[var(--color-on-surface)] hover:bg-[var(--color-surface-high)]"
             ]}
@@ -158,7 +178,7 @@ const currentPath = Astro.url.pathname;
             Guía IRPF 2025
           </a>
           <a
-            href="/asistente"
+            href="/asistente/"
             class:list={["flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-colors",
               currentPath === '/asistente' ? "text-[var(--color-primary)] bg-[var(--color-surface-high)]" : "text-[var(--color-on-surface)] hover:bg-[var(--color-surface-high)]"
             ]}
@@ -169,7 +189,7 @@ const currentPath = Astro.url.pathname;
             Asistente interactivo
           </a>
           <a
-            href="/explorador"
+            href="/explorador/"
             class:list={["flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-colors",
               currentPath === '/explorador' ? "text-[var(--color-primary)] bg-[var(--color-surface-high)]" : "text-[var(--color-on-surface)] hover:bg-[var(--color-surface-high)]"
             ]}
@@ -181,7 +201,7 @@ const currentPath = Astro.url.pathname;
           </a>
           <div class="pt-2 pb-1">
             <a
-              href="/asistente"
+              href="/asistente/"
               class="btn-primary w-full justify-center !text-sm"
             >
               Calcular mis deducciones →
@@ -231,9 +251,9 @@ const currentPath = Astro.url.pathname;
           <div>
             <h4 class="text-sm font-semibold mb-4" style="color: var(--color-on-surface);">Herramientas</h4>
             <ul class="space-y-2.5 text-sm" style="color: var(--color-on-surface-variant);">
-              <li><a href="/asistente" class="hover:text-[var(--color-primary)] transition-colors">Asistente interactivo</a></li>
-              <li><a href="/explorador" class="hover:text-[var(--color-primary)] transition-colors">Explorador de deducciones</a></li>
-              <li><a href="/guia" class="hover:text-[var(--color-primary)] transition-colors">Guía IRPF 2025</a></li>
+              <li><a href="/asistente/" class="hover:text-[var(--color-primary)] transition-colors">Asistente interactivo</a></li>
+              <li><a href="/explorador/" class="hover:text-[var(--color-primary)] transition-colors">Explorador de deducciones</a></li>
+              <li><a href="/guia/" class="hover:text-[var(--color-primary)] transition-colors">Guía IRPF 2025</a></li>
             </ul>
           </div>
 
@@ -248,8 +268,18 @@ const currentPath = Astro.url.pathname;
                 </a>
               </li>
               <li>
-                <a href="/elproyecto" class="hover:text-[var(--color-primary)] transition-colors">
+                <a href="/elproyecto/" class="hover:text-[var(--color-primary)] transition-colors">
                   Sobre este proyecto
+                </a>
+              </li>
+              <li>
+                <a href="/privacidad/" class="hover:text-[var(--color-primary)] transition-colors">
+                  Política de privacidad
+                </a>
+              </li>
+              <li>
+                <a href="/aviso-legal/" class="hover:text-[var(--color-primary)] transition-colors">
+                  Aviso legal
                 </a>
               </li>
               <li class="text-xs pt-1 leading-relaxed" style="color: var(--color-on-surface-variant); opacity: 0.7;">

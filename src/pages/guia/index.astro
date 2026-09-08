@@ -8,7 +8,7 @@ const stats = getStats();
 
 <Base
   title="Guía IRPF 2025 — Renta explicada paso a paso"
-  description="Guías completas sobre el IRPF 2025: quién declara, plazos, rendimientos del trabajo, alquiler, inversiones, autónomos y más. Basadas en el Manual Práctico de la AEAT."
+  description="Guías del IRPF 2025 explicadas paso a paso: quién declara, plazos, trabajo, alquiler, inversiones y autónomos. Con los datos de la AEAT."
   ogImage="/og/guia.png"
 >
   <!-- Hero -->
@@ -48,10 +48,10 @@ const stats = getStats();
             Basadas en el Manual Práctico oficial de la Agencia Tributaria.
           </p>
           <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-            <a href="/asistente" class="btn-primary" style="font-size: 0.9rem; padding: 0.65rem 1.5rem;">
+            <a href="/asistente/" class="btn-primary" style="font-size: 0.9rem; padding: 0.65rem 1.5rem;">
               🤖 Usar el asistente
             </a>
-            <a href="/explorador" class="btn-gold" style="font-size: 0.9rem; padding: 0.65rem 1.5rem;">
+            <a href="/explorador/" class="btn-gold" style="font-size: 0.9rem; padding: 0.65rem 1.5rem;">
               🔍 Ver deducciones
             </a>
           </div>
@@ -101,7 +101,7 @@ const stats = getStats();
       >
         {guias.map((guia) => (
           <a
-            href={`/guia/${guia.slug}`}
+            href={`/guia/${guia.slug}/`}
             class="card"
             style="text-decoration: none; display: flex; flex-direction: column; gap: 1rem; transition: transform 0.15s, box-shadow 0.15s; cursor: pointer;"
             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-modal)'"

@@ -18,7 +18,7 @@ const ccaaList = Object.entries(CCAA_SLUG).map(([codigo, slug]) => {
 ---
 
 <Base
-  title="Deducciones IRPF por Comunidad Autónoma 2025 | larenta.es"
+  title="Deducciones del IRPF 2025 por comunidad"
   description={`Descubre las deducciones autonómicas del IRPF 2025 en tu comunidad. Consulta las deducciones de las ${ccaaList.length} comunidades autónomas con régimen común.`}
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify({
@@ -50,7 +50,7 @@ const ccaaList = Object.entries(CCAA_SLUG).map(([codigo, slug]) => {
           Deducciones por<br class="hidden sm:block" /> Comunidad Autónoma
         </h1>
         <p class="text-lg leading-relaxed" style="color: var(--color-on-surface-variant); max-width: 58ch;">
-          Además de las <a href="/explorador?ccaa=EST" class="underline" style="color:var(--color-primary);">deducciones estatales</a>,
+          Además de las <a href="/explorador/?ccaa=EST" class="underline" style="color:var(--color-primary);">deducciones estatales</a>,
           cada comunidad autónoma tiene sus propias deducciones en el IRPF.
           Selecciona tu comunidad para ver la lista completa.
         </p>
@@ -60,7 +60,7 @@ const ccaaList = Object.entries(CCAA_SLUG).map(([codigo, slug]) => {
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-10">
         {ccaaList.map((ccaa) => (
           <a
-            href={`/comunidad/${ccaa.slug}`}
+            href={`/comunidad/${ccaa.slug}/`}
             class="card group transition-all hover:-translate-y-0.5"
             style="padding: 1.25rem; box-shadow: none; text-decoration: none;"
           >
@@ -100,10 +100,10 @@ const ccaaList = Object.entries(CCAA_SLUG).map(([codigo, slug]) => {
 
       <!-- CTA -->
       <div class="flex flex-col sm:flex-row gap-3">
-        <a href="/asistente" class="btn-primary">
+        <a href="/asistente/" class="btn-primary">
           Descubrir mis deducciones →
         </a>
-        <a href="/explorador" class="btn-text">
+        <a href="/explorador/" class="btn-text">
           Ver todas las deducciones
         </a>
       </div>

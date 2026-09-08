@@ -16,7 +16,15 @@ const xProfileUrl = "https://x.com/paumrch";
     "name": "larenta.es",
     "url": "https://www.larenta.es",
     "description": `Descubre todas las deducciones del IRPF 2025. ${stats.total_deducciones} deducciones estatales y autonómicas explicadas de forma clara.`,
-    "inLanguage": "es"
+    "inLanguage": "es",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://www.larenta.es/explorador/?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
   })} />
 
   <!-- ═══════════════════════════════════════════════
@@ -54,13 +62,13 @@ const xProfileUrl = "https://x.com/paumrch";
 
           <!-- CTAs: pill-shaped con gradient -->
           <div class="mt-10 flex flex-col sm:flex-row gap-3">
-            <a href="/asistente" class="btn-primary text-base">
+            <a href="/asistente/" class="btn-primary text-base">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
               </svg>
               Descubrir mis deducciones
             </a>
-            <a href="/guia" class="btn-gold text-base">
+            <a href="/guia/" class="btn-gold text-base">
               Leer la guía IRPF →
             </a>
           </div>
@@ -121,7 +129,7 @@ const xProfileUrl = "https://x.com/paumrch";
               <div class="text-2xl font-extrabold" style="color: var(--color-primary);">{stats.total_ccaa}</div>
               <div class="text-xs mt-1" style="color: var(--color-on-surface-variant);">CC.AA.</div>
             </div>
-            <a href="/novedades" class="card-inset text-center group transition-all hover:-translate-y-0.5">
+            <a href="/novedades/" class="card-inset text-center group transition-all hover:-translate-y-0.5">
               <div class="text-2xl font-extrabold" style="color: var(--color-primary);">
                 {stats.novedades_2025}
               </div>
@@ -188,7 +196,7 @@ const xProfileUrl = "https://x.com/paumrch";
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Card Asistente -->
-        <a href="/asistente" class="card group transition-all hover:-translate-y-1"
+        <a href="/asistente/" class="card group transition-all hover:-translate-y-1"
           style="box-shadow: var(--shadow-float);">
           <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6"
             style="background: linear-gradient(135deg, var(--color-primary), var(--color-primary-container));">
@@ -213,7 +221,7 @@ const xProfileUrl = "https://x.com/paumrch";
         </a>
 
         <!-- Card Explorador -->
-        <a href="/explorador" class="card group transition-all hover:-translate-y-1"
+        <a href="/explorador/" class="card group transition-all hover:-translate-y-1"
           style="box-shadow: var(--shadow-float);">
           <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6"
             style="background: var(--color-secondary-container);">
@@ -259,7 +267,7 @@ const xProfileUrl = "https://x.com/paumrch";
             Desde la obligación de declarar hasta las ganancias patrimoniales. Guías detalladas
             basadas en el Manual oficial de la Renta 2025 de la AEAT.
           </p>
-          <a href="/guia" class="btn-primary mt-8 inline-flex">
+          <a href="/guia/" class="btn-primary mt-8 inline-flex">
             Ver guía completa
           </a>
         </div>
@@ -277,7 +285,7 @@ const xProfileUrl = "https://x.com/paumrch";
             { icon: "⚡", titulo: "Reducciones en base", slug: "base-liquidable" },
           ].map(({ icon, titulo, slug }) => (
             <a
-              href={`/guia/${slug}`}
+              href={`/guia/${slug}/`}
               class="card-inset group flex items-start gap-3 transition-all hover:-translate-y-0.5"
               style="cursor: pointer;"
             >
@@ -313,7 +321,7 @@ const xProfileUrl = "https://x.com/paumrch";
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
         {Object.entries(stats.categorias).map(([cat, count]) => (
           <a
-            href={`/categoria/${cat}`}
+            href={`/categoria/${cat}/`}
             class="card group transition-all hover:-translate-y-1"
             style="padding: 1.25rem; box-shadow: none;"
           >
@@ -343,13 +351,13 @@ const xProfileUrl = "https://x.com/paumrch";
         <h2 class="text-3xl sm:text-4xl font-extrabold" style="color: var(--color-on-surface); letter-spacing: -0.02ch;">
           Cada CC.AA. tiene<br class="hidden sm:block" /> sus propias deducciones
         </h2>
-        <a href="/comunidad" class="inline-block mt-4 text-sm font-semibold hover:underline" style="color: var(--color-primary);">Ver todas las comunidades →</a>
+        <a href="/comunidad/" class="inline-block mt-4 text-sm font-semibold hover:underline" style="color: var(--color-primary);">Ver todas las comunidades →</a>
       </div>
 
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
         {stats.ccaa_lista.map((ccaa) => (
           <a
-            href={CCAA_SLUG[ccaa.codigo] ? `/comunidad/${CCAA_SLUG[ccaa.codigo]}` : `/explorador?ccaa=${ccaa.codigo}`}
+            href={CCAA_SLUG[ccaa.codigo] ? `/comunidad/${CCAA_SLUG[ccaa.codigo]}/` : `/explorador/?ccaa=${ccaa.codigo}`}
             class="card-inset text-center group transition-all hover:-translate-y-0.5"
           >
             <div class="text-sm font-semibold leading-snug" style="color: var(--color-on-surface);">
@@ -361,7 +369,7 @@ const xProfileUrl = "https://x.com/paumrch";
           </a>
         ))}
         <a
-          href="/explorador?ccaa=CML"
+          href="/explorador/?ccaa=CML"
           class="card-inset text-center group transition-all hover:-translate-y-0.5"
         >
           <div class="text-sm font-semibold leading-snug" style="color: var(--color-on-surface);">
@@ -397,10 +405,10 @@ const xProfileUrl = "https://x.com/paumrch";
           Responde unas preguntas y te mostramos las tuyas.
         </p>
         <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-          <a href="/asistente" class="btn-primary text-base">
+          <a href="/asistente/" class="btn-primary text-base">
             Calcular mis deducciones →
           </a>
-          <a href="/guia" class="btn-gold text-base">
+          <a href="/guia/" class="btn-gold text-base">
             Leer la guía completa
           </a>
         </div>

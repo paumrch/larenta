@@ -164,7 +164,7 @@ export function cleanName(name: string): string {
 
 /** Devuelve la URL de la ficha */
 export function fichaUrl(id: string): string {
-  return `/deduccion/${id}`;
+  return `/deduccion/${id}/`;
 }
 
 /** Dots de relevancia: ••• alta, •• media, • baja */

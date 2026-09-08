@@ -1,11 +1,17 @@
 ---
 import Base from "../../layouts/Base.astro";
+import { DATOS_ACTUALIZADOS, fechaLarga } from "../../lib/actualizacion";
 import { marked } from "marked";
 import guias from "../../../data/guias.json";
 import { getDeduccionesByCategoria } from "../../lib/data";
 import { cleanName } from "../../lib/types";
 import RecursoExterno from "../../components/RecursoExterno.astro";
 import { recursoPara } from "../../lib/recursos";
+
+// Fecha de actualización de los datos: constante declarada, no mtime.
+// El texto visible y el dateModified del JSON-LD salen de la misma fuente.
+const fechaActualizacionTexto = fechaLarga();
+const fechaActualizacionISO = DATOS_ACTUALIZADOS;
 
 export function getStaticPaths() {
   return guias.map((guia) => ({
@@ -30,18 +36,28 @@ const guiaIndex = guias.findIndex((g) => g.slug === guia.slug);
 const guiaAnterior = guiaIndex > 0 ? guias[guiaIndex - 1] : null;
 const guiaSiguiente = guiaIndex < guias.length - 1 ? guias[guiaIndex + 1] : null;
 
+// Quita sintaxis markdown básica para que el JSON-LD lleve texto plano, no markdown crudo.
+function stripMarkdown(text: string) {
+  return text
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") // enlaces [x](y) -> x
+    .replace(/(\*\*|__)(.*?)\1/g, "$2") // negrita
+    .replace(/(\*|_)(.*?)\1/g, "$2") // cursiva
+    .replace(/`([^`]+)`/g, "$1") // código inline
+    .trim();
+}
+
 // Extract FAQ from markdown: h2 headings as questions, first paragraph after as answer
 const faqItems = (() => {
   const sections = guia.contenido_md.split(/^## /m).slice(1); // skip content before first h2
   return sections
     .map((section: string) => {
       const lines = section.split("\n");
-      const question = lines[0].trim();
+      const question = stripMarkdown(lines[0].trim());
       // Find first non-empty, non-heading, non-blockquote line as answer
       const answer = lines.slice(1)
         .map((l: string) => l.trim())
         .find((l: string) => l && !l.startsWith("#") && !l.startsWith(">") && !l.startsWith("|") && !l.startsWith("```") && !l.startsWith("-"));
-      return answer ? { question, answer } : null;
+      return answer ? { question, answer: stripMarkdown(answer) } : null;
     })
     .filter(Boolean)
     .slice(0, 5); // limit to 5 FAQ items for structured data
@@ -49,8 +65,9 @@ const faqItems = (() => {
 ---
 
 <Base
-  title={`${guia.titulo} — Guía IRPF 2025`}
-  description={`${guia.resumen} ${guia.subtitulo}. Manual Práctico IRPF 2025 de la Agencia Tributaria.`}
+  title={guia.meta_title || `${guia.titulo} — Guía IRPF 2025`}
+  tituloExacto={Boolean(guia.meta_title)}
+  description={guia.meta_description || `${guia.resumen} ${guia.subtitulo}.`}
   ogImage={`/og/guia-${guia.slug}.png`}
 >
   <Fragment slot="head">
@@ -71,7 +88,7 @@ const faqItems = (() => {
       "url": `https://www.larenta.es/guia/${guia.slug}`,
       "image": `https://www.larenta.es/og/guia-${guia.slug}.png`,
       "datePublished": "2025-04-02",
-      "dateModified": new Date().toISOString().split("T")[0],
+      "dateModified": fechaActualizacionISO,
       "author": { "@type": "Organization", "name": "larenta.es", "url": "https://www.larenta.es" },
       "publisher": { "@type": "Organization", "name": "larenta.es", "url": "https://www.larenta.es" },
       "inLanguage": "es",
@@ -103,7 +120,7 @@ const faqItems = (() => {
       >
         <a href="/" class="flex-shrink-0 hover:underline" style="color: var(--color-primary); text-decoration: none;">Inicio</a>
         <span class="flex-shrink-0" style="opacity: 0.4;">›</span>
-        <a href="/guia" class="flex-shrink-0 hover:underline" style="color: var(--color-primary); text-decoration: none;">Guía IRPF</a>
+        <a href="/guia/" class="flex-shrink-0 hover:underline" style="color: var(--color-primary); text-decoration: none;">Guía IRPF</a>
         <span class="flex-shrink-0" style="opacity: 0.4;">›</span>
         <span class="truncate min-w-0">{guia.titulo}</span>
       </nav>
@@ -131,6 +148,11 @@ const faqItems = (() => {
             style="font-size: 1rem; color: var(--color-on-surface-variant); margin: 0;"
           >
             {guia.subtitulo}
+          </p>
+          <p
+            style="font-size: 0.8rem; color: var(--color-on-surface-variant); opacity: 0.75; margin: 0.5rem 0 0;"
+          >
+            Actualizado: {fechaActualizacionTexto}
           </p>
         </div>
       </div>
@@ -222,7 +244,7 @@ const faqItems = (() => {
             El asistente te dice qué deducciones aplican a tu situación.
           </p>
           <a
-            href="/asistente"
+            href="/asistente/"
             style="display: block; background: var(--color-secondary-container); color: var(--color-on-secondary-container); font-weight: 700; font-size: 0.85rem; padding: 0.65rem 1.25rem; border-radius: 9999px; text-decoration: none;"
           >
             Calcular mi situación →
@@ -239,7 +261,7 @@ const faqItems = (() => {
           <nav style="display: flex; flex-direction: column; gap: 0.5rem;">
             {guias.map((g) => (
               <a
-                href={`/guia/${g.slug}`}
+                href={`/guia/${g.slug}/`}
                 style={`display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.75rem; border-radius: var(--radius-md); font-size: 0.85rem; text-decoration: none; transition: background 0.1s; ${g.slug === guia.slug ? 'background: var(--color-surface-high); font-weight: 700; color: var(--color-primary);' : 'color: var(--color-on-surface-variant);'}`}
               >
                 <span>{g.icono}</span>
@@ -271,7 +293,7 @@ const faqItems = (() => {
         >
           {relacionadas.map((d: any) => (
             <a
-              href={`/deduccion/${d.id}`}
+              href={`/deduccion/${d.id}/`}
               class="card"
               style="text-decoration: none; padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; transition: transform 0.15s;"
               onmouseover="this.style.transform='translateY(-2px)'"
@@ -307,7 +329,7 @@ const faqItems = (() => {
 
         <div style="text-align: center; margin-top: 2rem;">
           <a
-            href={`/explorador?categoria=${guia.categorias_deducciones[0]}`}
+            href={`/explorador/?categoria=${guia.categorias_deducciones[0]}`}
             class="btn-gold"
             style="font-size: 0.9rem;"
           >
@@ -326,7 +348,7 @@ const faqItems = (() => {
     >
       {guiaAnterior ? (
         <a
-          href={`/guia/${guiaAnterior.slug}`}
+          href={`/guia/${guiaAnterior.slug}/`}
           class="card"
           style="text-decoration: none; padding: 1.25rem; display: flex; align-items: center; gap: 1rem;"
         >
@@ -340,7 +362,7 @@ const faqItems = (() => {
 
       {guiaSiguiente ? (
         <a
-          href={`/guia/${guiaSiguiente.slug}`}
+          href={`/guia/${guiaSiguiente.slug}/`}
           class="card"
           style="text-decoration: none; padding: 1.25rem; display: flex; align-items: center; justify-content: flex-end; gap: 1rem; text-align: right;"
         >

@@ -1,5 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
+import { DATOS_ACTUALIZADOS, fechaLarga, metaDescripcion } from "../../lib/actualizacion";
 import { getAllDeducciones } from "../../lib/data";
 import guias from "../../../data/guias.json";
 import {
@@ -16,6 +17,12 @@ import {
 import { marked } from "marked";
 import RecursoExterno from "../../components/RecursoExterno.astro";
 import { recursoPara } from "../../lib/recursos";
+import titlesSeo from "../../../data/titles_seo.json";
+
+// Fecha de actualización de los datos: constante declarada, no mtime.
+// El texto visible y el dateModified del JSON-LD salen de la misma fuente.
+const fechaActualizacionTexto = fechaLarga();
+const fechaActualizacionISO = DATOS_ACTUALIZADOS;
 
 export function getStaticPaths() {
   const deducciones = getAllDeducciones();
@@ -27,6 +34,11 @@ export function getStaticPaths() {
 
 const { deduccion: d } = Astro.props;
 const nombre = cleanName(d.nombre);
+// Titles SEO optimizados (<60 car.). Capa editorial: vive aparte de deducciones.json,
+// que se regenera con el pipeline de datos. Si falta uno, se cae al nombre oficial.
+const titleSeo =
+  titlesSeo[d.id] ||
+  (d.tipo === "autonomica" ? `${nombre} en ${d.comunidad} — IRPF 2025` : nombre);
 const resumen = cleanName(d.resumen);
 const contentHtml = await marked.parse(d.contenido_md);
 const hasFacts = d.porcentaje || d.base_maxima || d.limite_renta;
@@ -61,8 +73,9 @@ const guiaRelacionada = guias.find((g) =>
 ---
 
 <Base
-  title={d.tipo === "autonomica" ? `${nombre} en ${d.comunidad} — IRPF 2025` : nombre}
-  description={`${resumen} — Deducción ${d.tipo === "estatal" ? "estatal" : "autonómica de " + d.comunidad} del IRPF 2025.`}
+  title={titleSeo}
+  tituloExacto={Boolean(titlesSeo[d.id])}
+  description={metaDescripcion(`${resumen} — Deducción ${d.tipo === "estatal" ? "estatal" : "autonómica de " + d.comunidad} del IRPF 2025.`)}
   ogImage={`/og/deduccion-${d.id}.png`}
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify({
@@ -76,6 +89,16 @@ const guiaRelacionada = guias.find((g) =>
     ]
   })} />
 
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": nombre,
+    "url": `https://www.larenta.es/deduccion/${d.id}`,
+    "description": resumen,
+    "dateModified": fechaActualizacionISO,
+    "inLanguage": "es"
+  })} />
+
   <div style="background: var(--color-surface); min-height: 100vh;">
     <div class="max-w-4xl mx-auto px-5 sm:px-8 py-10 sm:py-14">
 
@@ -83,11 +106,11 @@ const guiaRelacionada = guias.find((g) =>
       <nav class="flex items-center gap-1.5 text-sm mb-8" style="color: var(--color-on-surface-variant);">
         <a href="/" class="flex-shrink-0 hover:underline" style="color: var(--color-on-surface-variant);">Inicio</a>
         <span class="flex-shrink-0" style="opacity: 0.4;">›</span>
-        <a href="/explorador" class="flex-shrink-0 hover:underline" style="color: var(--color-on-surface-variant);">Explorador</a>
+        <a href="/explorador/" class="flex-shrink-0 hover:underline" style="color: var(--color-on-surface-variant);">Explorador</a>
         {d.tipo === "autonomica" && (
           <>
             <span class="flex-shrink-0" style="opacity: 0.4;">›</span>
-            <a href={CCAA_SLUG[d.codigo_ccaa] ? `/comunidad/${CCAA_SLUG[d.codigo_ccaa]}` : `/explorador?ccaa=${d.codigo_ccaa}`} class="flex-shrink-0 hover:underline" style="color: var(--color-on-surface-variant);">
+            <a href={CCAA_SLUG[d.codigo_ccaa] ? `/comunidad/${CCAA_SLUG[d.codigo_ccaa]}/` : `/explorador/?ccaa=${d.codigo_ccaa}`} class="flex-shrink-0 hover:underline" style="color: var(--color-on-surface-variant);">
               {d.comunidad}
             </a>
           </>
@@ -128,6 +151,9 @@ const guiaRelacionada = guias.find((g) =>
           style="color: var(--color-on-surface); letter-spacing: -0.02ch;">
           {nombre}
         </h1>
+        <p class="text-xs mt-2" style="color: var(--color-on-surface-variant); opacity: 0.75;">
+          Actualizado: {fechaActualizacionTexto}
+        </p>
       </div>
 
       <!-- Executive Summary Card -->
@@ -248,7 +274,7 @@ const guiaRelacionada = guias.find((g) =>
       <!-- Guía relacionada -->
       {guiaRelacionada && (
         <a
-          href={`/guia/${guiaRelacionada.slug}`}
+          href={`/guia/${guiaRelacionada.slug}/`}
           class="card mb-8 flex items-center gap-4 group transition-all hover:-translate-y-0.5"
           style="padding: 1.25rem 1.5rem; text-decoration: none;"
         >
@@ -276,7 +302,7 @@ const guiaRelacionada = guias.find((g) =>
           <div class="mb-4 flex items-center justify-between">
             <h2 class="text-base font-bold" style="color: var(--color-on-surface);">También puede interesarte</h2>
             <a
-              href={`/categoria/${d.categoria}`}
+              href={`/categoria/${d.categoria}/`}
               class="text-xs font-semibold hover:underline"
               style="color: var(--color-primary);"
             >
@@ -337,10 +363,10 @@ const guiaRelacionada = guias.find((g) =>
           Ver fuente oficial AEAT ↗
         </a>
         <div class="flex gap-3">
-          <a href="/asistente" class="btn-primary !py-2 !px-4 !text-sm">
+          <a href="/asistente/" class="btn-primary !py-2 !px-4 !text-sm">
             Descubrir más deducciones
           </a>
-          <a href="/explorador" class="btn-text !text-sm">
+          <a href="/explorador/" class="btn-text !text-sm">
             ← Volver al explorador
           </a>
         </div>

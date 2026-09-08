@@ -11,8 +11,8 @@ const categorias = Object.entries(stats.categorias).sort(
 ---
 
 <Base
-  title="Deducciones IRPF por Categoría 2025 | larenta.es"
-  description={`Explora las ${stats.total_deducciones} deducciones del IRPF 2025 organizadas por categoría: vivienda, familia, educación, salud, empresa, donativos, energía, movilidad y más.`}
+  title="Deducciones del IRPF 2025 por categoría"
+  description={`Explora las ${stats.total_deducciones} deducciones del IRPF 2025 por categoría: vivienda, familia, educación, salud, empresa, donativos, energía y movilidad.`}
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
@@ -52,7 +52,7 @@ const categorias = Object.entries(stats.categorias).sort(
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
         {categorias.map(([cat, count]) => (
           <a
-            href={`/categoria/${cat}`}
+            href={`/categoria/${cat}/`}
             class="card group transition-all hover:-translate-y-0.5"
             style="padding: 1.5rem; box-shadow: none; text-decoration: none;"
           >
@@ -78,10 +78,10 @@ const categorias = Object.entries(stats.categorias).sort(
 
       <!-- CTA -->
       <div class="flex flex-col sm:flex-row gap-3">
-        <a href="/asistente" class="btn-primary">
+        <a href="/asistente/" class="btn-primary">
           Descubrir mis deducciones →
         </a>
-        <a href="/explorador" class="btn-text">
+        <a href="/explorador/" class="btn-text">
           Ver todas las deducciones
         </a>
       </div>

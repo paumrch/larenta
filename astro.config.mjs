@@ -7,6 +7,7 @@ import vercel from "@astrojs/vercel";
 export default defineConfig({
   site: "https://www.larenta.es",
   output: "static",
+  trailingSlash: "always",
   adapter: vercel(),
   integrations: [react(), sitemap()],
   vite: {
