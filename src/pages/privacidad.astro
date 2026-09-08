@@ -1,0 +1,92 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base
+  title="Política de privacidad"
+  description="Qué datos recoge larenta.es, para qué se usan y cómo ejercer tus derechos RGPD. Sitio estático, sin base de datos propia."
+  ogImage="/og/home.png"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Política de privacidad",
+      "description": "Qué datos recoge larenta.es y cómo ejercer tus derechos RGPD.",
+      "url": "https://www.larenta.es/privacidad/"
+    })} />
+  </Fragment>
+
+  <section class="max-w-2xl mx-auto px-5 sm:px-8 py-16 sm:py-24">
+
+    <!-- Encabezado -->
+    <h1 class="text-3xl sm:text-4xl font-extrabold mb-3" style="color: var(--color-on-surface); letter-spacing: -0.02ch;">
+      Política de privacidad
+    </h1>
+    <p class="text-base leading-relaxed mb-12" style="color: var(--color-on-surface-variant); max-width: 52ch;">
+      Qué datos se recogen en larenta.es, para qué se usan y cómo controlarlos.
+    </p>
+
+    <!-- Contenido -->
+    <div class="space-y-8 text-[15px] leading-[1.75]" style="color: var(--color-on-surface);">
+
+      <div>
+        <h2 class="text-lg font-bold mb-2" style="color: var(--color-on-surface);">Quién trata tus datos</h2>
+        <p style="color: var(--color-on-surface-variant);">
+          <strong style="color: var(--color-on-surface);">larenta.es</strong> es un proyecto personal de Pau March. No es una empresa con departamento de datos ni una plataforma con cuentas de usuario: es un sitio estático, sin base de datos propia, que se sirve directamente desde un CDN. Eso limita mucho lo que se puede recoger, y este documento explica exactamente qué pasa con la información que generas al usarlo.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-bold mb-2" style="color: var(--color-on-surface);">Analítica: Google Tag Manager y GA4</h2>
+        <p style="color: var(--color-on-surface-variant);">
+          El sitio carga Google Tag Manager, que a su vez activa Google Analytics 4 (identificador <code style="color: var(--color-on-surface); background: var(--color-surface-high); padding: 0.1em 0.4em; border-radius: 4px; font-size: 0.9em;">G-9BMRQTWEG5</code>). Esto sirve para saber, de forma agregada, cuánta gente visita el sitio, qué páginas funcionan y desde dónde llega el tráfico. GA4 usa cookies de terceros de Google para diferenciar sesiones y evitar contar dos veces a la misma persona.
+        </p>
+        <p class="mt-3" style="color: var(--color-on-surface-variant);">
+          Esta analítica no identifica a nadie por nombre ni email, pero sí es un tratamiento de datos personales según el RGPD (dirección IP, identificadores de dispositivo). Hoy el sitio <strong style="color: var(--color-on-surface);">no muestra un banner de consentimiento de cookies</strong> antes de cargar estas herramientas. Es una carencia conocida que está pendiente de corregir; mientras tanto, puedes bloquear estas cookies desde la configuración de tu navegador (ver más abajo) o usar una extensión de bloqueo de rastreadores.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-bold mb-2" style="color: var(--color-on-surface);">El asistente y el envío de informes por email</h2>
+        <p style="color: var(--color-on-surface-variant);">
+          El asistente de deducciones te permite, si lo pides, recibir un resumen de tus resultados en tu correo electrónico. Ese envío se hace a través de <strong style="color: var(--color-on-surface);">Resend</strong>, un proveedor de envío de emails transaccionales. El correo que introduces se usa únicamente para mandarte ese informe puntual: no se guarda en ninguna base de datos de larenta.es (no existe tal base de datos, porque el sitio es estático), no se añade a ninguna lista de correo y no se reutiliza para ningún otro fin.
+        </p>
+        <p class="mt-3" style="color: var(--color-on-surface-variant);">
+          Resend, como proveedor del envío, puede conservar registros técnicos del envío (por ejemplo, logs de entrega) según su propia política de privacidad, igual que lo haría cualquier servicio de correo.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-bold mb-2" style="color: var(--color-on-surface);">Lo que no hace este sitio</h2>
+        <p style="color: var(--color-on-surface-variant);">
+          No hay registro ni cuentas de usuario. No se construyen perfiles individuales de comportamiento. No se venden ni ceden datos a terceros con fines comerciales. No se usan los datos fiscales que introduces en el asistente para nada distinto de calcular, en tu propio navegador, qué deducciones te pueden aplicar.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-bold mb-2" style="color: var(--color-on-surface);">Tus derechos</h2>
+        <p style="color: var(--color-on-surface-variant);">
+          Como usuario, el RGPD te reconoce el derecho a acceder a los datos que se tratan sobre ti, rectificarlos si son incorrectos, pedir su supresión, oponerte al tratamiento y solicitar su portabilidad. Dado que larenta.es no almacena datos personales en servidores propios, en la práctica esto se traduce en: puedes pedir en cualquier momento que se te confirme qué se procesó (analítica agregada y, en su caso, el envío puntual por email) y puedes ejercer cualquiera de estos derechos escribiendo a través del <a href="https://github.com/paumrch/larenta/issues" target="_blank" rel="noopener noreferrer" style="color: var(--color-primary); text-decoration: underline; text-decoration-color: var(--color-outline-variant);">repositorio de GitHub del proyecto</a>.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-bold mb-2" style="color: var(--color-on-surface);">Controlar las cookies desde tu navegador</h2>
+        <p style="color: var(--color-on-surface-variant);">
+          Todos los navegadores modernos (Chrome, Firefox, Safari, Edge) permiten bloquear o eliminar cookies de terceros desde su configuración de privacidad. Si prefieres navegar sin que Google Analytics registre tu visita, puedes activar esa opción o instalar una extensión de bloqueo de rastreadores; el sitio funciona exactamente igual sin ellas.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Separador + CTA sutil -->
+    <div class="mt-14 pt-8" style="border-top: 1px solid var(--color-outline-variant);">
+      <p class="text-sm" style="color: var(--color-on-surface-variant);">
+        ¿Dudas sobre este documento o sobre el proyecto?
+        <a href="/aviso-legal/" style="color: var(--color-primary); font-weight: 600;">Lee el aviso legal →</a>
+      </p>
+    </div>
+
+  </section>
+</Base>

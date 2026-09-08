@@ -1,0 +1,82 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base
+  title="Aviso legal"
+  description="Titularidad de larenta.es, naturaleza informativa del sitio y por qué no sustituye una asesoría fiscal. Licencia MIT y código abierto."
+  ogImage="/og/home.png"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Aviso legal",
+      "description": "Titularidad de larenta.es y condiciones de uso del sitio.",
+      "url": "https://www.larenta.es/aviso-legal/"
+    })} />
+  </Fragment>
+
+  <section class="max-w-2xl mx-auto px-5 sm:px-8 py-16 sm:py-24">
+
+    <!-- Encabezado -->
+    <h1 class="text-3xl sm:text-4xl font-extrabold mb-3" style="color: var(--color-on-surface); letter-spacing: -0.02ch;">
+      Aviso legal
+    </h1>
+    <p class="text-base leading-relaxed mb-12" style="color: var(--color-on-surface-variant); max-width: 52ch;">
+      Quién publica este sitio, qué es y qué no es.
+    </p>
+
+    <!-- Contenido -->
+    <div class="space-y-8 text-[15px] leading-[1.75]" style="color: var(--color-on-surface);">
+
+      <div>
+        <h2 class="text-lg font-bold mb-2" style="color: var(--color-on-surface);">Titularidad</h2>
+        <p style="color: var(--color-on-surface-variant);">
+          <strong style="color: var(--color-on-surface);">larenta.es</strong> es un proyecto personal de <strong style="color: var(--color-on-surface);">Pau March</strong>, cuya actividad puedes conocer en <a href="https://www.paumarch.com" target="_blank" rel="noopener noreferrer" style="color: var(--color-primary); text-decoration: underline; text-decoration-color: var(--color-outline-variant);">paumarch.com</a>. No es una empresa de asesoría fiscal ni un colegio profesional: es una herramienta divulgativa independiente.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-bold mb-2" style="color: var(--color-on-surface);">Qué es este sitio</h2>
+        <p style="color: var(--color-on-surface-variant);">
+          larenta.es reúne y explica en lenguaje claro las deducciones del IRPF estatales y autonómicas para la campaña de la Renta 2025, a partir de los datos publicados en el <strong style="color: var(--color-on-surface);">Manual Práctico de Renta 2025 de la Agencia Estatal de Administración Tributaria (AEAT)</strong>. Es una herramienta gratuita, informativa y de código abierto, pensada para ayudarte a orientarte antes de hacer tu declaración.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-bold mb-2" style="color: var(--color-on-surface);">Esto no es asesoría fiscal</h2>
+        <p style="color: var(--color-on-surface-variant);">
+          <strong style="color: var(--color-on-surface);">larenta.es no presta servicios de asesoría fiscal, jurídica ni tributaria.</strong> El contenido del sitio, incluido el asistente interactivo, tiene una finalidad puramente informativa. La fuente oficial —la AEAT, sus manuales, normativa y sede electrónica— prevalece siempre sobre cualquier interpretación o resumen que encuentres aquí.
+        </p>
+        <p class="mt-3" style="color: var(--color-on-surface-variant);">
+          Aunque el contenido se elabora con cuidado y se revisa contra la normativa vigente, no se garantiza que esté libre de errores, omisiones o desactualizaciones, especialmente en normativa autonómica, que cambia con frecuencia. Antes de tomar cualquier decisión con impacto económico o de presentar tu declaración, verifica siempre los datos en la <a href="https://sede.agenciatributaria.gob.es" target="_blank" rel="noopener noreferrer" style="color: var(--color-primary); text-decoration: underline; text-decoration-color: var(--color-outline-variant);">sede electrónica de la AEAT</a> o consulta con un profesional colegiado.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-bold mb-2" style="color: var(--color-on-surface);">Código abierto y licencia</h2>
+        <p style="color: var(--color-on-surface-variant);">
+          El código de larenta.es es abierto y se publica bajo <strong style="color: var(--color-on-surface);">licencia MIT</strong> en <a href="https://github.com/paumrch/larenta" target="_blank" rel="noopener noreferrer" style="color: var(--color-primary); text-decoration: underline; text-decoration-color: var(--color-outline-variant);">github.com/paumrch/larenta</a>. Puedes revisar cómo se calcula cada deducción, proponer cambios o reutilizar el código según los términos de esa licencia.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-bold mb-2" style="color: var(--color-on-surface);">¿Has encontrado un dato incorrecto?</h2>
+        <p style="color: var(--color-on-surface-variant);">
+          Si detectas una cifra, un requisito o una deducción mal descrita, la forma más rápida de reportarlo es abrir un <a href="https://github.com/paumrch/larenta/issues" target="_blank" rel="noopener noreferrer" style="color: var(--color-primary); text-decoration: underline; text-decoration-color: var(--color-outline-variant);">issue en GitHub</a> explicando qué está mal y, si puedes, enlazando la fuente oficial correcta. Se revisa y corrige lo antes posible.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Separador + CTA sutil -->
+    <div class="mt-14 pt-8" style="border-top: 1px solid var(--color-outline-variant);">
+      <p class="text-sm" style="color: var(--color-on-surface-variant);">
+        ¿Quieres saber más sobre el proyecto?
+        <a href="/elproyecto/" style="color: var(--color-primary); font-weight: 600;">Sobre este proyecto →</a>
+      </p>
+    </div>
+
+  </section>
+</Base>
