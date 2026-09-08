@@ -18,9 +18,7 @@ function pushEvent(event: string, params?: Record<string, unknown>) {
   window.dataLayer.push({ event, ...params });
 }
 
-interface WizardProps {
-  deducciones: DeduccionIndex[];
-}
+const DATA_URL = "/data/deducciones-index.json";
 
 interface Answers {
   ccaa: string;
@@ -104,7 +102,33 @@ function loadSavedState(): { step: number; answers: Answers; showResults: boolea
   }
 }
 
-export default function Wizard({ deducciones }: WizardProps) {
+export default function Wizard() {
+  const [deducciones, setDeducciones] = useState<DeduccionIndex[]>([]);
+  const [dataLoading, setDataLoading] = useState(true);
+  const [dataError, setDataError] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(DATA_URL)
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((json: DeduccionIndex[]) => {
+        if (!cancelled) {
+          setDeducciones(json);
+          setDataLoading(false);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setDataError(true);
+          setDataLoading(false);
+        }
+      });
+    return () => { cancelled = true; };
+  }, []);
+
   const saved = useMemo(() => loadSavedState(), []);
   const [step, setStep] = useState(saved?.step ?? 0);
   const [answers, setAnswers] = useState<Answers>(saved?.answers ?? {
@@ -281,6 +305,42 @@ export default function Wizard({ deducciones }: WizardProps) {
 
   // ── RESULTS ──────────────────────────────────────────────────────────
   if (showResults) {
+    if (dataError) {
+      return (
+        <div className="text-center py-16 px-4" style={{ background: "var(--color-surface-high)", borderRadius: "var(--radius-xl)" }}>
+          <p className="text-lg font-semibold mb-2" style={{ color: "var(--color-on-surface)" }}>
+            No hemos podido cargar las deducciones
+          </p>
+          <p className="text-sm mb-4" style={{ color: "var(--color-on-surface-variant)" }}>
+            Comprueba tu conexión e inténtalo de nuevo.
+          </p>
+          <button onClick={handleBack} className="btn-text" aria-label="Volver">
+            ← Atrás
+          </button>
+        </div>
+      );
+    }
+    if (dataLoading) {
+      return (
+        <div className="text-center py-16" style={{ background: "var(--color-surface-high)", borderRadius: "var(--radius-xl)" }}>
+          <div
+            className="mx-auto mb-4"
+            style={{
+              width: "32px",
+              height: "32px",
+              borderRadius: "50%",
+              border: "3px solid var(--color-surface-highest)",
+              borderTopColor: "var(--color-primary)",
+              animation: "spin 0.8s linear infinite",
+            }}
+          />
+          <p className="text-sm" style={{ color: "var(--color-on-surface-variant)" }}>
+            Calculando tus deducciones…
+          </p>
+          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        </div>
+      );
+    }
     return (
       <Report
         deducciones={results}

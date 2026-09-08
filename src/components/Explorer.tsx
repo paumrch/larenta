@@ -21,18 +21,47 @@ function pushEvent(event: string, params?: Record<string, unknown>) {
 }
 
 interface ExplorerProps {
-  deducciones: DeduccionIndex[];
   initialCcaa?: string;
   initialCategoria?: string;
 }
 
 const CATEGORY_ORDER = ["familia", "vivienda", "educacion", "salud", "empresa", "donativos", "energia", "movilidad", "otros"];
 
+// Mismo fichero que usa el asistente: el navegador lo cachea una sola vez.
+const DATA_URL = "/data/deducciones-index.json";
+
 export default function Explorer({
-  deducciones,
   initialCcaa = "",
   initialCategoria = "",
 }: ExplorerProps) {
+  const [deducciones, setDeducciones] = useState<DeduccionIndex[]>([]);
+  const [dataLoading, setDataLoading] = useState(true);
+  const [dataError, setDataError] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(DATA_URL)
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((json: DeduccionIndex[]) => {
+        if (!cancelled) {
+          setDeducciones(json);
+          setDataLoading(false);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setDataError(true);
+          setDataLoading(false);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const [search, setSearch] = useState("");
   const [ccaa, setCcaa] = useState(initialCcaa);
   const [categoria, setCategoria] = useState(initialCategoria);
@@ -61,6 +90,9 @@ export default function Explorer({
     if (params.get("ccaa")) setCcaa(params.get("ccaa")!);
     if (params.get("categoria")) setCategoria(params.get("categoria")!);
     if (params.get("novedades") === "1") setShowNovedades(true);
+    // `q` permite enlazar una búsqueda concreta y da sentido al SearchAction
+    // del JSON-LD de la home (sitelinks searchbox de Google).
+    if (params.get("q")) setSearch(params.get("q")!);
   }, []);
 
   const CCAA_OPTIONS = useMemo(
@@ -181,6 +213,45 @@ export default function Explorer({
           </span>
         )}
       </a>
+    );
+  }
+
+  if (dataError) {
+    return (
+      <div
+        className="text-center py-16 px-4"
+        style={{ background: "var(--color-surface-high)", borderRadius: "var(--radius-xl)" }}
+      >
+        <p className="text-lg font-semibold mb-2" style={{ color: "var(--color-on-surface)" }}>
+          No hemos podido cargar las deducciones
+        </p>
+        <p className="text-sm" style={{ color: "var(--color-on-surface-variant)" }}>
+          Comprueba tu conexión e inténtalo de nuevo. Más abajo tienes el índice
+          completo, que funciona sin conexión al buscador.
+        </p>
+      </div>
+    );
+  }
+
+  if (dataLoading) {
+    return (
+      <div className="text-center py-16" role="status" aria-live="polite">
+        <div
+          className="mx-auto mb-4"
+          style={{
+            width: "32px",
+            height: "32px",
+            borderRadius: "50%",
+            border: "3px solid var(--color-surface-highest)",
+            borderTopColor: "var(--color-primary)",
+            animation: "spin 0.8s linear infinite",
+          }}
+        />
+        <p className="text-sm" style={{ color: "var(--color-on-surface-variant)" }}>
+          Cargando deducciones…
+        </p>
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      </div>
     );
   }
 

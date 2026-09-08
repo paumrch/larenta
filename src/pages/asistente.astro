@@ -1,9 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
 import Wizard from "../components/Wizard";
-import { getWizardIndex } from "../lib/data";
-
-const deducciones = getWizardIndex();
 ---
 
 <Base
@@ -20,6 +17,6 @@ const deducciones = getWizardIndex();
         Responde unas preguntas sobre tu comunidad autónoma y situación personal y descubre qué deducciones del IRPF 2025 puedes aplicar en tu declaración de la renta.
       </p>
     </header>
-    <Wizard client:load deducciones={deducciones} />
+    <Wizard client:load />
   </section>
 </Base>

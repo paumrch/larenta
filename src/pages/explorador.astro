@@ -2,8 +2,22 @@
 import Base from "../layouts/Base.astro";
 import Explorer from "../components/Explorer";
 import { getExplorerIndex } from "../lib/data";
+import { cleanName, fichaUrl, CCAA_SLUG } from "../lib/types";
 
 const deducciones = getExplorerIndex();
+
+// El buscador es un island que carga los datos por fetch, así que su listado no
+// existe en el HTML. Este índice se renderiza en Astro, sin JavaScript: es la
+// versión navegable de la página (y la que rastrea Google, que de otro modo no
+// encontraría las fichas más que por el sitemap).
+const porComunidad = new Map<string, typeof deducciones>();
+for (const d of deducciones) {
+  if (!porComunidad.has(d.comunidad)) porComunidad.set(d.comunidad, []);
+  porComunidad.get(d.comunidad)!.push(d);
+}
+const comunidades = [...porComunidad.entries()].sort(([a], [b]) =>
+  a === "Estatal" ? -1 : b === "Estatal" ? 1 : a.localeCompare(b, "es"),
+);
 ---
 
 <Base
@@ -20,6 +34,55 @@ const deducciones = getExplorerIndex();
         Busca entre las {deducciones.length} deducciones del IRPF 2025 disponibles
       </p>
     </div>
-    <Explorer client:load deducciones={deducciones} />
+
+    <Explorer client:load />
+
+    <!-- Índice completo, sin JavaScript -->
+    <div class="mt-16 pt-10" style="border-top: 1px solid var(--color-outline-variant);">
+      <h2 class="text-xl sm:text-2xl font-extrabold" style="color: var(--color-on-surface)">
+        Índice completo de deducciones
+      </h2>
+      <p class="mt-2 mb-8 text-sm" style="color: var(--color-on-surface-variant)">
+        Las {deducciones.length} deducciones agrupadas por comunidad autónoma.
+      </p>
+
+      {
+        comunidades.map(([comunidad, lista]) => (
+          <div class="mb-8">
+            <h3 class="text-base font-bold mb-3" style="color: var(--color-on-surface)">
+              {
+                CCAA_SLUG[lista[0].codigo_ccaa] ? (
+                  <a
+                    href={`/comunidad/${CCAA_SLUG[lista[0].codigo_ccaa]}/`}
+                    class="hover:underline"
+                    style="color: var(--color-primary)"
+                  >
+                    {comunidad}
+                  </a>
+                ) : (
+                  comunidad
+                )
+              }
+              <span class="ml-2 font-normal text-sm" style="color: var(--color-on-surface-variant)">
+                {lista.length}
+              </span>
+            </h3>
+            <ul class="grid sm:grid-cols-2 gap-x-6 gap-y-1">
+              {lista.map((d) => (
+                <li class="text-sm leading-snug">
+                  <a
+                    href={fichaUrl(d.id)}
+                    class="hover:underline"
+                    style="color: var(--color-on-surface-variant)"
+                  >
+                    {cleanName(d.nombre_corto || d.nombre)}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
   </section>
 </Base>
