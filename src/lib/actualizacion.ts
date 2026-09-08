@@ -29,12 +29,19 @@ export function fechaLarga(iso: string = DATOS_ACTUALIZADOS): string {
  */
 export function metaDescripcion(texto: string, max = 155): string {
   let t = (texto || "")
+    // Un puñado de resúmenes vienen con HTML crudo del Manual de la AEAT
+    // (RIO-25 y RIO-26 son tablas enteras). Sin quitarlo, la description
+    // sería un trozo de marcado.
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&(nbsp|amp|lt|gt|quot|#\d+);/g, " ")
     .replace(/^[\s\-–—•·*]+/, "")
     .replace(/\s+/g, " ")
     .trim();
   if (t.length <= max) return t;
-  t = t.slice(0, max + 1);
-  const corte = Math.max(t.lastIndexOf(" "), 0);
-  t = t.slice(0, corte).replace(/[\s,;:.\-–—]+$/, "");
-  return t + "…";
+  const recorte = t.slice(0, max + 1);
+  const ultimoEspacio = recorte.lastIndexOf(" ");
+  // Si no hay ningún espacio donde cortar, se corta en seco: es preferible a
+  // devolver una cadena vacía, que es lo que pasaba antes.
+  const corte = ultimoEspacio > max / 2 ? ultimoEspacio : max;
+  return t.slice(0, corte).replace(/[\s,;:.\-–—]+$/, "") + "…";
 }

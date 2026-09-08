@@ -34,12 +34,23 @@ export function getStaticPaths() {
 
 const { deduccion: d } = Astro.props;
 const nombre = cleanName(d.nombre);
+
 // Titles SEO optimizados (<60 car.). Capa editorial: vive aparte de deducciones.json,
 // que se regenera con el pipeline de datos. Si falta uno, se cae al nombre oficial.
 const titleSeo =
   titlesSeo[d.id] ||
   (d.tipo === "autonomica" ? `${nombre} en ${d.comunidad} — IRPF 2025` : nombre);
 const resumen = cleanName(d.resumen);
+// El ámbito, para no repetirlo en el title y en la description.
+const ambito = d.tipo === "estatal" ? "estatal" : `autonómica de ${d.comunidad}`;
+// Un par de resúmenes del Manual de la AEAT (RIO-25, RIO-26) no son prosa sino
+// tablas HTML de códigos de municipio. Recortarlas da una description ilegible,
+// así que en esos casos se construye desde el nombre de la deducción.
+const resumenEsTabla = /<[a-z]+[ >]/i.test(d.resumen ?? "");
+const descripcion = resumenEsTabla
+  ? metaDescripcion(`${nombre}. Deducción ${ambito} del IRPF 2025.`)
+  : metaDescripcion(`${resumen} — Deducción ${ambito} del IRPF 2025.`);
+
 const contentHtml = await marked.parse(d.contenido_md);
 const hasFacts = d.porcentaje || d.base_maxima || d.limite_renta;
 const situacionLabels = d.situaciones
@@ -75,7 +86,7 @@ const guiaRelacionada = guias.find((g) =>
 <Base
   title={titleSeo}
   tituloExacto={Boolean(titlesSeo[d.id])}
-  description={metaDescripcion(`${resumen} — Deducción ${d.tipo === "estatal" ? "estatal" : "autonómica de " + d.comunidad} del IRPF 2025.`)}
+  description={descripcion}
   ogImage={`/og/deduccion-${d.id}.png`}
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify({
