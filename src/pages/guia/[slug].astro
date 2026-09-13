@@ -6,7 +6,7 @@ import guias from "../../../data/guias.json";
 import { getDeduccionesByCategoria } from "../../lib/data";
 import { cleanName } from "../../lib/types";
 import RecursoExterno from "../../components/RecursoExterno.astro";
-import { recursoPara } from "../../lib/recursos";
+import { recursosPara } from "../../lib/recursos";
 
 // Fecha de actualización de los datos: constante declarada, no mtime.
 // El texto visible y el dateModified del JSON-LD salen de la misma fuente.
@@ -29,7 +29,7 @@ const relacionadas = guia.categorias_deducciones
   .slice(0, 6);
 
 // Recurso externo relacionado, si esta guía tiene uno
-const recurso = recursoPara(`guia:${guia.slug}`);
+const recursos = recursosPara(`guia:${guia.slug}`);
 
 // Índice de la guía dentro del array
 const guiaIndex = guias.findIndex((g) => g.slug === guia.slug);
@@ -167,7 +167,7 @@ const faqItems = (() => {
         </p>
       </div>
 
-      <RecursoExterno recurso={recurso} />
+      <RecursoExterno recursos={recursos} />
     </div>
   </section>
 

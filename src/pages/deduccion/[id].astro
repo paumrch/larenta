@@ -16,7 +16,7 @@ import {
 } from "../../lib/types";
 import { marked } from "marked";
 import RecursoExterno from "../../components/RecursoExterno.astro";
-import { recursoPara } from "../../lib/recursos";
+import { recursosPara } from "../../lib/recursos";
 import titlesSeo from "../../../data/titles_seo.json";
 
 // Fecha de actualización de los datos: constante declarada, no mtime.
@@ -57,7 +57,7 @@ const situacionLabels = d.situaciones
   .map((s) => SITUACION_LABELS[s])
   .filter(Boolean);
 
-const recurso = recursoPara(`deduccion:${d.id}`);
+const recursos = recursosPara(`deduccion:${d.id}`);
 
 // Deducciones relacionadas: misma categoría, misma CCAA primero, luego otras
 const relacionadas = (() => {
@@ -262,7 +262,7 @@ const guiaRelacionada = guias.find((g) =>
         </div>
       </div>
 
-      <RecursoExterno recurso={recurso} maxWidth="100%" marginBottom="2rem" />
+      <RecursoExterno recursos={recursos} maxWidth="100%" marginBottom="2rem" />
 
       <!-- Full AEAT content — collapsible -->
       <details class="card mb-8 group" open>
