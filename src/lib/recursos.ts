@@ -34,6 +34,14 @@ export const RECURSOS_EXTERNOS: Record<string, RecursoExterno[]> = {
         "Antes del contrato hay otro requisito que no es fiscal: alquilar a un inquilino nuevo exige certificado de eficiencia energética, y la calificación tiene que aparecer ya en el anuncio. Esto es",
     },
   ],
+  "deduccion:VAL-40": [
+    {
+      href: "https://retirasan.es/problemas/humedad-techo/",
+      ancla: "humedades que salen meses después del agua",
+      contexto:
+        "El daño del agua no siempre se ve cuando pasa: en cubiertas y forjados aparece semanas o meses más tarde. Antes de pedir presupuesto de nada conviene distinguir una filtración de una condensación, que son",
+    },
+  ],
   "deduccion:VAL-29": [
     {
       href: "https://retirasan.es/cubiertas/reparacion-tejados/",
