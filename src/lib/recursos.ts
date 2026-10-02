@@ -34,6 +34,14 @@ export const RECURSOS_EXTERNOS: Record<string, RecursoExterno[]> = {
         "Antes del contrato hay otro requisito que no es fiscal: alquilar a un inquilino nuevo exige certificado de eficiencia energética, y la calificación tiene que aparecer ya en el anuncio. Esto es",
     },
   ],
+  "deduccion:E-11-eficiencia-energetica-01": [
+    {
+      href: "https://retirasan.es/cubiertas/sustitucion-cubierta/",
+      ancla: "aislar la cubierta al cambiarla",
+      contexto:
+        "En vivienda unifamiliar el cerramiento por el que más energía se escapa es el de arriba, así que la obra que mejor encaja con esta deducción suele estar en el tejado. Y el momento de hacerla es cuando ya hay que tocarlo:",
+    },
+  ],
   "deduccion:VAL-40": [
     {
       href: "https://retirasan.es/problemas/humedad-techo/",
