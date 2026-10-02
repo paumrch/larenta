@@ -34,6 +34,14 @@ export const RECURSOS_EXTERNOS: Record<string, RecursoExterno[]> = {
         "Antes del contrato hay otro requisito que no es fiscal: alquilar a un inquilino nuevo exige certificado de eficiencia energética, y la calificación tiene que aparecer ya en el anuncio. Esto es",
     },
   ],
+  "deduccion:VAL-29": [
+    {
+      href: "https://retirasan.es/cubiertas/reparacion-tejados/",
+      ancla: "qué cuesta reparar una cubierta",
+      contexto:
+        "Reparar la cubierta es la obra de conservación más habitual de las que entran aquí, y la que más se encarece por esperar. Si estás valorando si te compensa, esto es",
+    },
+  ],
   "categoria:vivienda": [
     {
       href: "https://cambiodeuso.es/local-a-vivienda/",
