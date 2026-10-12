@@ -50,10 +50,10 @@ export const RECURSOS_EXTERNOS: Record<string, RecursoExterno[]> = {
   ],
   "deduccion:VAL-40": [
     {
-      href: "https://retirasan.es/problemas/humedad-techo/",
-      ancla: "humedades que salen meses después del agua",
+      href: "https://retirasan.es/problemas/gotera-seguro-consorcio/",
+      ancla: "lo que cubren el seguro y el Consorcio",
       contexto:
-        "El daño del agua no siempre se ve cuando pasa: en cubiertas y forjados aparece semanas o meses más tarde. Antes de pedir presupuesto de nada conviene distinguir una filtración de una condensación, que son",
+        "Antes de destinar dinero a reparar los daños conviene saber qué paga el seguro. El Consorcio de Compensación de Seguros puede cubrir la inundación, pero no la lluvia que entra directamente por el tejado. Esto es",
     },
   ],
   "deduccion:VAL-28": [
