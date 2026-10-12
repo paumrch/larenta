@@ -33,6 +33,12 @@ export const RECURSOS_EXTERNOS: Record<string, RecursoExterno[]> = {
       contexto:
         "Antes del contrato hay otro requisito que no es fiscal: alquilar a un inquilino nuevo exige certificado de eficiencia energética, y la calificación tiene que aparecer ya en el anuncio. Esto es",
     },
+    {
+      href: "https://retirasan.es/problemas/gotera-ultima-planta/",
+      ancla: "quién paga una gotera en un piso alquilado",
+      contexto:
+        "Entre los gastos que el arrendador puede deducir están los de conservación y reparación. Si la reparación es una gotera, antes de pagarla conviene saber",
+    },
   ],
   "deduccion:E-11-eficiencia-energetica-01": [
     {
