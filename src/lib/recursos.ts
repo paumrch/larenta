@@ -56,12 +56,12 @@ export const RECURSOS_EXTERNOS: Record<string, RecursoExterno[]> = {
         "El daño del agua no siempre se ve cuando pasa: en cubiertas y forjados aparece semanas o meses más tarde. Antes de pedir presupuesto de nada conviene distinguir una filtración de una condensación, que son",
     },
   ],
-  "deduccion:VAL-29": [
+  "deduccion:VAL-28": [
     {
       href: "https://retirasan.es/cubiertas/reparacion-tejados/",
-      ancla: "qué cuesta reparar una cubierta",
+      ancla: "qué trabajos entran en una reparación de tejado",
       contexto:
-        "Reparar la cubierta es la obra de conservación más habitual de las que entran aquí, y la que más se encarece por esperar. Si estás valorando si te compensa, esto es",
+        "La obra puede hacerse en la vivienda o en el edificio en el que está, la cubierta incluida, pero solo entra si es subvencionable por los planes estatales de rehabilitación vigentes: no basta con que sea una reparación. Antes de echar cuentas con la deducción conviene tener claro",
     },
   ],
   "categoria:vivienda": [
