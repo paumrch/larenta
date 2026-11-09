@@ -48,6 +48,14 @@ export const RECURSOS_EXTERNOS: Record<string, RecursoExterno[]> = {
         "Las cuantías de este apartado dependen de quién vive en casa: hijos pequeños, mayores a cargo o alguien con discapacidad. Lo que conviene tener preparado para un corte de luz o de agua de varios días depende de lo mismo. Para eso sirve esta",
     },
   ],
+  "deduccion:VAL-16": [
+    {
+      href: "https://cuantoaguanta.com/bateria-fija-o-estacion-portatil/",
+      ancla: "una batería fija y una estación portátil",
+      contexto:
+        "Una instalación de autoconsumo conectada a la red se desconecta por seguridad cuando hay un corte, salvo que tenga una batería con función de respaldo. Si además de ahorrar quieres seguir con luz en un apagón, conviene saber qué cambia entre",
+    },
+  ],
   "deduccion:E-11-eficiencia-energetica-01": [
     {
       href: "https://retirasan.es/cubiertas/sustitucion-cubierta/",
