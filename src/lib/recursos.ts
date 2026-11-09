@@ -40,6 +40,14 @@ export const RECURSOS_EXTERNOS: Record<string, RecursoExterno[]> = {
         "Entre los gastos que el arrendador puede deducir están los de conservación y reparación. Si la reparación es una gotera, antes de pagarla conviene saber",
     },
   ],
+  "guia:familia": [
+    {
+      href: "https://cuantoaguanta.com/kit-72-horas/checklist/",
+      ancla: "lista para preparar un kit de 72 horas",
+      contexto:
+        "Las cuantías de este apartado dependen de quién vive en casa: hijos pequeños, mayores a cargo o alguien con discapacidad. Lo que conviene tener preparado para un corte de luz o de agua de varios días depende de lo mismo. Para eso sirve esta",
+    },
+  ],
   "deduccion:E-11-eficiencia-energetica-01": [
     {
       href: "https://retirasan.es/cubiertas/sustitucion-cubierta/",
